@@ -1,60 +1,117 @@
 import React, { useState } from "react";
-
+import Image from "next/image";
 import Link from "next/link";
-function CommonLayout({ Content, children }) {
-    const location = "";
-    const [islogout, setIsLogout] = useState(false);
-    function handleLogout() {
-        localStorage.clear()
-        // setIsLogout(true)
-        window.location.reload(false);
+import { IoIosArrowForward, IoLogoUsd } from "react-icons/io";
+import { useRouter } from "next/router";
+import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { IoMdLogOut } from "react-icons/io";
+import { TbWindowMinimize } from "react-icons/tb";
+import { TbWindowMaximize } from "react-icons/tb";
 
+function CommonLayout({ Content, children, canonicalUrl }) {
+  // console.log(canonicalUrl, "-----canonicalUrl----");
+  const router = useRouter();
+  console.log(router, "rq");
 
-    }
-    const links = [
-        { to: "/dashboard", icon: "faHome", label: "Dashboard" },
-        { to: "/Accounts", icon: "faUser", label: "Accounts" },
-        { to: "/Post/New", icon: "faPlus", label: "Create Post" },
-        { to: "/Posts", icon: "faFileAlt", label: "All Posts" },
-        { to: "/Categories", icon: "faFolder", label: "Categories" },
-        { to: "/DeletedPosts", icon: "faTrash", label: "Deleted Posts" },
-        //  { to: "/Admin/Categories", icon: faFolder, label: "Categories" },
-        // { to: "/Admin/Inbox", icon: faInbox, label: "Inbox" }, 
-        // { to: "/Admin/Setting", icon: faCog, label: "Settings" },
-        // { to: "/Logout", icon: faSignOutAlt, label: "Logout" },
+  const [islogout, setIsLogout] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
 
-    ];
+  const handleMinimize = () => {
+    setIsMinimized(true); // Minimize sidebar
+  };
 
-    return (
-        <>
-            <nav className="border-r bg-white h-screen p-4 w-64 pt-10">
-                {links.map((link) => (
-                    <Link key={link.to} href={link.to} aria-label={link.label}>
-                        <div
-                            className={`flex items-center text-black-300 hover:text-blue-500 cursor-pointer rounded-md p-2 mb-2 ${location.pathname === link.to ||
-                                (location.pathname === "/Admin" && link.to === "/Admin/Dashboard") ? "bg-gray-200" : ""
-                                }`}
-                        >
-                            {/* <FontAwesomeIcon icon={link.icon} className="mr-3 text-indigo-500" /> */}
-                            <span>{link.label}</span>
-                        </div>
-                    </Link>
-                ))}
-                {/* <p onClick={handleLogout}>Logout</p> */}
+  const handleMaximize = () => {
+    setIsMinimized(false); // Maximize sidebar
+  };
+  function handleLogout() {
+    localStorage.clear();
+    window.location.reload(false);
+  }
 
-                <div
-                    className={`flex items-center text-black-300 hover:text-blue-500 cursor-pointer rounded-md p-2 mb-2`}
-                >
-                    {/* <FontAwesomeIcon icon={faSignOutAlt} className="mr-3 text-indigo-500" /> */}
-                    <button onClick={handleLogout}>{"Logout"}</button>
-                    {/* {islogout ? <Navigate to="/Login" /> :''} */}
-                </div>
-            </nav>
-            <main className="flex-1 overflow-x-hidden overflow-y-auto p-4">
-                {Content || children}
-            </main>
-        </>
-    );
+  return (
+    <>
+      {/* Main container div */}
+      <div className="flex h-screen">
+        {/* Navigation sidebar */}
+        <nav
+          className={ `hidden border-r bg-[#556EE6] h-full text-2xl flex flex-col gap-2 items-start px-6 pt-3 transition-all duration-300 ease-in-out ${
+            isMinimized ? "w-16" : "w-64"
+          }`} // Conditional width based on isMinimized
+        >
+          <Link href={"/dashboard"}>
+            <Image
+              src={"/logo-light.png"}
+              height={500}
+              width={500}
+              className={`w-48 ${isMinimized ? "hidden" : ""}`} // Hide image in minimized state
+            />
+          </Link>
+
+          {/* Dashboard Link */}
+          <Link className="pt-6" href={"/dashboard"} aria-label={"dashboard"}>
+            <div
+              className={`flex items-center text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2`}
+            >
+              <p className="flex items-center gap">
+                <span>
+                  <TbLayoutDashboardFilled />
+                </span>
+                {/* Show text only if not minimized */}
+                {!isMinimized && <span>{"Dashboard"}</span>}
+                <span>
+                  <IoIosArrowForward />
+                </span>
+              </p>
+            </div>
+          </Link>
+
+          {/* Farmhouse Link */}
+          <Link className="pt-1" href={"/farmhouse"} aria-label={"farmhouse"}>
+            <div
+              className={`flex items-center text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2`}
+            >
+              <p className="flex items-center gap">
+                <span>
+                  <Image
+                    src={"/Frame 4 (1).png"}
+                    height={500}
+                    width={500}
+                    className="w-8"
+                  />
+                </span>
+                {!isMinimized && <span>{"Farmhouse"}</span>}
+                <span>
+                  <IoIosArrowForward />
+                </span>
+              </p>
+            </div>
+          </Link>
+
+          {/* Logout Button */}
+          <div
+            className={`flex gap-3 items-center text-black-300 hover:text-blue-500 cursor-pointer rounded-md p-2 mb-2`}
+          >
+            <span>
+              <IoMdLogOut />
+            </span>
+            <button onClick={handleLogout}>{"Logout"}</button>
+          </div>
+
+         <div >{isMinimized?<button onClick={()=>{handleMaximize()}}> <TbWindowMaximize /></button>:<button onClick={()=>{handleMinimize()}}> <TbWindowMinimize /></button>}</div>
+        </nav>
+
+        {/* Main Content */}
+        <main className="flex-1 bg-white overflow-auto">
+          <div className={`${isMinimized ? "hidden" : ""} pt-24 pl-`}>
+            {" "}
+            {/* Hide content in minimized state */}
+            {Content || children}
+          </div>
+        </main>
+      </div>
+    </>
+  );
 }
 
 export default CommonLayout;
