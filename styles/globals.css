@@ -14,6 +14,21 @@
   }
 }
 
+@font-face {
+  font-family: 'mont'; /* You can name this whatever you like */
+  src: url('/fonts/mont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'mont2'; /* You can name this whatever you like */
+  src: url('/fonts/Helvetica.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.mont-font {
+  font-family: 'mont2', sans-serif;
+}
 body {
   color: var(--foreground);
   background: var(--background);

@@ -5,7 +5,7 @@ import { IoIosArrowForward } from "react-icons/io";
 const ComponentName = (props) => {
   return (
     <CommonLayout>
-      <div className='bg-white text-black flex flex-wrap gap-6'>
+      <div className='bg-white text-black flex flex-wrap gap-6 lg:pt-24 lg:pl-8'>
         <table className="table-auto text-left bg-gray-100 border-2 border-gray-50 rounded p-4 w-80 pl-2">
           <thead className='pl-3'>
             <tr>
