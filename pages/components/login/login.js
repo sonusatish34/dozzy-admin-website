@@ -63,7 +63,7 @@ export default function Login() {
   };
 
   const validateOtp = async () => {
-    const url = `${process.env.NEXT_PUBLIC_URL}/admin/otp-validate`;
+    const url = `https://staging.dozzy.com/admin/otp-validate`;
     const options = {
       method: 'POST',
       headers: {
