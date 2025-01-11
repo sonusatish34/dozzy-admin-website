@@ -74,7 +74,7 @@ const OnlineFarmHouses = () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/online-properties?location=${loc}`,
+          `https://staging.dozzy.com/admin/property-by-status?status=rejected&program_id=1&location=${loc}`,
 
           {
             method: "GET",
@@ -94,7 +94,7 @@ const OnlineFarmHouses = () => {
         const data = await response.json();
         if (data.status === "success") {
           // setCities(data.cities);
-          setLocData(data?.results);
+          setLocData(data?.property_details);
           // console.log(data.results, "data.results");
         } else {
           setError("Error: Unable to fetch data");
@@ -124,7 +124,7 @@ const OnlineFarmHouses = () => {
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
       <div className="px-4 text-sm">
-        <p className="pl-5 pt-4 text-black">Online Farmhouses -{locData?.length}</p>
+        <p className="pl-5 pt-4 text-black">Rejected Farmhouses -{locData?.length}</p>
         <ul className="pl-4 pt-4 p-2 bg-[#f7f7f7] rounded-md flex gap-3 flex-wrap">
           {cities?.length &&
             cities?.map((item, index) => (
@@ -141,7 +141,7 @@ const OnlineFarmHouses = () => {
         <div className="text-black pt-3 flex flex-col gap-3">
           {filteredPosts?.length &&
             filteredPosts?.map((item, index) => (
-              <div key={index} className="bg-gray-200 py-2 flex justify-between px-4">
+              <Link href={`rejected-farmhouses/${item?.property_id}`} key={index} className="bg-gray-200 py-2 flex justify-between px-4">
                 <div className="flex gap-6 bg-yellow-10 w-[600px]">
                   <Image
                     src={`${item?.farmhouse_front_view_duplicate?.length ? item?.farmhouse_front_view_duplicate : item?.farmhouse_front_view?.length ? item?.farmhouse_front_view : ''}`}
@@ -151,21 +151,11 @@ const OnlineFarmHouses = () => {
                   />
                   <ul className="flex flex-col gap-2">
                     <li className="font-bold ">{item?.property_name}</li>
-                    <li>{item?.area_name || ''}</li>
-                    <li>Partner number -{item?.property_alternate_number}</li>
-                    <li>Watchman number -{item?.property_watch_man_number}</li>
+                    <li>{item?.area_name || 'Area Name : N'}</li>
+                    <li> Assigned : <span >{item?.property_managed_by|| 'someone'}</span></li>
                   </ul>
                 </div>
-                <div className="bg-red-20 w-[177px]">
-                  <ul className="flex flex-col gap-3">
-                    <li>Owner Price -{item?.owner_night_prices}</li>
-                    <li>Partner Price -{item?.customer_morning_prices}</li>
-                    <li>
-                      <Link className="underline" href={`/farmhouse/online-farmhouses/${item.id}`}>View more</Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              </Link>
             ))}
         </div>
       </div>

@@ -6,24 +6,278 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { IoIosArrowBack } from 'react-icons/io'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useRouter } from 'next/router'
-const PropertyDetails = ({ propertyId }) => {
+import LoadingComp from '../components/Loading'
+
+
+const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDetails, onUpdateAmm }) => {
+
+  const [updatedAttributes, setUpdatedAttributes] = useState({});
+  const [addedAttributes, setAddedAttributes] = useState({});
+  const [newAmenity, setNewAmenity] = useState({ name: '', value: '' });
+  const [newGame, setNewGame] = useState({ name: '', value: '' });
+  const [updateSubmitData, setUpdateSubmitData] = useState(null);
+  const [addSubmitdata, setAddSubmitdata] = useState(null);
+
+  const handleUpdateAttribute = (type, index, value) => {
+    setUpdatedAttributes((prev) => ({
+      ...prev,
+      [type]: {
+        ...prev[type],
+        [index]: value,
+      },
+    }));
+  };
+  const handleAddedAttribute = (type, index, value) => {
+    setAddedAttributes((prev) => ({
+      ...prev,
+      [type]: {
+        ...prev[type],
+        [index]: value,
+      },
+    }));
+  };
+ 
+  const handleAddNew = async (type, name, value,pid) => {
+    if (type === 'amenity') {
+      // Add new Amenity to the totalDetails
+
+      totalDetails?.amenities?.push({ property_id: pid, attribute_name: name, attribute_value: value, attribute_type:"string" });
+
+      // Send the new Amenity to the API (assuming a different API endpoint)
+      const newAmenityData = {
+        attribute_name: name,
+        attribute_value: value,
+      };
+      // await addNewAmenity(newAmenityData);
+    } else if (type === 'game') {
+      // Add new Game to the totalDetails
+      totalDetails.games.push({ attribute_name: `game_${name}`, attribute_value: value });
+
+      // Send the new Game to the API (assuming a different API endpoint)
+      const newGameData = {
+        attribute_name: name,
+        attribute_value: value,
+      };
+      // await addNewGame(newGameData);
+    }
+
+    // Reset input fields after adding
+    setNewAmenity({ name: '', value: '' });
+    setNewGame({ name: '', value: '' });
+  };
+
+
+  useEffect(() => {
+    const UpdateAttributes = async () => {
+      const storedUserPhone = localStorage.getItem("tboo_user_phone");
+      const auth = localStorage.getItem("tboo_" + storedUserPhone + "_token");
+      const myHeaders = new Headers();
+      myHeaders.append("accept", "application/json");
+      myHeaders.append("Authorization", auth);
+      myHeaders.append("Content-Type", "application/json");
+      const raw = JSON.stringify(updateSubmitData);
+
+      const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/admin/update-amenity`, requestOptions);
+      const data = await response.json();
+      // Handle API response
+    };
+
+    if (updateSubmitData?.length >= 1) {
+      UpdateAttributes();
+    }
+    const AddAttributes = async () => {
+      const storedUserPhone = localStorage.getItem("tboo_user_phone");
+      const auth = localStorage.getItem("tboo_" + storedUserPhone + "_token");
+      const myHeaders = new Headers();
+      myHeaders.append("accept", "application/json");
+      myHeaders.append("Authorization", auth);
+      myHeaders.append("Content-Type", "application/json");
+      const raw = JSON.stringify(addSubmitdata);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/admin/add-attribute`, requestOptions);
+      const data = await response.json();
+      // Handle API response
+    };
+
+    if (addSubmitdata?.length >= 1) {
+      AddAttributes();
+    }
+
+
+    onUpdateAmm()
+  }, [addSubmitdata,updateSubmitData]);
+ console.log(updateSubmitData?.length,"updateSubmitData.length");
+ 
+  const handleSubmit = () => {
+    const updatedData = [];
+
+    Object.keys(updatedAttributes).forEach((type) => {
+      Object.entries(updatedAttributes[type]).forEach(([index, value]) => {
+        const item = totalDetails[type][index];
+        updatedData.push({
+          attribute_id: item.attribute_id || null,
+          attribute_value: value,
+        });
+      });
+    });
+
+
+    if (updatedData?.length >= 1) {
+      setUpdateSubmitData(updatedData);
+    }
+    const joinedArray = [...totalDetails?.amenities.filter(item => item.attribute_id == null), ...totalDetails.games.filter(item => item.attribute_id == null)];
+
+    // const AddAttribues = totalDetails?.games.filter(item => item.attribute_id == null)
+    console.log(joinedArray,"joinedArray-------------");
+    if (updatedData?.length >= 1) {
+      setAddSubmitdata(joinedArray)
+    }
+    
+  };
+  console.log(totalDetails?.amenities.filter(item => item.attribute_id == null),"totalDetails?.amenities.filter(item => item.attribute_id == null)");
+  
+  return (
+    showAmenitiesEdit && (
+      <div>
+        <div className='text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-full pt-10'>
+          <div className='flex justify-center items-center'>
+            <div className='bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-x w-fit'>
+              <button
+                onClick={() => setShowAmenitiesEdit(false)}
+                className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition'
+              >
+                Close
+              </button>
+
+              <h2 className='text-2xl font-bold mb-4 pt-4'>Edit Amenities & Games</h2>
+              <div className='flex flex-col lg:flex-row bg-white rounded-md p-1'>
+                <ul className='pl-5 pt-4 text-gray-900 h-60 overflow-y-scroll'>
+                  {totalDetails.amenities.map((item, index) => (
+                    <li key={index} className='capitalize flex justify-between items-center'>
+                      {`${item?.attribute_name.replace('no_of_', '').replace('_', ' ')}`}
+                      <input
+                        type='number'
+                        className='border rounded px-2'
+                        defaultValue={item.attribute_value}
+                        onChange={(e) => handleUpdateAttribute('amenities', index, e.target.value)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <ul className='pl-5 text-gray-700 p-1'>
+                  <p className='font-bold py-1'>Games</p>
+                  {totalDetails.games.map((item, index) => (
+                    <li key={index} className='capitalize flex justify-between items-center'>
+                      {item?.attribute_name.replace('no_of_', '')}
+                      <input
+                        type='number'
+                        className='border rounded px-2'
+                        defaultValue={item.attribute_value}
+                        onChange={(e) => handleUpdateAttribute('games', index, e.target.value)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className='mt-4'>
+                <h3 className='font-bold'>Add New Amenity</h3>
+                <input
+                  type='text'
+                  placeholder='Name'
+                  value={newAmenity.name}
+                  onChange={(e) => setNewAmenity({ ...newAmenity, name: e.target.value })}
+                  className='border rounded px-2 mr-2'
+                />
+                <input
+                  type='number'
+                  placeholder='Value'
+                  value={newAmenity.value}
+                  onChange={(e) => setNewAmenity({ ...newAmenity, value: e.target.value })}
+                  className='border rounded px-2 mr-2'
+                />
+                <button
+                  onClick={() => handleAddNew('amenity', newAmenity.name, newAmenity.value,totalDetails?.property_data?.property_id)}
+                  className='bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition'
+                >
+                  Add
+                </button>
+              </div>
+
+              <div className='mt-4'>
+                <h3 className='font-bold'>Add New Game</h3>
+                <input
+                  type='text'
+                  placeholder='Name'
+                  value={newGame.name}
+                  onChange={(e) => setNewGame({ ...newGame, name: e.target.value })}
+                  className='border rounded px-2 mr-2'
+                />
+                <input
+                  type='number'
+                  placeholder='Value'
+                  value={newGame.value}
+                  onChange={(e) => setNewGame({ ...newGame, value: e.target.value })}
+                  className='border rounded px-2 mr-2'
+                />
+                <button
+                  onClick={() => handleAddNew('game', newGame.name, newGame.value)}
+                  className='bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition'
+                >
+                  Add
+                </button>
+              </div>
+
+              <button
+                onClick={handleSubmit}
+                className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition mt-4'
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  );
+};
+
+
+
+
+
+const PropertyDetails = ({ propertyId, onUpdate }) => {
   const [propertyDetails, setPropertyDetails] = useState(null)
   const [ammDetails, setAmmDetails] = useState(null)
   const [totalDetails, setTotalDetails] = useState(null)
   const [showProof, setShowProof] = useState(null)
+  const [showAmenitiesEdit, setShowAmenitiesEdit] = useState(null)
   const [showReject, setshowReject] = useState(null)
   const [rejectReason, setRejectReason] = useState('')
   const [farmHStatus, setFarmHStatus] = useState(null)
+  const [rpAm, setRpAm] = useState(1)
   const router = useRouter('')
-  // const [propertyStatus, setPropertyStatus] = useState("in_progress");
-  // console.log(propertyDetails, "propertyDetails");
-  // console.log(ammDetails, "ammDetails");
-  // https://staging.dozzy.com/admin/pending-approvals?status=in_progress&program_id=1&approval_user_id=0
+
   useEffect(() => {
     const fetchPropertyDetails = async () => {
-      const userPhone = '7989030741'
+      const userPhone = localStorage.getItem(
+        'tboo_user_phone')
 
-      var userAuthorization = localStorage.getItem(
+      const userAuthorization = localStorage.getItem(
         'tboo_' + userPhone + '_token'
       )
 
@@ -50,9 +304,8 @@ const PropertyDetails = ({ propertyId }) => {
         console.error('Error:', error)
       }
     }
-
     fetchPropertyDetails()
-  }, [propertyId])
+  }, [propertyId,rpAm])
   // console.log(totalDetails.amenities,"yyyytttt");
   const [currentIndex, setCurrentIndex] = useState(0)
   const images = totalDetails?.property_images
@@ -68,6 +321,7 @@ const PropertyDetails = ({ propertyId }) => {
       prevIndex => (prevIndex - 1 + images.length) % images.length
     )
   }
+
   useEffect(() => {
     if (propertyDetails) {
       setFormData(prevFormData => ({
@@ -91,12 +345,9 @@ const PropertyDetails = ({ propertyId }) => {
     owner_night_prices: '110'
   })
   // console.log(JSON.stringify(formData), "---JSON.stringify(formData)---");
-  console.log(formData, '1234567')
   const handleChange = e => {
-    console.log('into handle scjanges')
 
     const { name, value } = e.target
-    console.log(name, value, 'nv')
 
     setFormData(prevFormData => ({
       ...prevFormData,
@@ -132,26 +383,23 @@ const PropertyDetails = ({ propertyId }) => {
           const data = await response.json()
           if (data.status == 'success') {
             setshowReject(false)
-            router.reload()
-          }
-          console.log(showReject, 'showReject')
+            // router.reload()
+            setRefDet(true)
 
-          console.log(data, 'data-----')
+          }
+
         } catch (error) {
           console.error('Error:', error)
         }
-        // fetch("https://staging.dozzy.com/admin/update-property-status", requestOptions)
-        //   .then((response) => response.text())
-        //   .then((result) => result.status == 'success' && setshowReject(false))
-        //   .catch((error) => console.error(error));
+    
       }
       RejectFHOUSE()
+      onUpdate()
     }
   }, [farmHStatus, formData])
   const [uploadImage, setUploadImage] = useState(false)
 
   const reuploadFile = async (event, attributeId) => {
-    console.log("into lids");
 
     // Ensure a file is selected
     const file = event.target.files[0]; // Get the first file from the input
@@ -162,7 +410,6 @@ const PropertyDetails = ({ propertyId }) => {
 
     const reader = new FileReader();
     reader.onload = async function () {
-      console.log("into onload");
 
       const base64String = reader.result.split(",")[1]; // Extract base64 string from the Data URL
 
@@ -219,83 +466,116 @@ const PropertyDetails = ({ propertyId }) => {
     // Trigger the file read
     reader.readAsDataURL(file);
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+  const [refreshlist, setRefreshlist] = useState('');
 
+  // Function to open modal and set the image
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage('');
+  };
+  const handleUpdateFHEDetails = () => {
+    // fetchFarmhouses();
+    setRpAm(rpAm + 1);
+  };
 
   return (
-    <div className='bg-white p-6 rounded-lg shadow-md text-black'>
+    <div className='text-xs xl:text-base text-black'>
       {propertyDetails ? (
-        <div className='bg-[#f5f5f5] p-2'>
-          <div className='flex lg:flex-row flex-col gap-4'>
-            {/* Left Section: Image */}
-            {/* <div className="col-span-12 md:col-span-4">
-              <img
-                src={`${totalDetails?.property_images[0].attribute_value}`} // Replace with actual image source
-                alt="Farmhouse"
-                className="rounded-lg w-72 object-cover"
-              />
-            </div> */}
-            <div className='w-[250px] h-[400px]'>
-              <div className=' w-[250px] h-[300px]'>
+        <div className='bg-[#f5f5f5] p-4'>
+          <div className='flex lg:flex-row flex-col gap-4 xl:gap-6'>
+            <div className=''>
+              <div className='z-10 xl:w-[320px] xl:h-[310px] w-[220px] h-[200px]'>
                 {/* Image */}
                 <Image
                   src={images[currentIndex]?.attribute_value}
                   alt='Farmhouse'
-                  className='rounded-lg w-[250px] h-[300px] '
-                  width={200}
+                  className='z-10 rounded-t-2xl object-cover xl:w-[320px] xl:h-[230px] w-[220px] h-[200px]'
+                  width={300}
                   height={200}
+                  onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
                 />
-              </div>
+                <button
+                  onClick={goToPrevious}
+                  className='relative z-20 left-2 xl:left-2 bottom-28 *: text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                >
+                  <IoIosArrowBack size={20} />
+                </button>
 
-              {/* Left arrow */}
-              <button
-                onClick={goToPrevious}
-                className='relative z-20 bottom-36 '
-              >
-                {/* Left arrow symbol */}
-                <IoIosArrowBack size={20} />
-              </button>
-
-              {/* Right arrow */}
-              <button
-                onClick={goToNext}
-                className='relative z-20 left-52 bottom-36'
-              >
-                <IoIosArrowForward size={20} />
-              </button>
-              <div className='flex gap-2 justify-between pt-3 '>
-                <p className='text-black '>
-                  {images[currentIndex]?.attribute_name}
-                </p>
-                <div>
-                  <button onClick={() => { setUploadImage(true) }} className='underline mb-2'>Reupload Image</button>
-                  {/* <input
-                    id={`file_input_${"attributeId"}`}
-                    type="file"
-                    className=""
-                    onChange={() =>  reuploadFile(images[currentIndex]?.attribute_id) } // Dynamically use attributeId
-                  /> */}
-                  {uploadImage && <input
-                    id={`file_input_${images[currentIndex]?.attribute_id}`}
-                    type="file"
-                    onChange={(event) => reuploadFile(event, images[currentIndex]?.attribute_id)} // Pass event and dynamic attributeId
-                  />}
+                {/* Right arrow */}
+                <button
+                  onClick={goToNext}
+                  className='relative z-20 left-32 xl:left-60 bottom-28 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                >
+                  <IoIosArrowForward size={20} />
+                </button>
+                {/* Left arrow */}
+                <div className='flex gap-2 justify-between pt-1 lg:text-sm'>
+                  <p className='text-black text-wrap capitalize lg:text-xs'>
+                    {images[currentIndex]?.attribute_name}
+                  </p>
+                  <div>
+                    <button onClick={() => { setUploadImage(true) }} className='underline mb-2'>Reupload Image</button>
+                    {uploadImage && <input
+                      id={`file_input_${images[currentIndex]?.attribute_id}`}
+                      type="file"
+                      onChange={(event) => reuploadFile(event, images[currentIndex]?.attribute_id)} // Pass event and dynamic attributeId
+                    />}
+                  </div>
                 </div>
 
+
+
               </div>
+
+
               {/* <p className="bg-red-500 text-blue-300 p-3">{images[currentIndex].attribute_status}</p> */}
             </div>
-
-            <div className=''>
+            {/* Modal (Dialog Box) */}
+            {isModalOpen && (
+              <div className="absolute inset-0 z-50 flex items-center bg-black bg-opacity-50">
+                <div className="bg-white p-4 rounded-xl w-fit relative bottom-1 left-[27rem]">
+                  <button
+                    onClick={closeModal}
+                    className="absolute top-4 right-4 text-white bg-red-500 rounded-full p-2"
+                  >
+                    X
+                  </button>
+                  <img
+                    src={selectedImage}
+                    alt="Large view"
+                    className="w-[500px] h-[500px] object-contain rounded-xl"
+                  />
+                </div>
+              </div>
+            )}
+            <div className='pt-16 lg:pt-2'>
               <div>
                 <div className='flex flex-col text-black gap-2 items-start'>
-                  <h3 className='text-lg text-black font-bold font-'>
-                    Amenities
-                  </h3>
+                  <p className='text-lg text-black font flex justify-between w-full pt-'>
+
+                    <span>Amenities</span><span><button
+                      onClick={() => {
+                        setShowAmenitiesEdit(true)
+                      }}
+                      className='underline'
+                    >
+                      Edit
+                    </button></span>
+                  </p>
+
                   <div className='flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll'>
-                    <ul className=' pl-5  text-gray-900 '>
+                    <ul className=' pl-5 pt-4 text-gray-900 '>
                       {totalDetails.amenities.map((item, index) => (
                         <li key={index} className='capitalize'>
-                          {item.attribute_name}-{item.attribute_value}
+                          {item.attribute_value > 0 ? `${item?.attribute_name.replace('no_of_', '').replace('_', ' ')} ${item.attribute_value}` : ''}
                         </li>
                       ))}
                     </ul>
@@ -303,7 +583,7 @@ const PropertyDetails = ({ propertyId }) => {
                       <p className='font-bold py-1'>Games</p>
                       {totalDetails.games.map((item, index) => (
                         <li key={index} className='capitalize'>
-                          {item.attribute_name}-{item.attribute_value}
+                          {item.attribute_name} {item.attribute_value}
                         </li>
                       ))}
                     </ul>
@@ -316,7 +596,11 @@ const PropertyDetails = ({ propertyId }) => {
                     className='bg-white w-full px-3 py-2 text-black rounded-md'
                   >
                     View Proofs
+
+
                   </button>
+                  {/* <button onClick={onUpdate}>Update Farmhouse List</button> */}
+
                   <button className='bg-white w-full px-3 py-2 text-black rounded-md'>
                     Farmhouse Sq. Yards{' '}
                     {totalDetails.property_data.property_square_yards}
@@ -327,7 +611,7 @@ const PropertyDetails = ({ propertyId }) => {
                   <div>
                     <div className='text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-'>
                       <div className='flex justify-center items-center '>
-                        <div className='bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full'>
+                        <div className='bg-white absolute top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full'>
                           <button
                             onClick={() => {
                               setShowProof(false)
@@ -364,24 +648,25 @@ const PropertyDetails = ({ propertyId }) => {
                     </div>
                   </div>
                 )}
+                {showAmenitiesEdit && (
+                  <AmenitiesEditModal showAmenitiesEdit={showAmenitiesEdit} setShowAmenitiesEdit={setShowAmenitiesEdit} totalDetails={totalDetails} onUpdateAmm={handleUpdateFHEDetails}/>
+                )}
               </div>
             </div>
 
-            <div className='bg-white p-4 rounded-md h-fit'>
-              <div className='flex flex-col items-center space-x-4'>
-                <p className='text-black font-bold'>Farm House Location</p>
-
+            <div className=''>
+              <p className='text-black font-bold pb-2'>Farm House Location</p>
+              <div className='flex flex-col items-center space-x-4 bg-white p-2 rounded-md h-fit'>
                 <div>
-                  <p className='text-black font-medium w-48 pt-5'>
+                  <p className='text-black font-medium lg:w-32 xl:w-56 p-1 '>
                     {totalDetails.property_data.geo_location}
                   </p>
                 </div>
               </div>
             </div>
-            <div className='bg-white p-4 rounded-md h-fit'>
-              <div className='flex flex-col items-center space-x-4'>
-                <p className='font-bold text-black'>Owner Profile</p>
-
+            <div className=''>
+              <p className='font-bold text-black pb-3'>Owner Profile</p>
+              <div className='flex flex-col items-center space-x-4 bg-white p-1 rounded-md h-fit'>
                 <div>
                   <p className='text-gray-800 font-medium capitalize flex gap-1 items-center'>
                     <span>
@@ -393,10 +678,10 @@ const PropertyDetails = ({ propertyId }) => {
                     </span>
                     <span>{totalDetails.property_data.profile_name}</span>
                   </p>
-                  <p className='text-sm text-gray-500'>
+                  <p className=' text-gray-500'>
                     Partner Number: {totalDetails.property_data.owner_number}
                   </p>
-                  <p className='text-sm text-gray-500'>
+                  <p className=' text-gray-500'>
                     Watchman:
                     {totalDetails.property_data.property_watch_man_number}{' '}
                   </p>
@@ -406,19 +691,19 @@ const PropertyDetails = ({ propertyId }) => {
           </div>
           <div className='flex lg:flex-row flex-col items-center gap-14 pt-9'>
             <div className=' '>
-              <div className='flex flex-col items-center space-x-4'>
+              <div className='flex flex-col'>
                 <p className='font-bold text-black'>Approved By</p>
-                <div className='flex bg-white items-center'>
+                <div className='flex bg-white items-center p-2'>
                   <img
                     src='https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg' // Replace with avatar
                     alt='Owner'
-                    className='rounded-full w-12 h-12'
+                    className='rounded-full w-5 h-5'
                   />
                   <div className=' p-4 rounded-md'>
                     <p className='text-gray-800 font-medium capitalize'>
                       {totalDetails.property_data.profile_name}
                     </p>
-                    <p className='text-sm text-gray-500'>
+                    <p className=' text-gray-500'>
                       {totalDetails.property_data.owner_number}
                     </p>
                   </div>
@@ -544,7 +829,6 @@ const PropertyDetails = ({ propertyId }) => {
                         <h2 className='text-2xl font-bold mb-4 pt-4'>
                           Reason For Blocking
                         </h2>
-                        {console.log(rejectReason, 'rr')}
                         <textarea
                           value={formData.property_rejected_reason}
                           name='property_rejected_reason'
@@ -580,7 +864,7 @@ const PropertyDetails = ({ propertyId }) => {
                   }))
                   setFarmHStatus('approved')
                 }}
-                className='p-4 bg-[#556EE6] h-12 w-36 rounded-md text-black'
+                className='p-4 bg-[#556EE6] h-12 w-36 rounded-md text-white'
               >
                 Approve
               </button>
@@ -589,7 +873,8 @@ const PropertyDetails = ({ propertyId }) => {
           </div>
         </div>
       ) : (
-        <p>Loading property details...</p>
+        // <p>Loading property details...</p>
+        <div className=''><LoadingComp /></div>
       )}
     </div>
   )
@@ -598,10 +883,12 @@ const PropertyDetails = ({ propertyId }) => {
 const FarmHouseAccordion = () => {
   const [farmHouses, setFarmHouses] = useState([])
   const [activePropertyId, setActivePropertyId] = useState(null)
+  const [rp, setRp] = useState(1);
 
   useEffect(() => {
     const fetchFarmHouses = async () => {
-      const userPhone = '7989030741'
+      const userPhone = localStorage.getItem(
+        'tboo_user_phone')
       var userAuthorization = localStorage.getItem(
         'tboo_' + userPhone + '_token'
       )
@@ -625,16 +912,35 @@ const FarmHouseAccordion = () => {
     }
 
     fetchFarmHouses()
-  }, [])
+
+  }, [rp])
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = farmHouses.filter(post =>
+        post.property_name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredPosts(filtered);
+    } else {
+      setFilteredPosts(farmHouses);
+    }
+  }, [searchQuery, farmHouses, rp]);
+
+  const handleUpdateFarmhouseList = () => {
+    // fetchFarmhouses();
+    setRp(rp + 1);
+  };
 
   return (
-    <CommonLayout>
-      <div className='container mx-auto py-6'>
-        <h1 className='text-3xl font-semibold mb-4 text-black'>
+    <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
+      <div className=' py-2 px-4 pt-10'>
+        <h1 className='lg:text-3xl text-2xl pl-5 font-semibold mb-4 text-black'>
           Pending Approvals
         </h1>
         <div className='space-y-4'>
-          {farmHouses.map(farmHouse => (
+          {filteredPosts.map(farmHouse => (
             <div key={farmHouse.property_id} className='bg-white rounded-md'>
               <button
                 className='w-full text-left text-gray-700 capitalize p-4 border-b-2 border-b-gray-200  rounded-t-md focus:outline-none flex justify-between'
@@ -660,7 +966,7 @@ const FarmHouseAccordion = () => {
                 </span>
               </button>
               {activePropertyId === farmHouse.property_id && (
-                <PropertyDetails propertyId={farmHouse.property_id} />
+                <PropertyDetails propertyId={farmHouse.property_id} onUpdate={handleUpdateFarmhouseList} />
               )}
             </div>
           ))}

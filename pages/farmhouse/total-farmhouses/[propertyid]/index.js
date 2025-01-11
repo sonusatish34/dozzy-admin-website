@@ -204,7 +204,7 @@ const ComponentName = (props) => {
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-">
                           <div className="flex justify-center items-center ">
-                            <div className="bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full">
+                            <div className="bg-white absolute top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full">
                               <button
                                 onClick={() => {
                                   setShowProof(false);
@@ -216,7 +216,7 @@ const ComponentName = (props) => {
                               <h2 className="text-2xl font-bold mb-4">
                                 Current Bill
                               </h2>
-                              <img
+                              <Image
                                 src={
                                   totalDetails.owner_profile[0]
                                     .electricity_bill_image
@@ -224,7 +224,7 @@ const ComponentName = (props) => {
                                 height={1000}
                                 width={1000}
                                 alt="dozzy farmhouse logo"
-                                className="w-72 h-72"
+                                className="w-full h-72 object-cover"
                               />
                               <h2 className="text-2xl font-bold mb-4 pt-4">
                                 Aadhar
@@ -399,7 +399,6 @@ const ComponentName = (props) => {
                               <td className="p-2 border-b border-l border-gray-300 underline">
                                 View Reviews
                               </td>
-                              
                             </tr>
                           ))}
                         </tbody>

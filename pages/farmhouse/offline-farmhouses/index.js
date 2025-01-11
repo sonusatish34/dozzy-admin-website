@@ -58,24 +58,15 @@ const OnlineFarmHouses = () => {
 
     fetchCities();
   }, []); // Dependency on userAuthorization to ensure API call happens after loading user info
-
+  console.log(process.env.NEXT_PUBLIC_URL,"00000000");
+  
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUserPhone = localStorage.getItem("tboo_user_phone");
-      const storedUserAuthorization = localStorage.getItem(
-        "tboo_" + storedUserPhone + "_token"
-      );
-      const storedUserDetails = localStorage.getItem(
-        "tboo_" + storedUserPhone + "_details"
-      );
-    }
     // Make API call
     const fetchCitiesData = async () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/online-properties?location=${loc}`,
-
+          `${process.env.NEXT_PUBLIC_URL}/admin/offline-properties?location=${loc}`,
           {
             method: "GET",
             headers: {
@@ -124,7 +115,7 @@ const OnlineFarmHouses = () => {
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
       <div className="px-4 text-sm">
-        <p className="pl-5 pt-4 text-black">Online Farmhouses -{locData?.length}</p>
+        <p className="pl-5 pt-4 text-black">Offline Farmhouses -{locData?.length}</p>
         <ul className="pl-4 pt-4 p-2 bg-[#f7f7f7] rounded-md flex gap-3 flex-wrap">
           {cities?.length &&
             cities?.map((item, index) => (

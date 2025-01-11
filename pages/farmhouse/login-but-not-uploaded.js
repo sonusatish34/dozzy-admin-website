@@ -10,6 +10,7 @@ const LoginButNotUploaded = () => {
   const [userPhone, setUserPhone] = useState(null);
   const [userAuthorization, setUserAuthorization] = useState(null);
   const [parseDetails, setParseDetails] = useState(null);
+  const [count, setCount] = useState(null);
   const router = useRouter()
   useEffect(() => {
     // Check if localStorage is available
@@ -27,8 +28,7 @@ const LoginButNotUploaded = () => {
         setUserAuthorization(storedUserAuthorization);
         setParseDetails(JSON.parse(storedUserDetails));
       }
-      if(!storedUserAuthorization)
-      {
+      if (!storedUserAuthorization) {
         router.push('/')
       }
     }
@@ -41,7 +41,7 @@ const LoginButNotUploaded = () => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/login-not-uploaded`,
+          `${process.env.NEXT_PUBLIC_URL}/admin/login-not-uploaded`,
           {
             method: "GET",
             headers: {
@@ -90,13 +90,27 @@ const LoginButNotUploaded = () => {
       console.error("Failed to copy text: ", err);
     }
   };
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = loginData.filter(post =>
+        post.user_phone.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredPosts(filtered);
+    } else {
+      setFilteredPosts(loginData);
+    }
+  }, [searchQuery, loginData]);
 
   return (
-    <CommonLayout placeholderText='search by mobile number/ booking id'>
-      <div className="container mx-auto px-4 py-8">
+    <CommonLayout onSearch={setSearchQuery} placeholderText='search by mobile number/ booking id'>
+      <div className="container lg:px-4 lg:py-8">
         <div className="row">
           <div className="col-xl-12">
-            <div className="rounded-lg shadow-lg p-4">
+            <div className="rounded-lg p-4">
               <h4 className="text-xl font-semibold text-black">
                 Login But Not Uploaded - <span>{loginData.length}</span>
               </h4>
@@ -106,20 +120,19 @@ const LoginButNotUploaded = () => {
                   {loading && <p>Loading...</p>}
                   {error && <p className="text-red-500">{error}</p>}
                   {!loading && !error && loginData.length > 0 ? (
-                    loginData.map((value, key) => {
+                    filteredPosts.map((value, key) => {
                       const isOpen = openIndex === key;
 
                       return (
                         <div
                           key={key}
-                          className={`bg-white shadow-md rounded-lg ${
-                            key === 0 ? "rounded-tl-lg rounded-tr-lg" : ""
-                          }`}
+                          className={`bg-white rounded-lg ${key === 0 ? "rounded-tl-lg rounded-tr-lg" : ""
+                            }`}
                         >
                           <h2>
                             <button
                               onClick={() => toggleAccordion(key)}
-                              className={`w-full text-left py-2 px-4 bg-gray-100 text-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center`}
+                              className={`w-full text-left py-2 px-4 bg-gray-100 text-gray-800  focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center ${key==0?'rounded-t-3xl':''}`}
                             >
                               <div className="text-lg">
                                 <p>
@@ -136,19 +149,17 @@ const LoginButNotUploaded = () => {
                                 <p>{value.user_status}{" "}</p>
                               </div>
                               <IoIosArrowDown
-                                className={`${
-                                  isOpen ? "rotate-180" : ""
-                                } transition-all duration-300 ease-in-out`}
-                                size={20}
+                                className={`font-bold ${isOpen ? "rotate-180" : ""
+                                  } transition-all duration-300 ease-in-out`}
+                                size={30}
                               />
                             </button>
                           </h2>
                           <div
-                            className={`transition-all duration-300 ease-in-out ${
-                              isOpen
-                                ? "max-h-screen"
-                                : "max-h-0 overflow-hidden"
-                            }`}
+                            className={`transition-all duration-300 ease-in-out ${isOpen
+                              ? "max-h-screen"
+                              : "max-h-0 overflow-hidden"
+                              }`}
                           >
                             <div className="p-4 text-gray-600">Information</div>
                           </div>

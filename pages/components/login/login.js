@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import dzlogo from '../../images/dozzylogo.png';
 
 export default function Login() {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [role, setRole] = useState('');
   const [roleId, setRoleId] = useState('');
   const [error, setError] = useState('');
   const [otpSuccess, setOtpSuccess] = useState(false);
@@ -13,6 +12,7 @@ export default function Login() {
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState('');
   const router = useRouter();
+  console.log(roleId, "roleeId");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,9 +22,20 @@ export default function Login() {
       setError('Please enter a valid phone number and select a role.');
     }
   };
+  useEffect(()=>{
+    const usermobile = window.localStorage.getItem('tboo_user_phone');
+    const usertoken = window.localStorage.getItem('tboo_' + usermobile + '_token');
+    if(usermobile && usertoken)
+    {
+      router.push('/dashboard')
+    }
+    else{
+      return
+    }
+  },[])
 
   const sendOtp = async () => {
-    const url = 'https://staging.dozzy.com/admin/login';
+    const url = `${process.env.NEXT_PUBLIC_URL}/admin/login`;
     const options = {
       method: 'POST',
       headers: {
@@ -52,7 +63,7 @@ export default function Login() {
   };
 
   const validateOtp = async () => {
-    const url = 'https://staging.dozzy.com/admin/otp-validate';
+    const url = `${process.env.NEXT_PUBLIC_URL}/admin/otp-validate`;
     const options = {
       method: 'POST',
       headers: {
@@ -110,16 +121,31 @@ export default function Login() {
       <div className="shadow w-full max-w-md p-8 bg-white opacity-65 -md rounded-lg">
         {!otpSuccess ? (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <h1 className="text-2xl font-bold mb-6 text-center">Login Details</h1>
+            <p className="text-2xl font-bold mb-6 text-left">Please Login</p>
             <div className="flex flex-col gap-3">
+              {/* <input
+                type="text"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value.trim())}
+                className="p-3 bg-gray-200 opacity-100 text-black placeholder-black"
+                placeholder="Enter your WhatsApp number"
+                maxLength={10}
+              /> */}
               <input
                 type="text"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="p-3 bg-gray-200 opacity-100 text-black placeholder-black"
+                onChange={(e) => {
+                  const formattedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove all non-numeric characters
+                  if (formattedValue.length <= 10) { // Ensure max length is 10 digits
+                    setPhoneNumber(formattedValue);
+                  }
+                }}
+                className="rounded-md p-3 bg-gray-200 opacity-100 text-black placeholder-black"
                 placeholder="Enter your WhatsApp number"
+                maxLength={10}
               />
-              <select
+
+              {/* <select
                 value={roleId}
                 onChange={(e) => setRoleId(e.target.value)}
                 className="border-none bg-gray-300 p-3"
@@ -128,15 +154,15 @@ export default function Login() {
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
-              </select>
+              </select> */}
               <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="p-3 bg-gray-200 opacity-100 text-black"
+                value={roleId}
+                onChange={(e) => setRoleId(e.target.value)}
+                className="rounded-md p-3 bg-gray-200 opacity-100 text-black pr-9"
               >
                 <option value="">Select your role</option>
-                <option value="admin">Admin</option>
-                <option value="approval_team">Approval Team</option>
+                <option value="3">Admin</option>
+                <option value="4">Approval Team</option>
               </select>
             </div>
             <button
@@ -150,7 +176,7 @@ export default function Login() {
         ) : (
           <div className="flex flex-col gap-3">
             <p className="font-bold text-xl">Please check WhatsApp</p>
-            <p className="font-bold">{phoneNumber}</p>
+            <p className="font-bold">{String(phoneNumber)}</p>
             <div>
               <input
                 type="text"

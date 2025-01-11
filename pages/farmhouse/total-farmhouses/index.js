@@ -7,6 +7,8 @@ import Link from "next/link";
 const OnlineFarmHouses = () => {
   const [cities, setCities] = useState("");
   const [loc, setLoc] = useState("Hyderabad");
+  const [fhstatus, setFhstatus] = useState("all");
+
   const [locData, setLocData] = useState("");
 
   useEffect(() => {
@@ -74,7 +76,7 @@ const OnlineFarmHouses = () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/online-properties?location=${loc}`,
+          `https://staging.dozzy.com/admin/property-by-status?status=${fhstatus}&program_id=1&location=${loc}`,
 
           {
             method: "GET",
@@ -94,7 +96,7 @@ const OnlineFarmHouses = () => {
         const data = await response.json();
         if (data.status === "success") {
           // setCities(data.cities);
-          setLocData(data?.results);
+          setLocData(data?.property_details);
           // console.log(data.results, "data.results");
         } else {
           setError("Error: Unable to fetch data");
@@ -107,7 +109,7 @@ const OnlineFarmHouses = () => {
     };
 
     fetchCitiesData();
-  }, [loc]); // Dependency on userAuthorization to ensure API call happens after loading user info
+  }, [loc, fhstatus]); // Dependency on userAuthorization to ensure API call happens after loading user info
   const [filteredPosts, setFilteredPosts] = useState([]);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -124,20 +126,39 @@ const OnlineFarmHouses = () => {
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
       <div className="px-4 text-sm">
-        <p className="pl-5 pt-4 text-black">Online Farmhouses -{locData?.length}</p>
-        <ul className="pl-4 pt-4 p-2 bg-[#f7f7f7] rounded-md flex gap-3 flex-wrap">
-          {cities?.length &&
-            cities?.map((item, index) => (
-              <li
-                onClick={() => {
-                  setLoc(item);
-                }}
-                className={`cursor-pointer text-black ${loc == item ? "text-blue-400" : ""}`}
-              >
-                {item}
-              </li>
-            ))}
-        </ul>
+        <p className="pl-5 pt-4 text-black">Total Farmhouses -{locData?.length}</p>
+        <div className="flex gap-5 pt-7">
+          <select
+            className="p-2 bg-[#f7f7f7] rounded-md"
+            onChange={(e) => setLoc(e.target.value)}
+            value={loc}
+          >
+            <option value="" disabled>Select a city</option>
+            {cities?.length ? (
+              cities.map((item, index) => (
+                <option key={index} value={item} className="capitalize">
+                  {item}
+                </option>
+              ))
+            ) : (
+              "loading" ? <option>Loading...</option> : <option>{error}</option>
+            )}
+          </select>
+          {/* ---------------------------- */}
+
+          <select
+            className="p-2 bg-[#f7f7f7] rounded-md"
+            onChange={(e) => setFhstatus(e.target.value)}
+            value={fhstatus}
+          >
+            <option value="all" >All</option>
+            <option value="rejected" >rejected</option>
+            <option value="in_progress" >In progress</option>
+            <option value="approved" >approved</option>
+
+          </select>
+        </div>
+
         <div className="text-black pt-3 flex flex-col gap-3">
           {filteredPosts?.length &&
             filteredPosts?.map((item, index) => (
@@ -161,7 +182,7 @@ const OnlineFarmHouses = () => {
                     <li>Owner Price -{item?.owner_night_prices}</li>
                     <li>Partner Price -{item?.customer_morning_prices}</li>
                     <li>
-                      <Link className="underline" href={`/farmhouse/online-farmhouses/${item.id}`}>View more</Link>
+                      <Link className="underline" href={`/farmhouse/total-farmhouses/${item.property_id}`}>View more</Link>
                     </li>
                   </ul>
                 </div>
@@ -171,6 +192,6 @@ const OnlineFarmHouses = () => {
       </div>
     </CommonLayout>
   );
-};  
+};
 
 export default OnlineFarmHouses;

@@ -399,7 +399,6 @@ const ComponentName = (props) => {
                               <td className="p-2 border-b border-l border-gray-300 underline">
                                 View Reviews
                               </td>
-                              
                             </tr>
                           ))}
                         </tbody>
