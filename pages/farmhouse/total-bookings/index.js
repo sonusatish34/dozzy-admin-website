@@ -154,7 +154,7 @@ const OnlineFarmHouses = () => {
                                         />
                                         <ul>
                                             <li>{item?.property_name}</li>
-                                            <li>{item?.area_name}</li>
+                                            {/* <li>{item?.area_name}</li> */}
                                             <li>Partner number {item?.property_alternate_number}</li>
                                             <li>Watchman number {item?.property_watch_man_number}</li>
                                             <li>Customer number {item?.customer_number}</li>

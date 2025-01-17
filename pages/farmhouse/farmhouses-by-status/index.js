@@ -126,10 +126,10 @@ const OnlineFarmHouses = () => {
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
       <div className="px-4 text-sm">
-        <p className="pl-5 pt-4 text-black">Total Farmhouses -{locData?.length}</p>
-        <div className="flex gap-5 pt-7">
+        <p className="pl-5 pt-10 text-black text-3xl font-bold capitalize">{fhstatus} Farmhouses -{locData?.length}</p>
+        <div className="flex gap-10 py-7">
           <select
-            className="p-2 bg-[#f7f7f7] rounded-md"
+            className="p-2 bg-[#f7f7f7] rounded-md text-xl"
             onChange={(e) => setLoc(e.target.value)}
             value={loc}
           >
@@ -144,10 +144,9 @@ const OnlineFarmHouses = () => {
               "loading" ? <option>Loading...</option> : <option>{error}</option>
             )}
           </select>
-          {/* ---------------------------- */}
 
           <select
-            className="p-2 bg-[#f7f7f7] rounded-md"
+            className="p-2 bg-[#f7f7f7] rounded-md text-xl"
             onChange={(e) => setFhstatus(e.target.value)}
             value={fhstatus}
           >
@@ -182,7 +181,7 @@ const OnlineFarmHouses = () => {
                     <li>Owner Price -{item?.owner_night_prices}</li>
                     <li>Partner Price -{item?.customer_morning_prices}</li>
                     <li>
-                      <Link className="underline" href={`/farmhouse/total-farmhouses/${item.property_id}`}>View more</Link>
+                      <Link className="underline" href={`/farmhouse/farmhouses-by-status/${item.property_id}`}>View more</Link>
                     </li>
                   </ul>
                 </div>

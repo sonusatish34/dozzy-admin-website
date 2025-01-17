@@ -9,6 +9,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdKayaking } from "react-icons/md";
 const OnlineFarmHouses = () => {
+    console.log("into completed bookings");
+    console.log(process.env.NEXT_PUBLIC_URL,"procces.env");
+    
     const [cities, setCities] = useState("");
     const [loc, setLoc] = useState("Hyderabad");
     const [bookingData, setBookingData] = useState("");
@@ -125,7 +128,7 @@ const OnlineFarmHouses = () => {
     return (
         <div>
             {<CommonLayout>
-                <p className=" pl-5 pt-4 text-lg text-black">Completed Bookings -{bookingData?.count}</p>
+                <p className=" pl-5 text-3xl font-bold pt-10 text-black capitalize">{bkStatus.replace('_',' ')}  Bookings   - {bookingData?.count}</p>
                 <div className="px-4">
                     {/* // <p className="pl-5 pt-4 text-lg text-black">Total Bookings</p> */}
                     {/* <ul className="pl-4 pt-4 p-2 bg-[#f7f7f7] rounded-md flex gap-3 flex-wrap">
@@ -190,9 +193,9 @@ const OnlineFarmHouses = () => {
                                             alt="alt"
                                         />
                                         <ul className="flex flex-col gap-1">
-                                            <li className="text-xl font-bold">Booking id {item?.booking_id}</li>
+                                            <li className="text-x font-bold">Booking id {item?.booking_id}</li>
                                             <li>{item?.property_name}</li>
-                                            <li>{item?.area_name}</li>
+                                            <li>{item?.property_region}</li>
                                             <li>Partner number {item?.property_alternate_number}</li>
                                             <li>Watchman number {item?.property_watch_man_number}</li>
                                             <li>Customer number {item?.customer_number}</li>

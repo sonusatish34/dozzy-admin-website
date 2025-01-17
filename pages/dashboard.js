@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import CommonLayout from './components/layout/CommonLayout';
 import { IoIosArrowForward } from "react-icons/io";
 import Link from 'next/link';
-
+import { useRouter } from 'next/router';
 const ComponentName = (props) => {
+  const router = useRouter()
   const [farmHDetails, setFarmHDetails] = useState(null)
   useEffect(() => {
     const getDashboard = async () => {
@@ -34,7 +35,7 @@ const ComponentName = (props) => {
   }, [])
   return (
     <CommonLayout>
-      <div className='lg:pl-8 p-3 pt-6'>
+      <div className='lg:pl-8 px-3 pt-'>
           <p className='font-bold text-2xl py-4'>Dashboard</p>
         <div className='bg-white text-black grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 '>
           <table className="table-auto text-left bg-gray-100 border-2 border-gray-50 rounded p-4  pl-2">

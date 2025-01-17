@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import CommonLayout from '../components/layout/CommonLayout'
 import Image from 'next/image'
-import swal from 'sweetalert'
 import { IoIosArrowDown } from 'react-icons/io'
 import { IoIosArrowBack } from 'react-icons/io'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useRouter } from 'next/router'
 import LoadingComp from '../components/Loading'
+import swal from 'sweetalert';
 
 
 const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDetails, onUpdateAmm }) => {
@@ -18,6 +18,72 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
   const [updateSubmitData, setUpdateSubmitData] = useState(null);
   const [addSubmitdata, setAddSubmitdata] = useState(null);
 
+  // console.log(updatedAttributes, "updatedAttributes");
+  // console.log(addSubmitdata, "addSubmitdata");
+
+
+
+  const [values, setValues] = useState({});
+  const [gamesValues, setGamesvalues] = useState({});
+  // console.log(values, "valuess");
+  // console.log(gamesValues, "gamesbvalues");
+
+  const handleDecrement = (index) => {
+    setValues((prevValues) => {
+      // Get the current value or fallback to attribute_value
+      const currentValue = prevValues[index] ?? (totalDetails.amenities[index]?.attribute_value || 0);
+      // Ensure the value doesn't go below 0
+      const newValue = Math.max(0, currentValue - 1);
+      handleUpdateAttribute('amenities', index, newValue);
+      return {
+        ...prevValues,
+        [index]: newValue,
+      };
+    });
+  };
+
+  const handleIncrement = (index) => {
+    setValues((prevValues) => {
+      // Get the current value or fallback to attribute_value
+      const currentValue = prevValues[index] ?? (totalDetails.amenities[index]?.attribute_value || 0);
+      const newValue = Number(currentValue) + 1;
+      handleUpdateAttribute('amenities', index, newValue);
+      return {
+        ...prevValues,
+        [index]: newValue,
+      };
+    });
+  };
+
+
+  const handleDecrementGame = (index) => {
+    setGamesvalues((prevValues) => {
+      // Get the current value or fallback to attribute_value
+      const currentValue = prevValues[index] ?? (totalDetails.games[index]?.attribute_value || 0);
+      // Ensure the value doesn't go below 0
+      const newValue = Math.max(0, currentValue - 1);
+      handleUpdateAttribute('games', index, newValue);
+      return {
+        ...prevValues,
+        [index]: newValue,
+      };
+    });
+  };
+
+  const handleIncrementGame = (index) => {
+    setGamesvalues((prevValues) => {
+      // Get the current value or fallback to attribute_value
+      const currentValue = prevValues[index] ?? (totalDetails.games[index]?.attribute_value || 0);
+      const newValue = Number(currentValue) + 1;
+      handleUpdateAttribute('games', index, newValue);
+      return {
+        ...prevValues,
+        [index]: newValue,
+      };
+    });
+  };
+
+
   const handleUpdateAttribute = (type, index, value) => {
     setUpdatedAttributes((prev) => ({
       ...prev,
@@ -27,21 +93,13 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
       },
     }));
   };
-  const handleAddedAttribute = (type, index, value) => {
-    setAddedAttributes((prev) => ({
-      ...prev,
-      [type]: {
-        ...prev[type],
-        [index]: value,
-      },
-    }));
-  };
- 
-  const handleAddNew = async (type, name, value,pid) => {
+
+
+  const handleAddNew = async (type, name, value, pid) => {
     if (type === 'amenity') {
       // Add new Amenity to the totalDetails
 
-      totalDetails?.amenities?.push({ property_id: pid, attribute_name: name, attribute_value: value, attribute_type:"string" });
+      totalDetails?.amenities?.push({ property_id: pid, attribute_name: name, attribute_value: value, attribute_type: "string" });
 
       // Send the new Amenity to the API (assuming a different API endpoint)
       const newAmenityData = {
@@ -49,10 +107,10 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
         attribute_value: value,
       };
       // await addNewAmenity(newAmenityData);
-    } else if (type === 'game') {
+    } else if (type === 'games') {
       // Add new Game to the totalDetails
-      totalDetails.games.push({ attribute_name: `game_${name}`, attribute_value: value });
-
+      // totalDetails.games.push({ attribute_name: `game_${name}`, attribute_value: value });
+      totalDetails?.games?.push({ property_id: pid, attribute_name: `game_${name}`, attribute_value: value, attribute_type: "string" });
       // Send the new Game to the API (assuming a different API endpoint)
       const newGameData = {
         attribute_name: name,
@@ -86,7 +144,18 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/admin/update-amenity`, requestOptions);
       const data = await response.json();
-      // Handle API response
+      // Handle API respons
+      console.log(data, "uodpate success");
+      if (data?.status == 'success') {
+        swal({
+          title: `${data?.status}`,
+          text: `${data?.message}`,
+          timer: 2000,
+          icon: "success",
+          buttons: false,
+        })
+      }
+
     };
 
     if (updateSubmitData?.length >= 1) {
@@ -110,6 +179,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/admin/add-attribute`, requestOptions);
       const data = await response.json();
+
       // Handle API response
     };
 
@@ -119,9 +189,9 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
 
 
     onUpdateAmm()
-  }, [addSubmitdata,updateSubmitData]);
- console.log(updateSubmitData?.length,"updateSubmitData.length");
- 
+  }, [addSubmitdata, updateSubmitData]);
+  // console.log(updatedAttributes,"=======updatedAttributes===");
+
   const handleSubmit = () => {
     const updatedData = [];
 
@@ -129,12 +199,15 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
       Object.entries(updatedAttributes[type]).forEach(([index, value]) => {
         const item = totalDetails[type][index];
         updatedData.push({
-          attribute_id: item.attribute_id || null,
-          attribute_value: value,
+          attribute_id: String(item.attribute_id) || null,
+          attribute_value: String(value),
         });
       });
     });
 
+    // console.log(updatedData,"updatedData");
+
+    swal("Hello world!");
 
     if (updatedData?.length >= 1) {
       setUpdateSubmitData(updatedData);
@@ -142,14 +215,15 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
     const joinedArray = [...totalDetails?.amenities.filter(item => item.attribute_id == null), ...totalDetails.games.filter(item => item.attribute_id == null)];
 
     // const AddAttribues = totalDetails?.games.filter(item => item.attribute_id == null)
-    console.log(joinedArray,"joinedArray-------------");
-    if (updatedData?.length >= 1) {
+    if (joinedArray?.length >= 1) {
       setAddSubmitdata(joinedArray)
     }
-    
+    const rr = [values, gamesValues]
+    // console.log(rr,"rr");
+
+
   };
-  console.log(totalDetails?.amenities.filter(item => item.attribute_id == null),"totalDetails?.amenities.filter(item => item.attribute_id == null)");
-  
+
   return (
     showAmenitiesEdit && (
       <div>
@@ -158,27 +232,53 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
             <div className='bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-x w-fit'>
               <button
                 onClick={() => setShowAmenitiesEdit(false)}
-                className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition'
+                className='bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition'
               >
                 Close
               </button>
-
               <h2 className='text-2xl font-bold mb-4 pt-4'>Edit Amenities & Games</h2>
-              <div className='flex flex-col lg:flex-row bg-white rounded-md p-1'>
-                <ul className='pl-5 pt-4 text-gray-900 h-60 overflow-y-scroll'>
-                  {totalDetails.amenities.map((item, index) => (
-                    <li key={index} className='capitalize flex justify-between items-center'>
-                      {`${item?.attribute_name.replace('no_of_', '').replace('_', ' ')}`}
-                      <input
-                        type='number'
-                        className='border rounded px-2'
-                        defaultValue={item.attribute_value}
-                        onChange={(e) => handleUpdateAttribute('amenities', index, e.target.value)}
-                      />
-                    </li>
-                  ))}
+              <div className='flex flex-col lg:flex-row gap-6 bg-white rounded-md p-1'>
+                <ul className='custom-scrollbar flex flex-col gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
+                  {totalDetails.amenities.map((item, index) => {
+                    const itemValue = values[index] ?? (item?.attribute_value || 0); // Ensure a default of 0
+                    return (
+                      <li key={index} className='capitalize flex justify-between items-center'>
+                        {`${item?.attribute_name.replace('no_of_', '').replace('_', ' ')}`}
+                        <div className='flex gap-1 items-center'>
+                          <button
+                            type='button'
+                            className='text-2xl border-black border-2 text-black rounded-full h-10 w-10'
+                            onClick={() => handleDecrement(index)} // Decrement
+                          >
+                            -
+                          </button>
+                          <input
+                            type='number'
+                            className='border text-center w-12 px-2'
+                            value={itemValue}
+                            onChange={(e) => {
+                              const newValue = parseInt(e.target.value, 10) || 0;
+                              setValues((prevValues) => {
+                                const updatedValues = { ...prevValues, [index]: newValue };
+                                handleUpdateAttribute('amenities', index, newValue);
+                                return updatedValues;
+                              });
+                            }}
+                          />
+                          <button
+                            type='button'
+                            className='text-2xl border-black border-2 text-black rounded-full h-10 w-10'
+                            onClick={() => handleIncrement(index)} // Increment
+                          >
+                            +
+                          </button>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
-                <ul className='pl-5 text-gray-700 p-1'>
+
+                {/* <ul className='pl-5 text-gray-700 p-1'>
                   <p className='font-bold py-1'>Games</p>
                   {totalDetails.games.map((item, index) => (
                     <li key={index} className='capitalize flex justify-between items-center'>
@@ -191,6 +291,47 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
                       />
                     </li>
                   ))}
+                  {totalDetails?.games.length<1 && <p>No games available</p>}
+                </ul> */}
+                <ul className='custom-scrollbar flex flex-col  gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
+                  {totalDetails.games.map((item, index) => {
+                    const itemValue = gamesValues[index] || 0; // Get the current value for this item
+                    return (
+                      <li key={index} className='capitalize flex justify-between items-center'>
+                        {`${item?.attribute_name.replace('no_of_', '').replace('_', ' ')}`}
+                        <div className='flex gap-1 items-center'>
+                          <button
+                            type='button'
+                            className='text-2xl border-black border-2 text-black rounded-full h-10 w-10'
+                            onClick={() => handleDecrementGame(index)} // Pass the index to handleDecrement
+                          >
+                            -
+                          </button>
+                          <input
+                            type='number'
+                            className='border text-center w-12 px-2'
+                            value={itemValue}
+                            onChange={(e) => {
+                              const newValue = parseInt(e.target.value) || 0;
+                              setGamesvalues((prevValues) => {
+                                const updatedValues = { ...prevValues, [index]: newValue };
+                                handleUpdateAttribute('games', index, newValue);
+                                return updatedValues;
+                              });
+                            }}
+                          />
+                          <button
+                            type='button'
+                            className='text-2xl border-black border-2 text-black rounded-full h-10 w-10'
+                            onClick={() => handleIncrementGame(index)} // Pass the index to handleIncrement
+                          >
+                            +
+                          </button>
+                        </div>
+
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
 
@@ -211,7 +352,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
                   className='border rounded px-2 mr-2'
                 />
                 <button
-                  onClick={() => handleAddNew('amenity', newAmenity.name, newAmenity.value,totalDetails?.property_data?.property_id)}
+                  onClick={() => handleAddNew('amenity', newAmenity.name, newAmenity.value, totalDetails?.property_data?.property_id)}
                   className='bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition'
                 >
                   Add
@@ -234,8 +375,12 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
                   onChange={(e) => setNewGame({ ...newGame, value: e.target.value })}
                   className='border rounded px-2 mr-2'
                 />
+                {/* <button
+                  onClick={() => handleAddNew('games', newGame.name, newGame.value)}
+                  className='bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition'
+                > */}
                 <button
-                  onClick={() => handleAddNew('game', newGame.name, newGame.value)}
+                  onClick={() => handleAddNew('games', newGame.name, newGame.value, totalDetails?.property_data?.property_id)}
                   className='bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition'
                 >
                   Add
@@ -305,7 +450,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
       }
     }
     fetchPropertyDetails()
-  }, [propertyId,rpAm])
+  }, [propertyId, rpAm])
   // console.log(totalDetails.amenities,"yyyytttt");
   const [currentIndex, setCurrentIndex] = useState(0)
   const images = totalDetails?.property_images
@@ -335,16 +480,18 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     property_id: propertyDetails?.property_id,
     status: 'in_progress',
     property_rejected_reason: rejectReason,
-    property_price: '110',
-    property_weekend_price: '110',
-    customer_morning_prices: '110',
-    customer_night_prices: '110',
-    owner_weekday_prices: '110',
-    owner_weekend_prices: '110',
-    owner_morning_prices: '110',
-    owner_night_prices: '110'
+    property_price: '0',
+    property_weekend_price: '0',
+    customer_morning_prices: '0',
+    customer_night_prices: '0',
+    owner_weekday_prices: '0',
+    owner_weekend_prices: '0',
+    owner_morning_prices: '0',
+    owner_night_prices: '0'
   })
   // console.log(JSON.stringify(formData), "---JSON.stringify(formData)---");
+  console.log(totalDetails?.amenities, "amenitriheis");
+
   const handleChange = e => {
 
     const { name, value } = e.target
@@ -354,6 +501,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
       [name]: value
     }))
   }
+
   useEffect(() => {
     if (farmHStatus) {
       const RejectFHOUSE = async () => {
@@ -382,16 +530,21 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
           )
           const data = await response.json()
           if (data.status == 'success') {
+            swal({
+              title: `${farmHStatus} Succcesfully`,
+              text: "Succcesfully",
+              timer: 2000,
+              icon: "success",
+              buttons: false,
+            });
             setshowReject(false)
             // router.reload()
-            setRefDet(true)
-
           }
 
         } catch (error) {
           console.error('Error:', error)
         }
-    
+
       }
       RejectFHOUSE()
       onUpdate()
@@ -485,6 +638,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     // fetchFarmhouses();
     setRpAm(rpAm + 1);
   };
+  // console.log(formData, "formData");
 
   return (
     <div className='text-xs xl:text-base text-black'>
@@ -518,7 +672,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 </button>
                 {/* Left arrow */}
                 <div className='flex gap-2 justify-between pt-1 lg:text-sm'>
-                  <p className='text-black text-wrap capitalize lg:text-xs'>
+                  <p className='text-black  capitalize bg-red- h-16 w-44 break-words'>
                     {images[currentIndex]?.attribute_name}
                   </p>
                   <div>
@@ -530,9 +684,6 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                     />}
                   </div>
                 </div>
-
-
-
               </div>
 
 
@@ -586,6 +737,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                           {item.attribute_name} {item.attribute_value}
                         </li>
                       ))}
+                      {totalDetails?.games.length < 1 && <p className='text-red-400'>NA</p>}
                     </ul>
                   </div>
 
@@ -637,7 +789,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                             Aadhar
                           </h2>
                           <Image
-                            src={'/pix.jpg'}
+                            src={totalDetails?.owner_profile[0]?.aadhar_image_url}
                             height={1000}
                             width={1000}
                             alt='dozzy farmhouse logo'
@@ -649,7 +801,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                   </div>
                 )}
                 {showAmenitiesEdit && (
-                  <AmenitiesEditModal showAmenitiesEdit={showAmenitiesEdit} setShowAmenitiesEdit={setShowAmenitiesEdit} totalDetails={totalDetails} onUpdateAmm={handleUpdateFHEDetails}/>
+                  <AmenitiesEditModal showAmenitiesEdit={showAmenitiesEdit} setShowAmenitiesEdit={setShowAmenitiesEdit} totalDetails={totalDetails} onUpdateAmm={handleUpdateFHEDetails} />
                 )}
               </div>
             </div>
@@ -764,10 +916,10 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                   <div>
                     <p className='p-1 bg-white rounded'>
                       <input
-                        value={formData.customer_morning_prices}
+                        value={formData.property_price}
                         onChange={handleChange}
                         className='border-2 w-12'
-                        name='customer_morning_prices'
+                        name='property_price'
                       />
                       { } Mon-Fri
                     </p>
@@ -793,10 +945,10 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                     </p>
                     <p className='p-1 bg-white rounded'>
                       <input
-                        value={formData.property_weekend_price}
+                        value={formData.customer_night_prices}
                         onChange={handleChange}
                         className='border-2 w-12'
-                        name='property_weekend_price'
+                        name='customer_night_prices'
                       />{' '}
                       Night
                     </p>
@@ -932,6 +1084,7 @@ const FarmHouseAccordion = () => {
     // fetchFarmhouses();
     setRp(rp + 1);
   };
+  console.log(rp, "refrsh page");
 
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>

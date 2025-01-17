@@ -107,9 +107,11 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
             type="text"
             onChange={handleSearch}
             maxLength={10}
-            className="overflow-hidden border-2 lg:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-full lg:pl-12 placeholder:text-gray-700"
+            className={`overflow-hidden border-2 lg:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-full lg:pl-12 placeholder:text-gray-700 ${router.pathname=='/dashboard'?'invisible':''}`}
             placeholder={placeholderText || "Search here"}
           />
+          {console.log(router.pathname)
+          }
         </div>
 
         {/* Hamburger button for mobile */}

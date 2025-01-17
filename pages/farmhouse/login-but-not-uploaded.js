@@ -132,16 +132,16 @@ const LoginButNotUploaded = () => {
                           <h2>
                             <button
                               onClick={() => toggleAccordion(key)}
-                              className={`w-full text-left py-2 px-4 bg-gray-100 text-gray-800  focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center ${key==0?'rounded-t-3xl':''}`}
+                              className={`w-full text-left py-2 px-4 bg-gray-100 text-gray-800  focus:outline-none focus:ring-2 focus:ring-indigo-500 flex gap-3 justify-between items-center ${key==0?'rounded-t-3xl':''}`}
                             >
                               <div className="text-lg">
-                                <p>
+                                <p className="flex gap-3">
                                   {value.user_phone}{" "}
                                   <button
                                     onClick={() => {
                                       copyToClipboard(String(value.user_phone));
                                     }}
-                                    className="text-red-400"
+                                    className="text-[#556ee6]"
                                   >
                                     <FiCopy />
                                   </button>

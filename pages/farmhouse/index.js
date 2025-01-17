@@ -79,6 +79,20 @@ const ComponentName = (props) => {
                 </Link>
 
               </li> */}
+             
+              <li>
+                <Link
+                  className="text-white bg-[#556EE6] text-lg flex items-center justify-between pr-4 gap-16 w-96"
+                  href={"/farmhouse/farmhouses-by-status"}
+                >
+                  <span className="px-6 capitalize">Farmhouses By Status 
+                    {/* - {farmHDetails?.total_farmhouses ? farmHDetails.total_farmhouses : '0'} */}
+                    </span>
+                  <span>
+                    <IoIosArrowForward />
+                  </span>
+                </Link>
+              </li>
               <li>
                 <Link
                   className="text-white bg-[#556EE6] text-lg flex items-center justify-between pr-4 gap-16 w-96"
@@ -93,9 +107,9 @@ const ComponentName = (props) => {
               <li>
                 <Link
                   className="text-white bg-[#556EE6] text-lg flex items-center justify-between pr-4 gap-16 w-96"
-                  href={"/farmhouse/total-farmhouses"}
+                  href={"/farmhouse/offline-farmhouses"}
                 >
-                  <span className="px-6 capitalize">Total farmhouses - {farmHDetails?.total_farmhouses ? farmHDetails.total_farmhouses : '0'}</span>
+                  <span className="px-6 capitalize">Offline farmhouses - {farmHDetails?.offline_farmhouses ? farmHDetails.offline_farmhouses : '0'}</span>
                   <span>
                     <IoIosArrowForward />
                   </span>
@@ -146,11 +160,11 @@ const ComponentName = (props) => {
                 </Link>
               </li> */}
               <li>
-                <Link
+                <Link 
                   className="text-white bg-[#556EE6] text-lg flex items-center justify-between pr-4 gap-16 w-96"
                   href={"/farmhouse/completed-bookings"}
                 >
-                  <span className="px-6 capitalize">Completed Bookings</span>
+                  <span className="px-6 capitalize">All Bookings</span>
                   <span>
                     <IoIosArrowForward />
                   </span>
