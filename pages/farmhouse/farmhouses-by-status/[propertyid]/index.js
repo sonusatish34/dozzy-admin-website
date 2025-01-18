@@ -239,7 +239,7 @@ const ComponentName = (props) => {
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-">
                           <div className="flex justify-center items-center ">
-                            <div className="bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full">
+                            <div className="bg-white h-[700px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full">
                               <button
                                 onClick={() => {
                                   setShowProof(false);
@@ -253,8 +253,7 @@ const ComponentName = (props) => {
                               </h2>
                               <img
                                 src={
-                                  totalDetails.owner_profile[0]
-                                    .electricity_bill_image
+                                  totalDetails.owner_profile[0].electricity_bill_image
                                 }
                                 height={1000}
                                 width={1000}
@@ -265,11 +264,11 @@ const ComponentName = (props) => {
                                 Aadhar
                               </h2>
                               <Image
-                                src={"/pix.jpg"}
+                                src={totalDetails.owner_profile[0].aadhar_image_url}
                                 height={1000}
                                 width={1000}
                                 alt="dozzy farmhouse logo"
-                                className="w-40"
+                                className="w-72 h-36"
                               />
                             </div>
                           </div>

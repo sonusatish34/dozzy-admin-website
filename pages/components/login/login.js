@@ -33,7 +33,8 @@ export default function Login() {
       return
     }
   },[])
-
+  console.log(process.env.NEXT_PUBLIC_URL,"process.env.NEXT_PUBLIC_URL");
+  
   const sendOtp = async () => {
     const url = `${process.env.NEXT_PUBLIC_URL}/admin/login`;
     const options = {

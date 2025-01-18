@@ -1098,11 +1098,7 @@ const FarmHouseAccordion = () => {
               <button
                 className='w-full text-left text-gray-700 capitalize p-4 border-b-2 border-b-gray-200  rounded-t-md focus:outline-none flex justify-between'
                 onClick={() =>
-                  setActivePropertyId(
-                    activePropertyId === farmHouse.property_id
-                      ? null
-                      : farmHouse.property_id
-                  )
+                  setActivePropertyId(activePropertyId === farmHouse.property_id ? null : farmHouse.property_id)
                 }
               >
                 <span>

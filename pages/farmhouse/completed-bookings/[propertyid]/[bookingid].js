@@ -93,7 +93,7 @@ const ComponentName = (props) => {
                     // setTotalDetails(data.results);
                     // setAmmDetails(data.results.amenities);
                     console.log(data, "data.results for bookings");
-                    setBookingDetails(data?.booking_details)
+                    setBookingDetails(data)
                     //   setTotalDetails(data?.results);
                 }
             } catch (error) {
@@ -123,7 +123,7 @@ const ComponentName = (props) => {
     const convertDate = (data) => {
         const date = new Date(data);  // Create a Date object from the input string
         // Format the date as '13th Jan 2025, 3:00 PM'
-        const formattedDate = format(date, "do, MMM yyyy, h:mm a");
+        const formattedDate = format(date, "do MMM yyyy, h:mm a");
         console.log(formattedDate);  // Log the formatted date and time
         return formattedDate;
     }
@@ -148,33 +148,33 @@ const ComponentName = (props) => {
                         className="rounded-lg w-72 object-cover"
                       />
                     </div> */}
-                                <div className="col-span-12 md:col-span-4 relative">
-                                    <div className="relative w-full h-[300px]">
+                                <div className=" relative">
+                                    <div className=" w-[300px] h-[300px]">
                                         {/* Image */}
-                                        <img
+                                        <Image
                                             src={
                                                 images[currentIndex]?.attribute_value
                                                     ? images[currentIndex]?.attribute_value
                                                     : "/"
                                             }
                                             alt="Farmhouse"
-                                            className="rounded-lg w-72  h-[300px] object-cover"
+                                            className="rounded-lg w-72 h-[300px] object-cover"
+                                            height={1000}
+                                            width={1000}
                                         />
                                     </div>
 
-                                    {/* Left arrow */}
                                     <button
                                         onClick={goToPrevious}
-                                        className="absolute top-1/2 left-0 transform -translate-y-1/2  "
+                                        className='relative z-20 left-2 xl:left-2 bottom-36 *: text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                                     >
-                                        {/* Left arrow symbol */}
                                         <IoIosArrowBack size={20} />
                                     </button>
 
                                     {/* Right arrow */}
                                     <button
                                         onClick={goToNext}
-                                        className="absolute top-1/2 right-0 transform -translate-y-1/2 rounded-full"
+                                        className='relative z-20 left-32 xl:left-52 bottom-36 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                                     >
                                         <IoIosArrowForward size={20} />
                                     </button>
@@ -227,7 +227,6 @@ const ComponentName = (props) => {
                                                 <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-">
                                                     <div className="flex justify-center items-center ">
                                                         <div className="bg-white absolute top-9 h-[680px] w-[300px] transition-all duration-300 ease-in-out p-8 pb-3 rounded-lg">
-
                                                             <h2 className="text-2xl font-bold mb-4">
                                                                 Current Bill
                                                             </h2>
@@ -238,17 +237,17 @@ const ComponentName = (props) => {
                                                                 }
                                                                 height={1000}
                                                                 width={1000}
-                                                                alt="dozzy farmhouse logo"
+                                                                alt="current bill"
                                                                 className="h-[300px] w-full object-cover rounded-lg"
                                                             />
                                                             <h2 className="text-2xl font-bold mb-4 pt-4">
                                                                 Aadhar Card
                                                             </h2>
                                                             <Image
-                                                                src={"/pix.jpg"}
+                                                                src={totalDetails.owner_profile[0].aadhar_image_url}
                                                                 height={1000}
                                                                 width={1000}
-                                                                alt="dozzy farmhouse logo"
+                                                                alt="aadhar card"
                                                                 className="w-full h-[150px] rounded-lg"
                                                             />
                                                             <div className="pt-3">
@@ -310,10 +309,14 @@ const ComponentName = (props) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex lg:flex-row flex-col items-center gap-14 pt-9">
-                                <div className=" ">
+                            <div className="flex lg:flex-row flex-col  gap-14 pt-9">
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex flex-col gap-y-2">
+                                        <p className="font-bold text-black">Assigned To</p>
+                                        <p className="bg-white p-2 rounded-md">jiii</p>
+                                    </div>
                                     <div className="flex flex-col items-center space-x-4">
-                                        <p className="font-bold text-black">Approved By</p>
+                                        <p className="font-bold text-black">Customer Details</p>
                                         <div className="flex bg-white items-center">
                                             <img
                                                 src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" // Replace with avatar
@@ -334,7 +337,7 @@ const ComponentName = (props) => {
                                 <div className=" ">
                                     <div className="flex flex-col gap-2 text-black ">
                                         <p className="font-bold text-">Bookings </p>
-                                        <div className=" bg-gray-100">
+                                        <div className=" bg-gray-100 ">
                                             <table className="table-auto border-collapse border border-gray-300">
                                                 <thead>
                                                     <tr>
@@ -356,31 +359,31 @@ const ComponentName = (props) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr className="tracking-wide">
                                                         <td className="px-6 py-4 border-b border-gray-300">
-                                                            <p>Booking Id: {bookingDetails?.id}</p>
+                                                            <p>Booking Id: {bookingDetails?.booking_details.id}</p>
                                                             <p>
                                                                 Check In:
 
-                                                                {bookingDetails?.booking_start_date && <span> {convertDate(bookingDetails?.booking_start_date)}</span>}
+                                                                {bookingDetails?.booking_details.booking_start_date && <span> {convertDate(bookingDetails?.booking_details.booking_start_date)}</span>}
                                                             </p>
                                                             <p>
                                                                 Check Out:
-                                                                {bookingDetails?.booking_end_date && <span> {convertDate(bookingDetails?.booking_end_date)}</span>}
+                                                                {bookingDetails?.booking_details.booking_end_date && <span> {convertDate(bookingDetails?.booking_details.booking_end_date)}</span>}
                                                             </p>
-                                                            <p>Duration: {bookingDetails?.booking_hours}</p>
+                                                            <p>Duration: {bookingDetails?.booking_details.booking_hours}</p>
                                                         </td>
                                                         <td className="px-6 py-4 border-b border-gray-300">
                                                             {bookingDetails?.customer_phone}
                                                         </td>
                                                         <td className="px-6 py-4 border-b border-gray-300">
-                                                            {bookingDetails?.final_amount}
+                                                            {bookingDetails?.booking_details.final_amount}
                                                         </td>
                                                         <td className="px-6 py-4 border-b border-gray-300">
-                                                            {bookingDetails?.owner_booking_price}
+                                                            {bookingDetails?.booking_details.owner_booking_price}
                                                         </td>
                                                         <td className="px-6 py-4 border-b border-gray-300">
-                                                            {bookingDetails?.booking_price}
+                                                            {bookingDetails?.booking_details.booking_price}
                                                         </td>
                                                     </tr>
                                                     {showAllBookings && totalDetails.all_bookings.map((item, index) => (
@@ -389,11 +392,11 @@ const ComponentName = (props) => {
                                                                 <p>Booking Id: {item?.booking_id}</p>
                                                                 <p>
                                                                     Check In:
-                                                                    {bookingDetails?.booking_start_date && <span> {convertDate(bookingDetails?.booking_start_date)}</span>}
+                                                                    {bookingDetails?.booking_details.booking_start_date && <span> {convertDate(bookingDetails?.booking_details.booking_start_date)}</span>}
                                                                 </p>
                                                                 <p>
                                                                     Check Out:
-                                                                    {bookingDetails?.booking_end_date && <span> {convertDate(bookingDetails?.booking_end_date)}</span>}
+                                                                    {bookingDetails?.booking_details.booking_end_date && <span> {convertDate(bookingDetails?.booking_details.booking_end_date)}</span>}
                                                                 </p>
                                                                 <p>Duration: {item?.booking_hours}</p>
                                                             </td>
