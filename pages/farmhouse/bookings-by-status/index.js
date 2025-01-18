@@ -180,7 +180,7 @@ const OnlineFarmHouses = () => {
                         {Loading ? <LoadingComp /> : (bookingData?.count) &&
                             bookingData?.results.map((item, index) => (
                                 <Link
-                                    href={`/farmhouse/completed-bookings/${item.property_id}/${item.booking_id}`}
+                                    href={`/farmhouse/bookings-by-status/${item.property_id}/${item.booking_id}`}
                                     key={index}
                                     className="bg-gray-200 p-3 flex justify-between pr-8"
                                 >
