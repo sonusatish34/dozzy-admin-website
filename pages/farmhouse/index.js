@@ -162,9 +162,9 @@ const ComponentName = (props) => {
               <li>
                 <Link 
                   className="text-white bg-[#556EE6] text-lg flex items-center justify-between pr-4 gap-16 w-96"
-                  href={"/farmhouse/completed-bookings"}
+                  href={"/farmhouse/bookings-by-status"}
                 >
-                  <span className="px-6 capitalize">All Bookings</span>
+                  <span className="px-6 capitalize">Bookings By Status</span>
                   <span>
                     <IoIosArrowForward />
                   </span>

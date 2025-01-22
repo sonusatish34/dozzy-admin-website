@@ -125,11 +125,12 @@ const OnlineFarmHouses = () => {
   }, [searchQuery, locData, loc]);
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
-      <div className="px-4 text-sm">
-        <p className="pl-5 pt-10 text-black text-3xl font-bold capitalize">{fhstatus} Farmhouses -{locData?.length}</p>
+      <div className="px-4 text-sm pl-9">
+        <p className=" pt-10 text-black text-3xl font-bold capitalize">Farmhouses By Status</p>
+        <p className="pt-10 text-black text-3xl font-bold capitalize"><span className=" text-blue-500">{fhstatus.replace('_',' ')}</span> Farmhouses ({locData?.length}) in <span className=" text-blue-500">{loc}</span> </p>
         <div className="flex gap-10 py-7">
           <select
-            className="p-2 bg-[#f7f7f7] rounded-md text-xl"
+            className=" border-2 border-red-300 p-4 bg-[#f7f7f7] rounded-md text-xl"
             onChange={(e) => setLoc(e.target.value)}
             value={loc}
           >

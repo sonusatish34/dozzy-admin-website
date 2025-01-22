@@ -10,13 +10,18 @@ import { IoMdArrowBack } from "react-icons/io";
 import { MdArrowForwardIos } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { format } from "date-fns";
+import { MdKeyboardArrowRight } from "react-icons/md";
+
 const ComponentName = (props) => {
+
     const router = useRouter()
     const [propertyDetails, setPropertyDetails] = useState(null);
     const [ammDetails, setAmmDetails] = useState(null);
     const [totalDetails, setTotalDetails] = useState(null);
     const [bookingDetails, setBookingDetails] = useState(null);
     const [showProof, setShowProof] = useState(null);
+    const [showBank, setShowBank] = useState(null);
+    const [bankDetails, setBankDetails] = useState(null);
     const [showAllBookings, setShowAllBookings] = useState(false);
     // const { propertyid } = router.query;
     const { propertyid, bookingid } = router.query; // Destructure both parameters
@@ -119,7 +124,33 @@ const ComponentName = (props) => {
             (prevIndex) => (prevIndex - 1 + images.length) % images.length
         );
     };
+    useEffect(() => {
+        const fetchBank = async () => {
+            const myHeaders = new Headers();
+            myHeaders.append("accept", "application/json");
+            myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXRhaWxzIjoibm8tZXhwaXJ5IiwidXNlcl9waG9uZSI6IjkxODI0NTA3NzAifQ.Q2_P8r9NnbXdji3TgHt-qAK0REDTXMt8HyikMcRAj8U");
 
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+
+            fetch(`https://staging.dozzy.com/admin/bank-details?app_user_id=${totalDetails?.property_data?.app_user_id}`, requestOptions)
+                .then((response) => response.json())
+                .then((result) => setBankDetails(result))
+                .catch((error) => console.error(error));
+        }
+        // if(s=true)
+        // {
+        //   fetchBank();
+        // }
+        if (showBank == true) {
+
+            fetchBank()
+        }
+    }, [showBank])
+    console.log(bankDetails, "bdd");
     const convertDate = (data) => {
         const date = new Date(data);  // Create a Date object from the input string
         // Format the date as '13th Jan 2025, 3:00 PM'
@@ -127,6 +158,21 @@ const ComponentName = (props) => {
         console.log(formattedDate);  // Log the formatted date and time
         return formattedDate;
     }
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState('');
+    const openModal = (image) => {
+        console.log("insode");
+
+        setSelectedImage(image);
+        setIsModalOpen(true);
+    };
+
+    // Function to close the modal
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedImage('');
+    };
 
     return (
         <div>
@@ -148,8 +194,8 @@ const ComponentName = (props) => {
                         className="rounded-lg w-72 object-cover"
                       />
                     </div> */}
-                                <div className=" relative">
-                                    <div className=" w-[300px] h-[300px]">
+                                <div className=" ">
+                                    <div className="relative w-[300px] h-[300px]">
                                         {/* Image */}
                                         <Image
                                             src={
@@ -161,6 +207,7 @@ const ComponentName = (props) => {
                                             className="rounded-lg w-72 h-[300px] object-cover"
                                             height={1000}
                                             width={1000}
+                                            onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
                                         />
                                     </div>
 
@@ -182,6 +229,25 @@ const ComponentName = (props) => {
                                         {images[currentIndex]?.attribute_name}
                                     </p>
                                     {/* <p className="bg-red-500 text-blue-300 p-3">{images[currentIndex].attribute_status}</p> */}
+                                    {isModalOpen && (
+                                        <div className="absolute inset-0 z-50 flex items-center w-[700px]">
+                                            <div className="bg-white py-8 rounded-xl  relative bottom-1 left-[27rem]">
+                                                <button
+                                                    onClick={closeModal}
+                                                    className="absolute top-4 right-4 w-10 h-10 text-white bg-red-500  rounded-full p-2"
+                                                >
+                                                    x
+                                                </button>
+                                                <Image
+                                                    src={selectedImage}
+                                                    alt="Large view"
+                                                    width={500}
+                                                    height={500}
+                                                    className="w-[500px] h-[500px] object-contain rounded-2xl"
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="">
@@ -266,6 +332,34 @@ const ComponentName = (props) => {
                                                 </div>
                                             </div>
                                         )}
+                                        {showBank && (
+                                            <div>
+                                                <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h- flex justify-center">
+                                                    <div className="bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
+                                                        <button
+                                                            onClick={() => {
+                                                                setShowBank(false);
+                                                            }}
+                                                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+                                                        >
+                                                            Close
+                                                        </button>
+                                                        <h2 className="text-2xl font-bold mb-4">
+                                                            Bank Details
+                                                        </h2>
+
+                                                        {bankDetails?.data?.results && bankDetails?.data?.results.map((item, index) => (
+                                                            <ul>
+                                                                <li>bank_account_name {item.bank_account_name}</li>
+                                                                <li>bank_name {item.bank_name}</li>
+                                                                <li>bank_account_number {item.bank_account_number}</li>
+                                                                <li>bank_ifsc_code {item.bank_ifsc_code}</li>
+                                                            </ul>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -283,7 +377,6 @@ const ComponentName = (props) => {
                                 <div className="bg-white p-4 rounded-md h-fit">
                                     <div className="flex flex-col items-center space-x-4">
                                         <p className="font-bold text-black">Owner Profile</p>
-
                                         <div>
                                             <p className="text-gray-800 font-medium capitalize flex gap-1 items-center">
                                                 <span>
@@ -306,6 +399,16 @@ const ComponentName = (props) => {
                                                 }{" "}
                                             </p>
                                         </div>
+                                    </div>
+                                    <div className="flex flex-col items-center space-x-4 bg-white p-4 rounded-md h-fit">
+                                        <button
+                                            onClick={() => {
+                                                setShowBank(true);
+                                            }}
+                                            className="bg-white w-full px-3 py-2 text-black rounded-md flex items-center justify-between "
+                                        >
+                                            <span>Bank Details</span><span><MdKeyboardArrowRight size={30} /></span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -373,7 +476,7 @@ const ComponentName = (props) => {
                                                             </p>
                                                             <p>Duration: {bookingDetails?.booking_details.booking_hours}</p>
                                                         </td>
-                                                        <td className="px-6 py-4 border-b border-gray-300">
+                                                        <td className=" px-6 py-4 border-b border-gray-300">
                                                             {bookingDetails?.customer_phone}
                                                         </td>
                                                         <td className="px-6 py-4 border-b border-gray-300">

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://www.yourdomain.com</loc><lastmod>2025-01-22T06:38:13.012Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/components/Loading</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/components/config</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/components/dwds</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/components/layout/CommonLayout</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/components/login/login</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/dashboard</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/New folder/cancelled-bookings</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/New folder/rejected-farmhouses</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/bookings-by-status</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/documents-pending</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/employees-login</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/farmhouses-by-status</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/login-but-not-uploaded</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/offline-farmhouses</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/online-farmhouses</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/pending-approvals</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/farmhouse/total-bookings</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/gello</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/sasa</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.yourdomain.com/sitemap.xml</loc><lastmod>2025-01-22T06:38:13.013Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+</urlset>

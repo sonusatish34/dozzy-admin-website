@@ -490,7 +490,6 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     owner_night_prices: '0'
   })
   // console.log(JSON.stringify(formData), "---JSON.stringify(formData)---");
-  console.log(totalDetails?.amenities, "amenitriheis");
 
   const handleChange = e => {
 
@@ -589,7 +588,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data, "data");
+          // console.log(data, "data");
           swal({
             title: "Image Uploaded Successfully",
             text: "",
@@ -646,12 +645,12 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
         <div className='bg-[#f5f5f5] p-4'>
           <div className='flex lg:flex-row flex-col gap-4 xl:gap-6'>
             <div className=''>
-              <div className='z-10 xl:w-[320px] xl:h-[310px] w-[220px] h-[200px]'>
+              <div className='z-10 xl:w-[320px] xl:h-[310px] w-full h-[200px]'>
                 {/* Image */}
                 <Image
                   src={images[currentIndex]?.attribute_value}
                   alt='Farmhouse'
-                  className='z-10 rounded-t-2xl object-cover xl:w-[320px] xl:h-[230px] w-[220px] h-[200px]'
+                  className='z-10 rounded-t-2xl object-cover xl:w-[320px] xl:h-[230px] w-full h-[200px]'
                   width={300}
                   height={200}
                   onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
@@ -695,9 +694,9 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 <div className="bg-white p-4 rounded-xl w-fit relative bottom-1 left-[27rem]">
                   <button
                     onClick={closeModal}
-                    className="absolute top-4 right-4 text-white bg-red-500 rounded-full p-2"
+                    className="absolute top-4 right-4 text-white bg-red-700 h-10 w-10 rounded-full p-2"
                   >
-                    X
+                    x
                   </button>
                   <img
                     src={selectedImage}
@@ -961,7 +960,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 onClick={() => {
                   setshowReject(true)
                 }}
-                className='p-4 bg-white h-12 w-36 rounded-md text-black'
+                className='p-4 bg-red-500 flex justify-center items-center lg:h-12 lg:w-36 h-8 w-20 rounded-md text-white'
               >
                 Reject
               </button>
@@ -1016,7 +1015,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                   }))
                   setFarmHStatus('approved')
                 }}
-                className='p-4 bg-[#556EE6] h-12 w-36 rounded-md text-white'
+                className='p-4 bg-[#556EE6] flex justify-center items-center lg:h-12 lg:w-36 h-8 w-20 rounded-md text-white'
               >
                 Approve
               </button>
@@ -1064,7 +1063,8 @@ const FarmHouseAccordion = () => {
     }
 
     fetchFarmHouses()
-
+    console.log("new regresh in a[i ca;;");
+    
   }, [rp])
   const [filteredPosts, setFilteredPosts] = useState([]);
 
@@ -1082,6 +1082,8 @@ const FarmHouseAccordion = () => {
 
   const handleUpdateFarmhouseList = () => {
     // fetchFarmhouses();
+    console.log("into updating rp +1 ");
+    
     setRp(rp + 1);
   };
   console.log(rp, "refrsh page");

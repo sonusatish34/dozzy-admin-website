@@ -89,10 +89,7 @@ const ComponentName = (props) => {
         .then((result) => setBankDetails(result))
         .catch((error) => console.error(error));
     }
-    // if(s=true)
-    // {
-    //   fetchBank();
-    // }
+    
     if (showBank == true) {
 
       fetchBank()

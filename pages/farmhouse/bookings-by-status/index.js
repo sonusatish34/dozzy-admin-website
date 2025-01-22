@@ -10,8 +10,8 @@ import Link from "next/link";
 import { MdKayaking } from "react-icons/md";
 const OnlineFarmHouses = () => {
     console.log("into completed bookings");
-    console.log(process.env.NEXT_PUBLIC_URL,"procces.env");
-    
+    console.log(process.env.NEXT_PUBLIC_URL, "procces.env");
+
     const [cities, setCities] = useState("");
     const [loc, setLoc] = useState("Hyderabad");
     const [bookingData, setBookingData] = useState("");
@@ -117,18 +117,18 @@ const OnlineFarmHouses = () => {
         };
 
         fetchCitiesData();
-    }, [loc,bkStatus]); // Dependency on userAuthorization to ensure API call happens after loading user info
+    }, [loc, bkStatus]); // Dependency on userAuthorization to ensure API call happens after loading user info
     const converDate = (data) => {
         const date = new Date(data);
         // Format the date as '14th Sep 2024'
-        const formattedDate = format(date, " h:mm a, MMM yyyy");
+        const formattedDate = format(date, " h:mm a, dd MMM yyyy");
         return formattedDate
     }
 
     return (
         <div>
             {<CommonLayout>
-                <p className=" pl-5 text-3xl font-bold pt-10 text-black capitalize">{bkStatus.replace('_',' ')}  Bookings   - {bookingData?.count}</p>
+                <p className=" pl-5 text-3xl font-bold pt-10 text-black capitalize">{bkStatus.replace('_', ' ')}  Bookings   - {bookingData?.count}</p>
                 <div className="px-4">
                     {/* // <p className="pl-5 pt-4 text-lg text-black">Total Bookings</p> */}
                     {/* <ul className="pl-4 pt-4 p-2 bg-[#f7f7f7] rounded-md flex gap-3 flex-wrap">
@@ -144,7 +144,7 @@ const OnlineFarmHouses = () => {
                                 </li>
                             ))}
                     </ul> */}
-                    <div className="flex gap-5 pt-7">
+                    <div className="flex lg:gap-5 gap-1 pt-7">
                         <select
                             className="p-2 bg-[#f7f7f7] rounded-md"
                             onChange={(e) => setLoc(e.target.value)}
@@ -182,12 +182,12 @@ const OnlineFarmHouses = () => {
                                 <Link
                                     href={`/farmhouse/bookings-by-status/${item.property_id}/${item.booking_id}`}
                                     key={index}
-                                    className="bg-gray-200 p-3 flex justify-between pr-8"
+                                    className="bg-gray-200 p-3 flex flex-col text-xs lg:text-base lg:flex-row justify-between pr-8"
                                 >
                                     <div className="flex gap-3">
                                         <Image
                                             src={`${item?.farmhouse_front_view?.length ? item?.farmhouse_front_view : ''}`}
-                                            className="rounded-md w-32 h-32"
+                                            className="rounded-md w-40 h-40"
                                             height={100}
                                             width={100}
                                             alt="alt"
@@ -196,15 +196,16 @@ const OnlineFarmHouses = () => {
                                             <li className="text-x font-bold">Booking id {item?.booking_id}</li>
                                             <li>{item?.property_name}</li>
                                             <li>{item?.property_region}</li>
-                                            <li>Partner number {item?.property_alternate_number}</li>
-                                            <li>Watchman number {item?.property_watch_man_number}</li>
-                                            <li>Customer number {item?.customer_number}</li>
+                                            <li>Partner number : {item?.property_alternate_number}</li>
+                                            <li>Watchman number : {item?.property_watch_man_number}</li>
+                                            <li>Customer number : {item?.customer_number}</li>
+
                                         </ul>
                                     </div>
                                     <div>
                                         <ul className="flex gap-4 pt-5">
                                             <li> {converDate(item?.booking_start_date)}</li>
-                                            <li><span className="relative bottom-3 left-24">{Math.ceil(Number((item?.booking_hours) / 24))} {Math.ceil(Number((item?.booking_hours) / 24)) == 1 ? 'day' : 'days'} </span>---------------------</li>
+                                            <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center"><span className=" ">{Math.ceil(Number((item?.booking_hours) / 24))} {Math.ceil(Number((item?.booking_hours) / 24)) == 1 ? 'day' : 'days'} </span></li>
                                             {/* <li>{Number((item?.booking_hours)/24)}</li> */}
                                             <li>{converDate(item?.booking_end_date)}</li>
                                             {/* <li>Partner Price -{item?.booking_end_date}</li> */}
