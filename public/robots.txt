@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.yourdomain.com
+Host: https://dozzy-admin-website-seven.vercel.app/
 
 # Sitemaps
-Sitemap: https://www.yourdomain.com/sitemap.xml
+Sitemap: https://dozzy-admin-website-seven.vercel.app/sitemap.xml
