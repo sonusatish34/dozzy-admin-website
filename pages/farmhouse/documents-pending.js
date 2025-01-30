@@ -58,7 +58,7 @@ const ComponentName = (props) => {
                 redirect: "follow",
             };
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/admin/remove-assign-doc?app_user_id=111`, requestOptions);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL2}/admin/remove-assign-doc?app_user_id=111`, requestOptions);
             const data = await response.json();
             console.log(data, " resp in stop appr");
             if (data?.status == 'success') {
@@ -91,7 +91,7 @@ const ComponentName = (props) => {
                 redirect: "follow",
             };
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/admin/update-assign-status?approval_app_user_id=${appUserId}`, requestOptions);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL2}/admin/update-assign-status?approval_app_user_id=${appUserId}`, requestOptions);
             const data = await response.json();
             console.log(data, " resp in stop appr");
             if (data?.status == 'success') {

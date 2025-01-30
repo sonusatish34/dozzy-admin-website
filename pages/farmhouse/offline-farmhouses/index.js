@@ -58,7 +58,7 @@ const OnlineFarmHouses = () => {
 
     fetchCities();
   }, []); // Dependency on userAuthorization to ensure API call happens after loading user info
-  console.log(process.env.NEXT_PUBLIC_URL,"00000000");
+  console.log(process.env.NEXT_PUBLIC_URL2,"00000000");
   
   useEffect(() => {
     // Make API call
@@ -66,7 +66,7 @@ const OnlineFarmHouses = () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/admin/offline-properties?location=${loc}`,
+          `${process.env.NEXT_PUBLIC_URL2}/admin/offline-properties?location=${loc}`,
           {
             method: "GET",
             headers: {

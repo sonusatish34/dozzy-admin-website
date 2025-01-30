@@ -10,7 +10,7 @@ import Link from "next/link";
 import { MdKayaking } from "react-icons/md";
 const OnlineFarmHouses = () => {
     console.log("into completed bookings");
-    console.log(process.env.NEXT_PUBLIC_URL, "procces.env");
+    console.log(process.env.NEXT_PUBLIC_URL2, "procces.env");
 
     const [cities, setCities] = useState("");
     const [loc, setLoc] = useState("Hyderabad");

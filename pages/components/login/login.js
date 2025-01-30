@@ -33,10 +33,10 @@ export default function Login() {
       return
     }
   },[])
-  console.log(process.env.NEXT_PUBLIC_URL,"process.env.NEXT_PUBLIC_URL");
+  console.log(process.env.NEXT_PUBLIC_URL2,"process.env.NEXT_PUBLIC_URL2");
   
   const sendOtp = async () => {
-    const url = `${process.env.NEXT_PUBLIC_URL}/admin/login`;
+    const url = `${process.env.NEXT_PUBLIC_URL2}/admin/login`;
     const options = {
       method: 'POST',
       headers: {
