@@ -15,7 +15,7 @@ const OnlineFarmHouses = () => {
     const [cities, setCities] = useState("");
     const [loc, setLoc] = useState("Hyderabad");
     const [bookingData, setBookingData] = useState("");
-    const [Loading, setLoading] = useState(false);
+    const [Loading, setLoading] = useState(true);
     const [bkStatus, setBkStatus] = useState("all");
 
     useEffect(() => {
@@ -30,7 +30,6 @@ const OnlineFarmHouses = () => {
         }
         // Make API call
         const fetchCities = async () => {
-            setLoading(true);
             const storedUserPhone = localStorage.getItem("tboo_user_phone");
 
             try {
@@ -62,7 +61,6 @@ const OnlineFarmHouses = () => {
             } catch (error) {
                 console.log(error.message);
             } finally {
-                setLoading(false);
             }
         };
 

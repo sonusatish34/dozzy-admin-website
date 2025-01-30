@@ -144,17 +144,18 @@ const ComponentName = (props) => {
                       />
                     </div> */}
                 <div className="">
-                  <div className="w-[400px] h-[300px]">
-                    <img
+                  <div className=" xl:w-[400px] xl:h-[300px] lg:w-[300px] lg:h-[300px]">
+                    <Image
                       src={
                         images[currentIndex]?.attribute_value
                           ? images[currentIndex]?.attribute_value
                           : "/"
                       }
                       alt="Farmhouse"
-                      className="rounded-lg object-cover w-[400px] h-[300px]"
+                      className="rounded-lg object-cover xl:w-[400px] xl:h-[300px] lg:w-[300px] lg:h-[300px]"
                       onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
-
+                      height={1000}
+                      width={1000}
                     />
                   </div>
 
@@ -204,10 +205,10 @@ const ComponentName = (props) => {
                         Amenities
                       </h3>
                       <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll">
-                        <ul className=" pl-5  text-gray-900 ">
+                        <ul className=" pl-5 text-gray-900 ">
                           {totalDetails.amenities.map((item, index) => (
                             <li key={index} className="capitalize">
-                              {item.attribute_name}-{item.attribute_value}
+                              {item.attribute_name.replace('no_of_','')}-{item.attribute_value}
                             </li>
                           ))}
                         </ul>
@@ -239,37 +240,41 @@ const ComponentName = (props) => {
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-">
                           <div className="flex justify-center items-center ">
-                            <div className="bg-white h-[700px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full">
-                              <button
-                                onClick={() => {
-                                  setShowProof(false);
-                                }}
-                                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
-                              >
-                                Close
-                              </button>
+                            <div className="bg-white absolute top-9 h-[680px] w-[300px] transition-all duration-300 ease-in-out p-8 pb-3 rounded-lg">
                               <h2 className="text-2xl font-bold mb-4">
                                 Current Bill
                               </h2>
                               <img
                                 src={
-                                  totalDetails.owner_profile[0].electricity_bill_image
+                                  totalDetails.owner_profile[0]
+                                    .electricity_bill_image
                                 }
                                 height={1000}
                                 width={1000}
-                                alt="dozzy farmhouse logo"
-                                className="w-72 h-72"
+                                alt="current bill"
+                                className="h-[300px] w-full object-contain rounded-lg"
                               />
                               <h2 className="text-2xl font-bold mb-4 pt-4">
-                                Aadhar
+                                Aadhar Card
                               </h2>
                               <Image
                                 src={totalDetails.owner_profile[0].aadhar_image_url}
                                 height={1000}
                                 width={1000}
-                                alt="dozzy farmhouse logo"
-                                className="w-72 h-36"
+                                alt="aadhar card"
+                                className="w-full h-[150px] rounded-lg object-contain"
                               />
+                              <div className="pt-3">
+
+                                <button
+                                  onClick={() => {
+                                    setShowProof(false);
+                                  }}
+                                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition w-full "
+                                >
+                                  Ok
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -278,7 +283,7 @@ const ComponentName = (props) => {
                     {showBank && (
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h- flex justify-center">
-                          <div className="bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
+                          <div className="bg-white relative top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
                             <button
                               onClick={() => {
                                 setShowBank(false);
@@ -287,16 +292,23 @@ const ComponentName = (props) => {
                             >
                               Close
                             </button>
-                            <h2 className="text-2xl font-bold mb-4">
+                            <h2 className="text-2xl font-bold pt-8 pb-3">
                               Bank Details
                             </h2>
-
                             {bankDetails?.data?.results && bankDetails?.data?.results.map((item, index) => (
-                              <ul>
-                                <li>bank_account_name {item.bank_account_name}</li>
-                                <li>bank_name {item.bank_name}</li>
-                                <li>bank_account_number {item.bank_account_number}</li>
-                                <li>bank_ifsc_code {item.bank_ifsc_code}</li>
+                              <ul className="capitalize">
+                                <li>bank account name : {item.bank_account_name}</li>
+                                <li>bank name : {item.bank_name}</li>
+                                <li>bank account number : {item.bank_account_number}</li>
+                                <li>bank ifsc code : {item.bank_ifsc_code}</li>
+                                <li>
+                                  <Image
+                                  height={1000}
+                                  width={1000}
+                                  src={item.passbook_image_url}
+                                  className="w-full h-[150px] rounded-lg object-contain"
+                                  />
+                                </li>
                               </ul>
                             ))}
                           </div>
@@ -354,10 +366,10 @@ const ComponentName = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="flex lg:flex-row flex-col gap-14 pt-3">
+              <div className="flex lg:flex-row flex-col gap-14 pt-5">
                 <div className=" ">
-                  <div className="flex flex-col items-center space-x-4">
-                    <p className="font-bold text-black">Approved By</p>
+                  <div className="flex flex-col pl-2">
+                    <p className="font-bold text-black pb-2">Approved By</p>
                     <div className="flex bg-white items-center">
                       <img
                         src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" // Replace with avatar
@@ -369,7 +381,7 @@ const ComponentName = (props) => {
                           {totalDetails.property_data.profile_name}
                         </p>
                         <p className=" text-gray-500">
-                          {totalDetails.property_data.owner_number}
+                          {totalDetails.property_data.approval_team_user_phone}
                         </p>
                       </div>
                     </div>
@@ -377,7 +389,7 @@ const ComponentName = (props) => {
                 </div>
                 <div className=" ">
                   <div className="flex flex-col gap-2 text-black ">
-                    <p className="font-bold text-">Bookings </p>
+                    <p className="font-bold lg:text-xl">Bookings </p>
                     <div className="flex justify-center items-center bg-gray-100">
                       <table className="table-auto bg-white rounded-md">
                         <thead>

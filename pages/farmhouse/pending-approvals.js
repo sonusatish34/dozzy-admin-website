@@ -145,8 +145,9 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
       const response = await fetch(`${process.env.NEXT_PUBLIC_URL2}/admin/update-amenity`, requestOptions);
       const data = await response.json();
       // Handle API respons
-      console.log(data, "uodpate success");
+      // console.log(data, "uodpate success");
       if (data?.status == 'success') {
+        onUpdateAmm();
         swal({
           title: `${data?.status}`,
           text: `${data?.message}`,
@@ -186,9 +187,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
     if (addSubmitdata?.length >= 1) {
       AddAttributes();
     }
-
-
-    onUpdateAmm()
+    
   }, [addSubmitdata, updateSubmitData]);
   // console.log(updatedAttributes,"=======updatedAttributes===");
 
@@ -207,8 +206,6 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
 
     // console.log(updatedData,"updatedData");
 
-    swal("Hello world!");
-
     if (updatedData?.length >= 1) {
       setUpdateSubmitData(updatedData);
     }
@@ -218,9 +215,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
     if (joinedArray?.length >= 1) {
       setAddSubmitdata(joinedArray)
     }
-    const rr = [values, gamesValues]
     // console.log(rr,"rr");
-
 
   };
 
@@ -492,7 +487,8 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     owner_night_prices: '0'
   })
   // console.log(JSON.stringify(formData), "---JSON.stringify(formData)---");
-
+  console.log(formData,"-----formData------");
+  
   const handleChange = e => {
 
     const { name, value } = e.target
@@ -646,7 +642,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     <div className='text-xs xl:text-base text-black'>
       {propertyDetails ? (
         <div className='bg-[#f5f5f5] p-4'>
-          <div className='flex lg:flex-row flex-col gap-4 xl:gap-6'>
+          <div className='flex lg:flex-row flex-col gap-4 xl:gap-10'>
             <div className=''>
               <div className='z-10 xl:w-[320px] xl:h-[310px] w-full h-[200px]'>
                 {/* Image */}
@@ -668,7 +664,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 {/* Right arrow */}
                 <button
                   onClick={goToNext}
-                  className='relative z-20 left-32 xl:left-60 bottom-28 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                  className='relative z-20 left-32 lg:left-48  xl:left-60 bottom-28 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                 >
                   <IoIosArrowForward size={20} />
                 </button>
@@ -820,49 +816,36 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
             </div>
             <div className=''>
               <p className='font-bold text-black pb-3'>Owner Profile</p>
-              <div className='flex flex-col items-center space-x-4 bg-white p-1 rounded-md h-fit'>
-                <div>
-                  <p className='text-gray-800 font-medium capitalize flex gap-1 items-center'>
-                    <span>
-                      <img
-                        src='https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg' // Replace with avatar
-                        alt='Owner'
-                        className='rounded-full w-10 h-10'
-                      />
-                    </span>
-                    <span>{totalDetails.property_data.profile_name}</span>
-                  </p>
+              <div >
+                <div className='flex flex-col gap-y-1 bg-white p-2 rounded-md h-fit'>
+                  
                   <p className=' text-gray-500'>
                     Partner Number: {totalDetails.property_data.owner_number}
                   </p>
                   <p className=' text-gray-500'>
-                    Watchman:
-                    {totalDetails.property_data.property_watch_man_number}{' '}
+                    Watchman Number: {totalDetails.property_data.property_watch_man_number}
+                  </p>
+                  <p className=' text-gray-500'>
+                    Alternate Number: {totalDetails.property_data.property_alternate_number}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className='flex lg:flex-row flex-col items-center gap-14 pt-9'>
+          <div className='flex lg:flex-row flex-col  gap-14 pt-9'>
             <div className=' '>
-              <div className='flex flex-col'>
-                <p className='font-bold text-black'>Approved By</p>
+              
+                <p className='font-bold text-black pb-4'>Approved By</p>
                 <div className='flex bg-white items-center p-2'>
-                  <img
-                    src='https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg' // Replace with avatar
-                    alt='Owner'
-                    className='rounded-full w-5 h-5'
-                  />
+                  
                   <div className=' p-4 rounded-md'>
-                    <p className='text-gray-800 font-medium capitalize'>
-                      {totalDetails.property_data.profile_name}
-                    </p>
+                    
                     <p className=' text-gray-500'>
-                      {totalDetails.property_data.owner_number}
+                      {totalDetails.property_data.approval_team_user_phone?totalDetails.property_data.approval_team_user_phone:<span className='text-red-600'>Not yet assigned</span>}
                     </p>
                   </div>
                 </div>
-              </div>
+             
             </div>
             <div className='flex gap-2 '>
               <div className='flex flex-col item space-x-4'>
@@ -1019,16 +1002,17 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                     buttons: ["No, cancel", "Yes, approve it!"],
                     dangerMode: true,
                   }).then((willApprove) => {
-                    if (willApprove) {
+                    if (willApprove && formData?.owner_morning_prices>0 && formData?.owner_night_prices>0 && formData?.owner_weekday_prices>0 && formData?.owner_weekend_prices>0 && formData?.customer_morning_prices>0 && formData?.customer_night_prices>0 && formData?.property_price>0 && formData?.property_weekend_price>0) {
                       // If the user clicks "Yes, approve it!", update the status
                       setFormData(prevFormData => ({
                         ...prevFormData,
                         status: 'approved'
                       }));
                       setFarmHStatus('approved');
+
                       swal("Approved!", "The item has been approved.", "success");
                     } else {
-                      swal("Cancelled", "The approval was cancelled.", "info");
+                      swal("Warning !", "Please fill all the prices fields.", "info");
                     }
                   });
                 }}
@@ -1109,7 +1093,7 @@ const FarmHouseAccordion = () => {
 
     setRp(rp + 1);
   };
-  console.log(rp, "refrsh page");
+  // console.log(rp, "refrsh page");
 
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
@@ -1127,7 +1111,7 @@ const FarmHouseAccordion = () => {
                 }
               >
                 <span>
-                  {farmHouse.property_name} ({farmHouse.property_id})
+                  {farmHouse.property_name.replaceAll('_',' ')} 
                 </span>
                 <span>
                   <IoIosArrowDown
@@ -1140,7 +1124,7 @@ const FarmHouseAccordion = () => {
                 </span>
               </button>
               {activePropertyId === farmHouse.property_id && (
-                <PropertyDetails propertyId={farmHouse.property_id} onUpdate={handleUpdateFarmhouseList} onUpdateAmm />
+                <PropertyDetails propertyId={farmHouse.property_id} onUpdate={handleUpdateFarmhouseList} />
               )}
             </div>
           ))}

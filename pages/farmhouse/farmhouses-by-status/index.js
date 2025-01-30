@@ -155,10 +155,10 @@ const OnlineFarmHouses = () => {
             onChange={(e) => setFhstatus(e.target.value)}
             value={fhstatus}
           >
-            <option value="all" >All</option>
-            <option value="rejected" >rejected</option>
+            <option value="all" >Show All</option>
+            <option value="rejected" >Rejected</option>
             <option value="in_progress" >In progress</option>
-            <option value="approved" >approved</option>
+            <option value="approved" >Approved</option>
 
           </select>
         </div>

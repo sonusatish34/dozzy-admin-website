@@ -225,16 +225,16 @@ const ComponentName = (props) => {
                                     >
                                         <IoIosArrowForward size={20} />
                                     </button>
-                                    <p className="text-black pt-3">
-                                        {images[currentIndex]?.attribute_name}
+                                    <p className="pb-2 pl-2 capitalize text-black">
+                                        {images[currentIndex]?.attribute_name.replaceAll('_', ' ')}
                                     </p>
                                     {/* <p className="bg-red-500 text-blue-300 p-3">{images[currentIndex].attribute_status}</p> */}
                                     {isModalOpen && (
                                         <div className="absolute inset-0 z-50 flex items-center w-[700px]">
-                                            <div className="bg-white py-8 rounded-xl  relative bottom-1 left-[27rem]">
+                                            <div className="bg-white p-10 rounded-xl  relative bottom-1 left-[27rem]">
                                                 <button
                                                     onClick={closeModal}
-                                                    className="absolute top-4 right-4 w-10 h-10 text-white bg-red-500  rounded-full p-2"
+                                                    className="absolute top-0 right-4 w-10 h-10 text-white bg-red-500  rounded-full p-2"
                                                 >
                                                     x
                                                 </button>
@@ -243,7 +243,7 @@ const ComponentName = (props) => {
                                                     alt="Large view"
                                                     width={500}
                                                     height={500}
-                                                    className="w-[500px] h-[500px] object-contain rounded-2xl"
+                                                    className="w-[500px] h-[500px] object-contain"
                                                 />
                                             </div>
                                         </div>
@@ -260,7 +260,7 @@ const ComponentName = (props) => {
                                                 <ul className=" pl-5  text-gray-900 ">
                                                     {totalDetails.amenities.map((item, index) => (
                                                         <li key={index} className="capitalize">
-                                                            {item.attribute_name}-{item.attribute_value}
+                                                            {item?.attribute_value>=1 && <span> {item.attribute_name.replace('no_of_', '')}-{item.attribute_value}</span>}
                                                         </li>
                                                     ))}
                                                 </ul>
@@ -416,7 +416,7 @@ const ComponentName = (props) => {
                                 <div className="flex flex-col gap-4">
                                     <div className="flex flex-col gap-y-2">
                                         <p className="font-bold text-black">Assigned To</p>
-                                        <p className="bg-white p-2 rounded-md">jiii</p>
+                                        <p className="bg-white p-2 rounded-md">{totalDetails.property_data.approval_team_user_phone}</p>
                                     </div>
                                     <div className="flex flex-col items-center space-x-4">
                                         <p className="font-bold text-black">Customer Details</p>

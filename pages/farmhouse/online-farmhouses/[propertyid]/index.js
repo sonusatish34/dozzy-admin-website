@@ -99,13 +99,30 @@ const ComponentName = (props) => {
     }
   }, [showBank])
   console.log(bankDetails, "bdd");
-   const converDate = (data) => {
-          const date = new Date(data);
-          // Format the date as '14th Sep 2024'
-          const formattedDate = format(date, " h a , dd MMM YYY ");
-          console.log(formattedDate);
-          return formattedDate
-      }
+  const converDate = (data) => {
+    const date = new Date(data);
+    // Format the date as '14th Sep 2024'
+    const formattedDate = format(date, " h a , dd MMM ");
+    console.log(formattedDate);
+    return formattedDate
+  }
+
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+  // Function to open modal and set the image
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage('');
+  };
+
   return (
     <div>
       <CommonLayout>
@@ -126,9 +143,8 @@ const ComponentName = (props) => {
                         className="rounded-lg w-72 object-cover"
                       />
                     </div> */}
-                <div className="col-span-12 md:col-span-4 relative">
-                  <div className="relative w-full h-[300px]">
-                    {/* Image */}
+                <div className="">
+                  <div className="w-[400px] h-[300px]">
                     <img
                       src={
                         images[currentIndex]?.attribute_value
@@ -136,31 +152,50 @@ const ComponentName = (props) => {
                           : "/"
                       }
                       alt="Farmhouse"
-                      className="rounded-lg w-[400px]  h-[250px] object-cover"
+                      className="rounded-lg object-cover w-[400px] h-[300px]"
+                      onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
+
                     />
                   </div>
 
-                  {/* Left arrow */}
                   <button
                     onClick={goToPrevious}
-                    className="absolute top-1/2 left-0 transform -translate-y-1/2  "
+                    className='relative z-20 left-2 xl:left-2 bottom-36 *: text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                   >
-                    {/* Left arrow symbol */}
                     <IoIosArrowBack size={20} />
                   </button>
 
                   {/* Right arrow */}
                   <button
                     onClick={goToNext}
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 rounded-full"
+                    className='relative z-20 left-32 xl:left-80 bottom-36 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                   >
                     <IoIosArrowForward size={20} />
                   </button>
-                  <p className="text-black pt-3">
+                  <p className="text-black pl-2 xl:text-xl capitalize">
                     {images[currentIndex]?.attribute_name}
                   </p>
                   {/* <p className="bg-red-500 text-blue-300 p-3">{images[currentIndex].attribute_status}</p> */}
                 </div>
+                {isModalOpen && (
+                  <div className="absolute inset-0 z-50 flex items-center bg-black bg-opacity-50">
+                    <div className="bg-white py-8 rounded-xl w-fit relative bottom-1 left-[27rem]">
+                      <button
+                        onClick={closeModal}
+                        className="absolute top-4 right-4 w-10 h-10 text-white bg-red-500  rounded-full p-2"
+                      >
+                        x
+                      </button>
+                      <Image
+                        src={selectedImage}
+                        alt="Large view"
+                        width={500}
+                        height={500}
+                        className="w-[500px] h-[500px] object-contain rounded-2xl"
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div className="">
                   <div>
@@ -204,7 +239,7 @@ const ComponentName = (props) => {
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-">
                           <div className="flex justify-center items-center ">
-                            <div className="bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full">
+                            <div className="bg-white h-[700px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full">
                               <button
                                 onClick={() => {
                                   setShowProof(false);
@@ -218,8 +253,7 @@ const ComponentName = (props) => {
                               </h2>
                               <img
                                 src={
-                                  totalDetails.owner_profile[0]
-                                    .electricity_bill_image
+                                  totalDetails.owner_profile[0].electricity_bill_image
                                 }
                                 height={1000}
                                 width={1000}
@@ -230,11 +264,11 @@ const ComponentName = (props) => {
                                 Aadhar
                               </h2>
                               <Image
-                                src={"/pix.jpg"}
+                                src={totalDetails.owner_profile[0].aadhar_image_url}
                                 height={1000}
                                 width={1000}
                                 alt="dozzy farmhouse logo"
-                                className="w-40"
+                                className="w-72 h-36"
                               />
                             </div>
                           </div>
@@ -366,7 +400,7 @@ const ComponentName = (props) => {
                             <th className="p-2 border-b border-l border-gray-300 text-left">
                               Reviews
                             </th>
-                           
+
                           </tr>
                         </thead>
                         <tbody>
@@ -375,11 +409,11 @@ const ComponentName = (props) => {
                               <td className="p-2 border-b  border-gray-300">
                                 <p>Booking Id: {item?.booking_id}</p>
                                 <p>
-                                  Check In: 
+                                  Check In:
                                   {converDate(item.booking_start_date)}
                                 </p>
                                 <p>
-                                  Check Out: 
+                                  Check Out:
                                   {converDate(item.booking_end_date)}
                                 </p>
                                 <p>Duration: {item?.booking_hours} Hours</p>
@@ -399,7 +433,7 @@ const ComponentName = (props) => {
                               <td className="p-2 border-b border-l border-gray-300 underline">
                                 View Reviews
                               </td>
-                              
+
                             </tr>
                           ))}
                         </tbody>
