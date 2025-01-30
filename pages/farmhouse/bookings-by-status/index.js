@@ -118,6 +118,24 @@ const OnlineFarmHouses = () => {
 
         fetchCitiesData();
     }, [loc, bkStatus]); // Dependency on userAuthorization to ensure API call happens after loading user info
+    
+    const [filteredPosts, setFilteredPosts] = useState([]);
+
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        if (searchQuery) {
+            const filtered = bookingData?.results?.filter(post => {
+                const bookingId = String(post.booking_id).toLowerCase();
+                const propertyName = post.property_name.toLowerCase();
+                return bookingId.includes(searchQuery.toLowerCase()) || propertyName.includes(searchQuery.toLowerCase());
+            });
+
+            setFilteredPosts(filtered);
+        } else {
+            setFilteredPosts(bookingData?.results);
+        }
+    }, [searchQuery, bookingData, bkStatus]);
     const converDate = (data) => {
         const date = new Date(data);
         // Format the date as '14th Sep 2024'
@@ -127,7 +145,7 @@ const OnlineFarmHouses = () => {
 
     return (
         <div>
-            {<CommonLayout>
+            {<CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / Booking id'>
                 <p className=" pl-5 text-3xl font-bold pt-10 text-black capitalize">{bkStatus.replace('_', ' ')}  Bookings   - {bookingData?.count}</p>
                 <div className="px-4">
                     {/* // <p className="pl-5 pt-4 text-lg text-black">Total Bookings</p> */}
@@ -161,8 +179,6 @@ const OnlineFarmHouses = () => {
                                 "loading" ? <option>Loading...</option> : <option>{error}</option>
                             )}
                         </select>
-                        {/* ---------------------------- */}
-
                         <select
                             className="p-2 bg-[#f7f7f7] rounded-md"
                             onChange={(e) => setBkStatus(e.target.value)}
@@ -173,12 +189,11 @@ const OnlineFarmHouses = () => {
                             <option value="in_progress" >In progress</option>
                             <option value="canceled" >cancelled</option>
                             <option value="replaced" >replaced</option>
-
                         </select>
                     </div>
                     <div className="text-black pt-3 flex flex-col gap-3">
                         {Loading ? <LoadingComp /> : (bookingData?.count) &&
-                            bookingData?.results.map((item, index) => (
+                            filteredPosts?.map((item, index) => (
                                 <Link
                                     href={`/farmhouse/bookings-by-status/${item.property_id}/${item.booking_id}`}
                                     key={index}

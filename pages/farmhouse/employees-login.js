@@ -6,7 +6,7 @@ const ComponentName = (props) => {
     const [submited, setSubmited] = useState(false);
     const [error, setError] = useState('');
     const [emplList, setEmplList] = useState('');
-    const [empType, setEmpType] = useState('4');
+    const [empType, setEmpType] = useState('3');
 
     const [formData, setFormData] = useState({
         user_phone: "",

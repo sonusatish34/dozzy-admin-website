@@ -107,7 +107,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
             type="text"
             onChange={handleSearch}
             maxLength={10}
-            className={`overflow-hidden border-2 lg:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-full lg:pl-12 placeholder:text-gray-700 ${router.pathname=='/dashboard'?'invisible':''}`}
+            className={`overflow-hidden border-2 lg:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-full lg:pl-12 placeholder:text-gray-700 ${router.pathname == '/dashboard' ? 'invisible' : ''}`}
             placeholder={placeholderText || "Search here"}
           />
           {console.log(router.pathname)
@@ -138,7 +138,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
 
           {/* Farmhouse link with dropdown toggle */}
           <div>
-            <div className={`${router.pathname.includes("farmhouse") ? "bg-white" : ""}`} onClick={handleFarmhouseClick}>
+            <div onClick={handleFarmhouseClick}>
               <div className={`flex items-center gap-1 text-black-300 cursor-pointer pl-3 py-1 mb-2`}>
                 <Image src={"/Frame 4 (1).png"} height={500} width={500} className="w-6" alt="farmhouse" />
                 <span>Farmhouse</span>
@@ -148,21 +148,114 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
             {/* Accordion-style submenu */}
             {isFarmhouseOpen && (
               <div className="pl-1">
-                <Link href={"/farmhouse/submenu1"}>
-                  <div className="flex items-center text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2">
-                    <span>Farmhouse Submenu 1</span>
-                  </div>
+                <ul className="w-fit pr-5 flex flex-col gap-3">
+                  <li>
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/login-but-not-uploaded"}
+                    >
+                      <span className="">Login but not uploaded</span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>
+                  <li className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full">
+                    {/* <span className="">Pending approvals</span><span><IoIosArrowForward /></span> */}
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/pending-approvals"}
+                    >
+                      <span className="">Pending approvals</span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>
+                  {/* <li className="text-white bg-[#556EE6] text-sm flex items-center justify-between pr- gap-2 w-full">
+                <Link
+                  className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                  href={"/farmhouse/rejected-farmhouses"}
+                >
+                  <span className="">Rejected farmhouses</span>
+                  <span>
+                    <IoIosArrowForward />
+                  </span>
                 </Link>
-                <Link href={"/farmhouse/submenu2"}>
-                  <div className="flex items-center text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2">
-                    <span>Farmhouse Submenu 2</span>
-                  </div>
-                </Link>
-                <Link href={"/farmhouse/submenu3"}>
-                  <div className="flex items-center text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2">
-                    <span>Farmhouse Submenu 3</span>
-                  </div>
-                </Link>
+
+              </li> */}
+
+                  <li>
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/farmhouses-by-status"}
+                    >
+                      <span className=" capitalize">Farmhouses By Status
+                        {/* - {farmHDetails?.total_farmhouses ? farmHDetails.total_farmhouses : '0'} */}
+                      </span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/online-farmhouses"}
+                    >
+                      <span className=" capitalize">online farmhouses </span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/offline-farmhouses"}
+                    >
+                      <span className=" capitalize">Offline farmhouses </span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>
+                 
+                  <li>
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/bookings-by-status"}
+                    >
+                      <span className=" capitalize">Bookings By Status</span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/employees-login"}
+                    >
+                      <span className=" capitalize">Employee Logins</span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>
+                
+                  { <li>
+                    <Link
+                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      href={"/farmhouse/documents-pending"}
+                    >
+                      <span className=" capitalize">Documents pending</span>
+                      <span>
+                        <IoIosArrowForward />
+                      </span>
+                    </Link>
+                  </li>}
+                </ul>
               </div>
             )}
           </div>

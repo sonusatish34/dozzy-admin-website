@@ -177,7 +177,7 @@ export default function Login() {
         ) : (
           <div className="flex flex-col gap-3">
             <p className="font-bold text-xl">Please check WhatsApp</p>
-            <p className="font-bold">{String(phoneNumber)}</p>
+            <p className="font-bold">{String(phoneNumber).replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}</p>
             <div>
               <input
                 type="text"

@@ -8,12 +8,14 @@ import { useRouter } from "next/router";
 const ComponentName = (props) => {
 
   const [isOpen, setIsOpen] = useState(false); // state to toggle accordion
-
+  const [userType, setUserType] = useState(false); // state to toggle accordion
+  
   const [farmHDetails, setFarmHDetails] = useState(null)
   useEffect(() => {
     const getDashboard = async () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       const auth = localStorage.getItem("tboo_" + storedUserPhone + "_token");
+      setUserType(localStorage.getItem("tboo_" + storedUserPhone + "_roleid"))
       const myHeaders = new Headers();
       myHeaders.append("accept", "application/json");
       myHeaders.append("Authorization", auth);
@@ -37,7 +39,8 @@ const ComponentName = (props) => {
     getDashboard()
 
   }, [])
-
+  console.log(userType,"userType");
+  
   return (
     <CommonLayout>
       <div>
@@ -181,7 +184,7 @@ const ComponentName = (props) => {
                   </span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   className="text-white bg-[#556EE6] text-lg flex items-center justify-between pr-4 gap-16 w-96"
                   href={"/farmhouse/online-farmhouses"}
@@ -191,8 +194,8 @@ const ComponentName = (props) => {
                     <IoIosArrowForward />
                   </span>
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {userType=='4' && <li>
                 <Link
                   className="text-white bg-[#556EE6] text-lg flex items-center justify-between pr-4 gap-16 w-96"
                   href={"/farmhouse/documents-pending"}
@@ -202,7 +205,7 @@ const ComponentName = (props) => {
                     <IoIosArrowForward />
                   </span>
                 </Link>
-              </li>
+              </li>}
             </ul>
           </div>
         }

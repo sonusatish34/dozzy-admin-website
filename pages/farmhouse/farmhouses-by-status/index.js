@@ -4,10 +4,12 @@ import CommonLayout from "@/pages/components/layout/CommonLayout";
 import { FiCopy } from "react-icons/fi"; // You can use react-icons for the copy symbol
 import Image from "next/image";
 import Link from "next/link";
+import LoadingComp from "@/pages/components/Loading";
 const OnlineFarmHouses = () => {
   const [cities, setCities] = useState("");
   const [loc, setLoc] = useState("Hyderabad");
   const [fhstatus, setFhstatus] = useState("all");
+  const [loading, setLoading] = useState(false);
 
   const [locData, setLocData] = useState("");
 
@@ -23,6 +25,7 @@ const OnlineFarmHouses = () => {
     }
     // Make API call
     const fetchCities = async () => {
+      setLoading(true);
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
 
       try {
@@ -54,7 +57,7 @@ const OnlineFarmHouses = () => {
       } catch (error) {
         console.log(error.message);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
 
@@ -73,6 +76,7 @@ const OnlineFarmHouses = () => {
     }
     // Make API call
     const fetchCitiesData = async () => {
+      setLoading(true);
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
@@ -104,7 +108,7 @@ const OnlineFarmHouses = () => {
       } catch (error) {
         console.log(error.message);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
 
@@ -160,7 +164,7 @@ const OnlineFarmHouses = () => {
         </div>
 
         <div className="text-black pt-3 flex flex-col gap-3">
-          {filteredPosts?.length &&
+          {loading ? <LoadingComp /> : filteredPosts?.length &&
             filteredPosts?.map((item, index) => (
               <div key={index} className="bg-gray-200 py-2 flex justify-between px-4">
                 <div className="flex gap-6 bg-yellow-10 w-[600px]">

@@ -294,12 +294,13 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
                   {totalDetails?.games.length<1 && <p>No games available</p>}
                 </ul> */}
                 <ul className='custom-scrollbar flex flex-col  gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
+                  <p className='font-bold text-2xl'>Games</p>
                   {totalDetails.games.map((item, index) => {
                     const itemValue = gamesValues[index] || 0; // Get the current value for this item
                     return (
                       <li key={index} className='capitalize flex justify-between items-center'>
                         {`${item?.attribute_name.replace('no_of_', '').replace('_', ' ')}`}
-                        <div className='flex gap-1 items-center'>
+                        <div className='flex gap-1 items-center pl-2'>
                           <button
                             type='button'
                             className='text-2xl border-black border-2 text-black rounded-full h-10 w-10'
@@ -450,6 +451,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
       }
     }
     fetchPropertyDetails()
+    console.log("in our page")
   }, [propertyId, rpAm])
   // console.log(totalDetails.amenities,"yyyytttt");
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -589,6 +591,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
         if (response.ok) {
           const data = await response.json();
           // console.log(data, "data");
+          setRpAm(rpAm + 1)
           swal({
             title: "Image Uploaded Successfully",
             text: "",
@@ -782,7 +785,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                             height={1000}
                             width={1000}
                             alt='dozzy farmhouse logo'
-                            className='w-72 h-72'
+                            className='w-72 h-72 object-contain'
                           />
                           <h2 className='text-2xl font-bold mb-4 pt-4'>
                             Aadhar
@@ -792,7 +795,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                             height={1000}
                             width={1000}
                             alt='dozzy farmhouse logo'
-                            className='w-40'
+                            className='w-40 h-20 object-contain'
                           />
                         </div>
                       </div>
@@ -968,7 +971,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 <div>
                   <div className='text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-'>
                     <div className='flex justify-center items-center '>
-                      <div className='bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full'>
+                      <div className='bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full relative top-10'>
                         <button
                           onClick={() => {
                             setshowReject(false)
@@ -1006,19 +1009,35 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                   </div>
                 </div>
               )}
+
               <button
                 onClick={() => {
-                  // setRejectFm(true);
-                  setFormData(prevFormData => ({
-                    ...prevFormData,
-                    status: 'approved'
-                  }))
-                  setFarmHStatus('approved')
+                  swal({
+                    title: "Are you sure?",
+                    text: "You are about to approve this item.",
+                    icon: "warning",
+                    buttons: ["No, cancel", "Yes, approve it!"],
+                    dangerMode: true,
+                  }).then((willApprove) => {
+                    if (willApprove) {
+                      // If the user clicks "Yes, approve it!", update the status
+                      setFormData(prevFormData => ({
+                        ...prevFormData,
+                        status: 'approved'
+                      }));
+                      setFarmHStatus('approved');
+                      swal("Approved!", "The item has been approved.", "success");
+                    } else {
+                      swal("Cancelled", "The approval was cancelled.", "info");
+                    }
+                  });
                 }}
-                className='p-4 bg-[#556EE6] flex justify-center items-center lg:h-12 lg:w-36 h-8 w-20 rounded-md text-white'
+                className="p-4 bg-[#556EE6] flex justify-center items-center lg:h-12 lg:w-36 h-8 w-20 rounded-md text-white"
               >
                 Approve
               </button>
+
+
               {/* <button>Approve</button> */}
             </div>
           </div>
@@ -1040,13 +1059,20 @@ const FarmHouseAccordion = () => {
     const fetchFarmHouses = async () => {
       const userPhone = localStorage.getItem(
         'tboo_user_phone')
-      var userAuthorization = localStorage.getItem(
+      const userAuthorization = localStorage.getItem(
         'tboo_' + userPhone + '_token'
       )
+      const userType = localStorage.getItem(
+        'tboo_' + userPhone + '_roleid'
+      )
+
+      var userDetails = window.localStorage.getItem('tboo_' + userPhone + "_details");
+      var parseDetails = JSON.parse(userDetails);
+      var appUserId = parseDetails['id'];
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/pending-approvals?status=in_progress&program_id=1&approval_user_id=0`,
+          `https://staging.dozzy.com/admin/pending-approvals?status=in_progress&program_id=1&approval_user_id=${userType == '3' ? '0' : appUserId}`,
           {
             method: 'GET',
             headers: {
@@ -1061,10 +1087,7 @@ const FarmHouseAccordion = () => {
         console.error('Error:', error)
       }
     }
-
     fetchFarmHouses()
-    console.log("new regresh in a[i ca;;");
-    
   }, [rp])
   const [filteredPosts, setFilteredPosts] = useState([]);
 
@@ -1083,7 +1106,7 @@ const FarmHouseAccordion = () => {
   const handleUpdateFarmhouseList = () => {
     // fetchFarmhouses();
     console.log("into updating rp +1 ");
-    
+
     setRp(rp + 1);
   };
   console.log(rp, "refrsh page");
@@ -1117,7 +1140,7 @@ const FarmHouseAccordion = () => {
                 </span>
               </button>
               {activePropertyId === farmHouse.property_id && (
-                <PropertyDetails propertyId={farmHouse.property_id} onUpdate={handleUpdateFarmhouseList} />
+                <PropertyDetails propertyId={farmHouse.property_id} onUpdate={handleUpdateFarmhouseList} onUpdateAmm />
               )}
             </div>
           ))}

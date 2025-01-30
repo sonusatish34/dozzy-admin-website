@@ -102,7 +102,7 @@ const ComponentName = (props) => {
    const converDate = (data) => {
           const date = new Date(data);
           // Format the date as '14th Sep 2024'
-          const formattedDate = format(date, " h a , dd MMM ");
+          const formattedDate = format(date, " h a , dd MMM YYY ");
           console.log(formattedDate);
           return formattedDate
       }
