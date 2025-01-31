@@ -144,7 +144,7 @@ const ComponentName = (props) => {
                       />
                     </div> */}
                 <div className="">
-                  <div className=" xl:w-[400px] xl:h-[300px] lg:w-[300px] lg:h-[300px]">
+                  <div className=" xl:w-[400px] xl:h-[300px] lg:w-[250px] lg:h-[300px]">
                     <Image
                       src={
                         images[currentIndex]?.attribute_value
@@ -152,7 +152,7 @@ const ComponentName = (props) => {
                           : "/"
                       }
                       alt="Farmhouse"
-                      className="rounded-lg object-cover xl:w-[400px] xl:h-[300px] lg:w-[300px] lg:h-[300px]"
+                      className="rounded-lg object-cover xl:w-[400px] xl:h-[300px] lg:w-[250px] lg:h-[300px]"
                       onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
                       height={1000}
                       width={1000}
@@ -205,7 +205,7 @@ const ComponentName = (props) => {
                         Amenities
                       </h3>
                       <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll">
-                        <ul className=' pl-5 pt-4 text-gray-900 '>
+                        <ul className=' pl-2 pt-4 text-gray-900 '>
                           {totalDetails?.amenities.map((item, index) => (
                             <li key={index} className='capitalize'>
                               {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('no_of_', '').replace('_', ' ')} ` : ''}
@@ -241,7 +241,7 @@ const ComponentName = (props) => {
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-">
                           <div className="flex justify-center items-center ">
-                            <div className="bg-white absolute top-9 h-[680px] w-[300px] transition-all duration-300 ease-in-out p-8 pb-3 rounded-lg">
+                            <div className="bg-white absolute top-9 xl:h-[680px] lg:h-[400px] w-[300px] transition-all duration-300 ease-in-out p-8 pb-3 rounded-lg">
                               <h2 className="text-2xl font-bold mb-4">
                                 Current Bill
                               </h2>
@@ -281,41 +281,42 @@ const ComponentName = (props) => {
                         </div>
                       </div>
                     )}
-                    {showBank && (
-                      <div>
-                        <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h- flex justify-center">
-                          <div className="bg-white relative top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
-                            <button
-                              onClick={() => {
-                                setShowBank(false);
-                              }}
-                              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
-                            >
-                              Close
-                            </button>
-                            <h2 className="text-2xl font-bold pt-8 pb-3">
-                              Bank Details
-                            </h2>
-                            {bankDetails?.data?.results && bankDetails?.data?.results.map((item, index) => (
-                              <ul className="capitalize flex flex-col gap-2">
-                                <li>bank account name : {item.bank_account_name}</li>
-                                <li>bank name : {item.bank_name}</li>
-                                <li>bank account number : {item.bank_account_number}</li>
-                                <li>bank ifsc code : {item.bank_ifsc_code}</li>
-                                <li className="pt-3">
-                                  <Image
-                                    height={1000}
-                                    width={1000}
-                                    src={item.passbook_image_url}
-                                    className="w-full h-[150px] rounded-lg object-contain"
-                                  />
-                                </li>
-                              </ul>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                     {showBank && (
+                                            <div>
+                                                <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h- flex justify-center">
+                                                    <div className="bg-white relative top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
+                                                        <button
+                                                            onClick={() => {
+                                                                setShowBank(false);
+                                                            }}
+                                                            className="bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 relative float-right"
+                                                        >
+                                                            X
+                                                        </button>
+                                                        <h2 className="text-2xl font-bold mb-4 pt-9">
+                                                            Bank Details
+                                                        </h2>
+
+                                                        {bankDetails?.data?.results && bankDetails?.data?.results.map((item, index) => (
+                                                            <ul className="capitalize flex flex-col gap-2">
+                                                                <li>bank account name : {item.bank_account_name}</li>
+                                                                <li>bank name : {item.bank_name}</li>
+                                                                <li>bank account number : {item.bank_account_number}</li>
+                                                                <li>bank ifsc code : {item.bank_ifsc_code}</li>
+                                                                <li className="pt-3">
+                                                                    <Image
+                                                                        height={1000}
+                                                                        width={1000}
+                                                                        src={item.passbook_image_url}
+                                                                        className="w-full h-[150px] rounded-lg object-contain"
+                                                                    />
+                                                                </li>
+                                                            </ul>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                   </div>
                 </div>
                 <div className=" h-fit">

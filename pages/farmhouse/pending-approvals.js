@@ -227,9 +227,9 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
             <div className='bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-x w-fit'>
               <button
                 onClick={() => setShowAmenitiesEdit(false)}
-                className='bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition'
+                className='relative lg:left-[520px] bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition'
               >
-                Close
+                X
               </button>
               <h2 className='text-2xl font-bold mb-4 pt-4'>Edit Amenities & Games</h2>
               <div className='flex flex-col lg:flex-row gap-6 bg-white rounded-md p-1'>
@@ -768,9 +768,9 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                             onClick={() => {
                               setShowProof(false)
                             }}
-                            className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition'
+                            className='relative lg:left-72 bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition'
                           >
-                            Close
+                            X
                           </button>
                           <h2 className='text-2xl font-bold mb-4'>
                             Current Bill
@@ -783,7 +783,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                             height={1000}
                             width={1000}
                             alt='dozzy farmhouse logo'
-                            className='w-72 h-72 object-contain'
+                            className='w-full h-72 object-contain'
                           />
                           <h2 className='text-2xl font-bold mb-4 pt-4'>
                             Aadhar
@@ -793,7 +793,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                             height={1000}
                             width={1000}
                             alt='dozzy farmhouse logo'
-                            className='w-40 h-20 object-contain'
+                            className='w-full h-20 object-contain'
                           />
                         </div>
                       </div>
@@ -962,9 +962,9 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                           onClick={() => {
                             setshowReject(false)
                           }}
-                          className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition'
+                          className='relative lg:left-72 bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 transition'
                         >
-                          Close
+                          X
                         </button>
                         <h2 className='text-2xl font-bold mb-4 pt-4'>
                           Reason For Blocking

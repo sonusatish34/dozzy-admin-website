@@ -335,16 +335,16 @@ const ComponentName = (props) => {
                                         {showBank && (
                                             <div>
                                                 <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h- flex justify-center">
-                                                    <div className="bg-white h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
+                                                    <div className="bg-white relative top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
                                                         <button
                                                             onClick={() => {
                                                                 setShowBank(false);
                                                             }}
-                                                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+                                                            className="bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 relative float-right"
                                                         >
-                                                            Close
+                                                            X
                                                         </button>
-                                                        <h2 className="text-2xl font-bold mb-4">
+                                                        <h2 className="text-2xl font-bold mb-4 pt-9">
                                                             Bank Details
                                                         </h2>
 
@@ -382,25 +382,25 @@ const ComponentName = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="bg-white p-4 rounded-md h-fit">
-                                    <div className="flex flex-col items-center space-x-4">
-                                        <p className="font-bold text-black">Owner Profile</p>
+                                <div className=" flex flex-col gap-2">
+                                    <p className="font-bold text-black">Owner Profile</p>
+                                    <div className="flex flex-col items-center space-x-4 bg-white p-4 rounded-md h-fit">
                                         <div>
                                             <p className="text-gray-800 font-medium capitalize flex gap-1 items-center">
                                                 <span>
                                                     <img
-                                                        src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" // Replace with avatar
+                                                        src={totalDetails.property_data.profile_photo_url} // Replace with avatar
                                                         alt="Owner"
-                                                        className="rounded-full w-10 h-10"
+                                                        className="rounded-full w-10 h-10 object-cover"
                                                     />
                                                 </span>
                                                 <span>{totalDetails.property_data.profile_name}</span>
                                             </p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className=" text-gray-500">
                                                 Partner Number:{" "}
                                                 {totalDetails.property_data.owner_number}
                                             </p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className=" text-gray-500">
                                                 Watchman:
                                                 {
                                                     totalDetails.property_data.property_watch_man_number
