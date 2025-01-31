@@ -142,7 +142,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
         redirect: "follow",
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL2}/admin/update-amenity`, requestOptions);
+      const response = await fetch(`https://staging.dozzy.com/admin/update-amenity`, requestOptions);
       const data = await response.json();
       // Handle API respons
       // console.log(data, "uodpate success");
@@ -178,7 +178,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
         redirect: "follow",
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL2}/admin/add-attribute`, requestOptions);
+      const response = await fetch(`https://staging.dozzy.com/admin/add-attribute`, requestOptions);
       const data = await response.json();
 
       // Handle API response

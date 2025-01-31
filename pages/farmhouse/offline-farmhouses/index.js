@@ -66,7 +66,7 @@ const OnlineFarmHouses = () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL2}/admin/offline-properties?location=${loc}`,
+          `https://staging.dozzy.com/admin/offline-properties?location=${loc}`,
           {
             method: "GET",
             headers: {

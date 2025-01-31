@@ -8,7 +8,7 @@ export default (req, res) => {
 
             try {
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_URL2}/admin/property-cities`,
+                    `https://staging.dozzy.com/admin/property-cities`,
 
                     {
                         method: "GET",

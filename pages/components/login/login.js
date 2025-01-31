@@ -36,7 +36,7 @@ export default function Login() {
   console.log(process.env.NEXT_PUBLIC_URL2,"process.env.NEXT_PUBLIC_URL2");
   
   const sendOtp = async () => {
-    const url = `${process.env.NEXT_PUBLIC_URL2}/admin/login`;
+    const url = `https://staging.dozzy.com/admin/login`;
     const options = {
       method: 'POST',
       headers: {

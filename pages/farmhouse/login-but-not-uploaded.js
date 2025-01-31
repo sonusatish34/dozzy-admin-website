@@ -41,7 +41,7 @@ const LoginButNotUploaded = () => {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL2}/admin/login-not-uploaded`,
+          `https://staging.dozzy.com/admin/login-not-uploaded`,
           {
             method: "GET",
             headers: {

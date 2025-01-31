@@ -20,7 +20,7 @@ const ComponentName = (props) => {
         redirect: "follow"
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL2}/admin/dashboard`, requestOptions)
+      const response = await fetch(`https://staging.dozzy.com/admin/dashboard`, requestOptions)
       const data = await response.json();
       setFarmHDetails(data?.results?.farmhouse_details)
       console.log(data, "1234567890");
