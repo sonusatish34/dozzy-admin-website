@@ -224,7 +224,7 @@ const ComponentName = (props) => {
                   </div>
                   <div className="flex flex-col items-center space-x-4 bg-white p-4 rounded-md h-fit">
                     <button className="bg-white w-full px-3 py-2 text-black rounded-md">
-                      Farmhouse Sq. Yards{" "}
+                      Farmhouse Sq. Yards{" : "}
                       {totalDetails.property_data.property_square_yards}
                     </button>
                   </div>
@@ -265,7 +265,7 @@ const ComponentName = (props) => {
                     </h3>
                     <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll">
                       <ul className=" pl-5  text-gray-900 ">
-                        {totalDetails.amenities.map((item, index) => (
+                        {totalDetails?.amenities.map((item, index) => (
                           <li key={index} className="capitalize">
                             {item.attribute_name}-{item.attribute_value}
                           </li>

@@ -99,13 +99,13 @@ const ComponentName = (props) => {
     }
   }, [showBank])
   console.log(bankDetails, "bdd");
-   const converDate = (data) => {
-          const date = new Date(data);
-          // Format the date as '14th Sep 2024'
-          const formattedDate = format(date, " h a , dd MMM ");
-          console.log(formattedDate);
-          return formattedDate
-      }
+  const converDate = (data) => {
+    const date = new Date(data);
+    // Format the date as '14th Sep 2024'
+    const formattedDate = format(date, " h a , dd MMM ");
+    console.log(formattedDate);
+    return formattedDate
+  }
   return (
     <div>
       <CommonLayout>
@@ -170,7 +170,7 @@ const ComponentName = (props) => {
                       </h3>
                       <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll">
                         <ul className=" pl-5  text-gray-900 ">
-                          {totalDetails.amenities.map((item, index) => (
+                          {totalDetails?.amenities.map((item, index) => (
                             <li key={index} className="capitalize">
                               {item.attribute_name}-{item.attribute_value}
                             </li>
@@ -195,7 +195,7 @@ const ComponentName = (props) => {
                         <span>View Proofs</span><span><MdKeyboardArrowRight size={30} /></span>
                       </button>
                       <button className="bg-white w-full px-3 py-2 text-black rounded-md">
-                        Farmhouse Sq. Yards{" "}
+                        Farmhouse Sq. Yards{" : "}
                         {totalDetails.property_data.property_square_yards}
                       </button>
                       {/* <button ></button> */}
@@ -258,11 +258,19 @@ const ComponentName = (props) => {
                             </h2>
 
                             {bankDetails?.data?.results && bankDetails?.data?.results.map((item, index) => (
-                              <ul>
-                                <li>bank_account_name {item.bank_account_name}</li>
-                                <li>bank_name {item.bank_name}</li>
-                                <li>bank_account_number {item.bank_account_number}</li>
-                                <li>bank_ifsc_code {item.bank_ifsc_code}</li>
+                              <ul className="capitalize flex flex-col gap-2">
+                                <li>bank account name : {item.bank_account_name}</li>
+                                <li>bank name : {item.bank_name}</li>
+                                <li>bank account number : {item.bank_account_number}</li>
+                                <li>bank ifsc code : {item.bank_ifsc_code}</li>
+                                <li className="pt-3">
+                                  <Image
+                                    height={1000}
+                                    width={1000}
+                                    src={item.passbook_image_url}
+                                    className="w-full h-[150px] rounded-lg object-contain"
+                                  />
+                                </li>
                               </ul>
                             ))}
                           </div>
@@ -366,7 +374,7 @@ const ComponentName = (props) => {
                             <th className="p-2 border-b border-l border-gray-300 text-left">
                               Reviews
                             </th>
-                           
+
                           </tr>
                         </thead>
                         <tbody>
@@ -375,11 +383,11 @@ const ComponentName = (props) => {
                               <td className="p-2 border-b  border-gray-300">
                                 <p>Booking Id: {item?.booking_id}</p>
                                 <p>
-                                  Check In: 
+                                  Check In:
                                   {converDate(item.booking_start_date)}
                                 </p>
                                 <p>
-                                  Check Out: 
+                                  Check Out:
                                   {converDate(item.booking_end_date)}
                                 </p>
                                 <p>Duration: {item?.booking_hours} Hours</p>

@@ -177,14 +177,14 @@ const OnlineFarmHouses = () => {
                   <ul className="flex flex-col gap-2">
                     <li className="font-bold ">{item?.property_name}</li>
                     <li>{item?.area_name || ''}</li>
-                    <li>Partner number -{item?.property_alternate_number}</li>
-                    <li>Watchman number -{item?.property_watch_man_number}</li>
+                    <li>Partner number : {item?.property_alternate_number}</li>
+                    <li>Watchman number : {item?.property_watch_man_number}</li>
                   </ul>
                 </div>
                 <div className="bg-red-20 w-[177px]">
                   <ul className="flex flex-col gap-3">
-                    <li>Owner Price -{item?.owner_night_prices}</li>
-                    <li>Partner Price -{item?.customer_morning_prices}</li>
+                    <li>Owner Price : {item?.owner_morning_prices}</li>
+                    <li>Customer Price : {item?.customer_morning_prices}</li>
                     <li>
                       <Link className="underline" href={`/farmhouse/farmhouses-by-status/${item.property_id}`}>View more</Link>
                     </li>

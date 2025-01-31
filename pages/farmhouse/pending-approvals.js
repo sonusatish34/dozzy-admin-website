@@ -31,7 +31,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
   const handleDecrement = (index) => {
     setValues((prevValues) => {
       // Get the current value or fallback to attribute_value
-      const currentValue = prevValues[index] ?? (totalDetails.amenities[index]?.attribute_value || 0);
+      const currentValue = prevValues[index] ?? (totalDetails?.amenities[index]?.attribute_value || 0);
       // Ensure the value doesn't go below 0
       const newValue = Math.max(0, currentValue - 1);
       handleUpdateAttribute('amenities', index, newValue);
@@ -45,7 +45,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
   const handleIncrement = (index) => {
     setValues((prevValues) => {
       // Get the current value or fallback to attribute_value
-      const currentValue = prevValues[index] ?? (totalDetails.amenities[index]?.attribute_value || 0);
+      const currentValue = prevValues[index] ?? (totalDetails?.amenities[index]?.attribute_value || 0);
       const newValue = Number(currentValue) + 1;
       handleUpdateAttribute('amenities', index, newValue);
       return {
@@ -187,7 +187,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
     if (addSubmitdata?.length >= 1) {
       AddAttributes();
     }
-    
+
   }, [addSubmitdata, updateSubmitData]);
   // console.log(updatedAttributes,"=======updatedAttributes===");
 
@@ -234,8 +234,9 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
               <h2 className='text-2xl font-bold mb-4 pt-4'>Edit Amenities & Games</h2>
               <div className='flex flex-col lg:flex-row gap-6 bg-white rounded-md p-1'>
                 <ul className='custom-scrollbar flex flex-col gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
-                  {totalDetails.amenities.map((item, index) => {
-                    const itemValue = values[index] ?? (item?.attribute_value || 0); // Ensure a default of 0
+                  {totalDetails?.amenities.map((item, index) => {
+                    const itemValue = values[index] !== undefined ? values[index] : (totalDetails?.amenities[index]?.attribute_value || 0);
+
                     return (
                       <li key={index} className='capitalize flex justify-between items-center'>
                         {`${item?.attribute_name.replace('no_of_', '').replace('_', ' ')}`}
@@ -291,7 +292,8 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
                 <ul className='custom-scrollbar flex flex-col  gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
                   <p className='font-bold text-2xl'>Games</p>
                   {totalDetails.games.map((item, index) => {
-                    const itemValue = gamesValues[index] || 0; // Get the current value for this item
+                    const itemValue = gamesValues[index] !== undefined ? gamesValues[index] : (totalDetails.games[index]?.attribute_value || 0);
+
                     return (
                       <li key={index} className='capitalize flex justify-between items-center'>
                         {`${item?.attribute_name.replace('no_of_', '').replace('_', ' ')}`}
@@ -448,7 +450,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     fetchPropertyDetails()
     console.log("in our page")
   }, [propertyId, rpAm])
-  // console.log(totalDetails.amenities,"yyyytttt");
+  // console.log(totalDetails?.amenities,"yyyytttt");
   const [currentIndex, setCurrentIndex] = useState(0)
   const images = totalDetails?.property_images
 
@@ -487,8 +489,8 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     owner_night_prices: '0'
   })
   // console.log(JSON.stringify(formData), "---JSON.stringify(formData)---");
-  console.log(formData,"-----formData------");
-  
+  console.log(formData, "-----formData------");
+
   const handleChange = e => {
 
     const { name, value } = e.target
@@ -642,7 +644,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     <div className='text-xs xl:text-base text-black'>
       {propertyDetails ? (
         <div className='bg-[#f5f5f5] p-4'>
-          <div className='flex lg:flex-row flex-col gap-4 xl:gap-10'>
+          <div className='flex lg:flex-row flex-col gap-4 xl:gap-6'>
             <div className=''>
               <div className='z-10 xl:w-[320px] xl:h-[310px] w-full h-[200px]'>
                 {/* Image */}
@@ -671,7 +673,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 {/* Left arrow */}
                 <div className='flex gap-2 justify-between pt-1 lg:text-sm'>
                   <p className='text-black  capitalize bg-red- h-16 w-44 break-words'>
-                    {images[currentIndex]?.attribute_name}
+                    {images[currentIndex]?.attribute_name.replaceAll('_', ' ')}
                   </p>
                   <div>
                     <button onClick={() => { setUploadImage(true) }} className='underline mb-2'>Reupload Image</button>
@@ -720,11 +722,11 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                     </button></span>
                   </p>
 
-                  <div className='flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll'>
+                  <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll">
                     <ul className=' pl-5 pt-4 text-gray-900 '>
-                      {totalDetails.amenities.map((item, index) => (
+                      {totalDetails?.amenities.map((item, index) => (
                         <li key={index} className='capitalize'>
-                          {item.attribute_value > 0 ? `${item?.attribute_name.replace('no_of_', '').replace('_', ' ')} ${item.attribute_value}` : ''}
+                          {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('no_of_', '').replace('_', ' ')} ` : ''}
                         </li>
                       ))}
                     </ul>
@@ -732,7 +734,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                       <p className='font-bold py-1'>Games</p>
                       {totalDetails.games.map((item, index) => (
                         <li key={index} className='capitalize'>
-                          {item.attribute_name} {item.attribute_value}
+                          {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('Game', '').replace('_', ' ')} ` : ''}
                         </li>
                       ))}
                       {totalDetails?.games.length < 1 && <p className='text-red-400'>NA</p>}
@@ -818,34 +820,35 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
               <p className='font-bold text-black pb-3'>Owner Profile</p>
               <div >
                 <div className='flex flex-col gap-y-1 bg-white p-2 rounded-md h-fit'>
-                  
+
                   <p className=' text-gray-500'>
                     Partner Number: {totalDetails.property_data.owner_number}
                   </p>
                   <p className=' text-gray-500'>
-                    Watchman Number: {totalDetails.property_data.property_watch_man_number}
-                  </p>
-                  <p className=' text-gray-500'>
                     Alternate Number: {totalDetails.property_data.property_alternate_number}
                   </p>
+                  <p className=' text-gray-500'>
+                    Watchman Number: {totalDetails.property_data.property_watch_man_number}
+                  </p>
+
                 </div>
               </div>
             </div>
           </div>
           <div className='flex lg:flex-row flex-col  gap-14 pt-9'>
             <div className=' '>
-              
-                <p className='font-bold text-black pb-4'>Approved By</p>
-                <div className='flex bg-white items-center p-2'>
-                  
-                  <div className=' p-4 rounded-md'>
-                    
-                    <p className=' text-gray-500'>
-                      {totalDetails.property_data.approval_team_user_phone?totalDetails.property_data.approval_team_user_phone:<span className='text-red-600'>Not yet assigned</span>}
-                    </p>
-                  </div>
+
+              <p className='font-bold text-black pb-4'>Approved By</p>
+              <div className='flex bg-white items-center p-2'>
+
+                <div className=' p-4 rounded-md'>
+
+                  <p className=' text-gray-500'>
+                    {totalDetails.property_data.approval_team_user_phone ? totalDetails.property_data.approval_team_user_phone : <span className='text-red-600'>Not yet assigned</span>}
+                  </p>
                 </div>
-             
+              </div>
+
             </div>
             <div className='flex gap-2 '>
               <div className='flex flex-col item space-x-4'>
@@ -941,7 +944,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 </div>
               </div>
             </div>
-            <div className='flex gap-4'>
+            <div className='flex gap-4 xl:gap-8'>
               <button
                 onClick={() => {
                   setshowReject(true)
@@ -1002,7 +1005,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                     buttons: ["No, cancel", "Yes, approve it!"],
                     dangerMode: true,
                   }).then((willApprove) => {
-                    if (willApprove && formData?.owner_morning_prices>0 && formData?.owner_night_prices>0 && formData?.owner_weekday_prices>0 && formData?.owner_weekend_prices>0 && formData?.customer_morning_prices>0 && formData?.customer_night_prices>0 && formData?.property_price>0 && formData?.property_weekend_price>0) {
+                    if (willApprove && formData?.owner_morning_prices > 0 && formData?.owner_night_prices > 0 && formData?.owner_weekday_prices > 0 && formData?.owner_weekend_prices > 0 && formData?.customer_morning_prices > 0 && formData?.customer_night_prices > 0 && formData?.property_price > 0 && formData?.property_weekend_price > 0) {
                       // If the user clicks "Yes, approve it!", update the status
                       setFormData(prevFormData => ({
                         ...prevFormData,
@@ -1010,7 +1013,9 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                       }));
                       setFarmHStatus('approved');
 
-                      swal("Approved!", "The item has been approved.", "success");
+                      swal("Approved!", "The item has been approved.", "success").then(() => {
+                        onUpdate(); // Call onUpdate after approval
+                      });
                     } else {
                       swal("Warning !", "Please fill all the prices fields.", "info");
                     }
@@ -1111,7 +1116,7 @@ const FarmHouseAccordion = () => {
                 }
               >
                 <span>
-                  {farmHouse.property_name.replaceAll('_',' ')} 
+                  {farmHouse.property_name.replaceAll('_', ' ')}
                 </span>
                 <span>
                   <IoIosArrowDown

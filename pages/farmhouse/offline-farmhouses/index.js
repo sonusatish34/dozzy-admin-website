@@ -115,7 +115,8 @@ const OnlineFarmHouses = () => {
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / id'>
       <div className="px-4 text-sm">
-        <p className="pl-5 pt-4 text-black">Offline Farmhouses -{locData?.length}</p>
+      <p className="py-4 lg:py-10 pl-4 lg:text-3xl font-bold text-black">Offline Farmhouses -{locData?.length}</p>
+
         <ul className="pl-4 pt-4 p-2 bg-[#f7f7f7] rounded-md flex gap-3 flex-wrap">
           {cities?.length &&
             cities?.map((item, index) => (
@@ -143,14 +144,14 @@ const OnlineFarmHouses = () => {
                   <ul className="flex flex-col gap-2">
                     <li className="font-bold ">{item?.property_name}</li>
                     <li>{item?.area_name || ''}</li>
-                    <li>Partner number -{item?.property_alternate_number}</li>
-                    <li>Watchman number -{item?.property_watch_man_number}</li>
+                    <li>Partner number : {item?.property_alternate_number}</li>
+                    <li>Watchman number : {item?.property_watch_man_number}</li>
                   </ul>
                 </div>
                 <div className="bg-red-20 w-[177px]">
                   <ul className="flex flex-col gap-3">
-                    <li>Owner Price -{item?.owner_night_prices}</li>
-                    <li>Partner Price -{item?.customer_morning_prices}</li>
+                    <li>Owner Price : {item?.morning_night_prices}</li>
+                    <li>Customer Price : {item?.customer_morning_prices}</li>
                     <li>
                       <Link className="underline" href={`/farmhouse/online-farmhouses/${item.id}`}>View more</Link>
                     </li>

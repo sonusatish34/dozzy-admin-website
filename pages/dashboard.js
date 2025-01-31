@@ -46,25 +46,25 @@ const ComponentName = (props) => {
             </thead>
             <tbody className='flex flex-col gap-3'>
               <tr className='bg-white'>
-                <td><Link href={'/farmhouse/total-farmhouses'}  className='flex items-center justify-between pr-6 py-1'><span>Total Farmhouse - {farmHDetails?.total_farmhouses ? farmHDetails.total_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
+                <td><Link href={'/farmhouse/farmhouses-by-status'}  className='flex items-center justify-between pr-6 py-1'><span>Total Farmhouse - {farmHDetails?.total_farmhouses ? farmHDetails.total_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
               </tr>
               <tr className='bg-white'>
-                <td><Link href={'/farmhouse/online-farmhouses'} className='flex items-center justify-between pr-6 py-1'><span>Online Farmhouse -{farmHDetails?.online_farmhouses ? farmHDetails.online_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
+                <td><Link href={'/farmhouse/farmhouses-by-status'} className='flex items-center justify-between pr-6 py-1'><span>Online Farmhouse -{farmHDetails?.online_farmhouses ? farmHDetails.online_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
               </tr>
               <tr className='bg-white'>
-                <td><Link href={'/farmhouse/offline-farmhouses'} className='flex items-center justify-between pr-6 py-1'><span>Offline Farmhouse -{farmHDetails?.offline_farmhouses ? farmHDetails.offline_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
+                <td><Link href={'/farmhouse/farmhouses-by-status'} className='flex items-center justify-between pr-6 py-1'><span>Offline Farmhouse -{farmHDetails?.offline_farmhouses ? farmHDetails.offline_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
               </tr>
               <tr className='bg-white'>
                 <td><Link href={'/farmhouse/total-bookings'} className='flex items-center justify-between pr-6 py-1'><span>Total Bookings -{farmHDetails?.total_farmhouse_bookings ? farmHDetails.total_farmhouse_bookings : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
               </tr>
               <tr className='bg-white'>
-                <td><Link href={'/farmhouse/upcoming-bookings'} className='flex items-center justify-between pr-6 py-1'><span>Upcoming Bookings -{farmHDetails?.upcoming_farmhouse_bookings ? farmHDetails.upcoming_farmhouse_bookings : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
+                <td><Link href={'/farmhouse/bookings-by-status'} className='flex items-center justify-between pr-6 py-1'><span>Upcoming Bookings -{farmHDetails?.upcoming_farmhouse_bookings ? farmHDetails.upcoming_farmhouse_bookings : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
               </tr>
               <tr className='bg-white'>
-                <td><Link href={'/farmhouse/cancelled-bookings'} className='flex items-center justify-between pr-6 py-1'><span>Cancelled Bookings  -{farmHDetails?.online_farmhouses ? farmHDetails.online_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
+                <td><Link href={'/farmhouse/bookings-by-status'} className='flex items-center justify-between pr-6 py-1'><span>Cancelled Bookings  -{farmHDetails?.online_farmhouses ? farmHDetails.online_farmhouses : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
               </tr>
               <tr className='bg-white'>
-                <td><Link href={'/farmhouse/in-house'} className='flex items-center justify-between pr-6 py-1'><span>In-House   -{farmHDetails?.inhouse_farmhouse_bookings ? farmHDetails.inhouse_farmhouse_bookings : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
+                <td><Link href={'/farmhouse/bookings-by-status'} className='flex items-center justify-between pr-6 py-1'><span>In-House   -{farmHDetails?.inhouse_farmhouse_bookings ? farmHDetails.inhouse_farmhouse_bookings : '0'}</span> <span><IoIosArrowForward /></span></Link></td>
               </tr>
 
             </tbody>

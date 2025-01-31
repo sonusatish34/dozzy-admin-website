@@ -160,7 +160,7 @@ const OnlineFarmHouses = () => {
                                 </li>
                             ))}
                     </ul> */}
-                    <div className="flex lg:gap-5 gap-1 pt-7">
+                    <div className="flex lg:gap-8 gap-1 py-7 xl:text-xl">
                         <select
                             className="p-2 bg-[#f7f7f7] rounded-md"
                             onChange={(e) => setLoc(e.target.value)}
@@ -218,8 +218,8 @@ const OnlineFarmHouses = () => {
                                     <div>
                                         <ul className="flex gap-4 pt-5">
                                             <li> {converDate(item?.booking_start_date)}</li>
-                                            <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center"><span className=" ">{Math.ceil(Number((item?.booking_hours) / 24))} {Math.ceil(Number((item?.booking_hours) / 24)) == 1 ? 'day' : 'days'} </span></li>
-                                            {/* <li>{Number((item?.booking_hours)/24)}</li> */}
+                                            {/* <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center"><span className=" ">{Math.ceil(Number((item?.booking_hours) / 22))} {Math.ceil(Number((item?.booking_hours) / 22)) == 1 ? 'day' : 'days'} </span></li> */}
+                                            <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center">{Number(item?.booking_hours)} hours</li>
                                             <li>{converDate(item?.booking_end_date)}</li>
                                             {/* <li>Partner Price -{item?.booking_end_date}</li> */}
                                             <li>

@@ -102,7 +102,7 @@ const ComponentName = (props) => {
   const converDate = (data) => {
     const date = new Date(data);
     // Format the date as '14th Sep 2024'
-    const formattedDate = format(date, " h a , dd MMM ");
+    const formattedDate = format(date, " h a , dd MMM YYY ");
     console.log(formattedDate);
     return formattedDate
   }
@@ -129,9 +129,9 @@ const ComponentName = (props) => {
         <div className="bg-white p-6 rounded-lg shadow-md text-xs xl:text-base">
           {totalDetails ? (
             <div className="bg-[#f5f5f5] p-2">
-              <div className="flex items-center text-black gap-2">
+              <div className="flex items-center text-black gap-2 capitalize">
                 <button className="text-black py-2" onClick={BackBtn}><IoMdArrowBack size={20} /></button>
-                <p>{totalDetails.property_data.property_name}</p>
+                <p>{totalDetails?.property_data?.property_name.replaceAll('_', ' ')}</p>
 
               </div>
               <div className="flex lg:flex-row flex-col gap-4">
@@ -174,7 +174,7 @@ const ComponentName = (props) => {
                     <IoIosArrowForward size={20} />
                   </button>
                   <p className="text-black pl-2 xl:text-xl capitalize">
-                    {images[currentIndex]?.attribute_name}
+                    {images[currentIndex]?.attribute_name.replaceAll('_', ' ')}
                   </p>
                   {/* <p className="bg-red-500 text-blue-300 p-3">{images[currentIndex].attribute_status}</p> */}
                 </div>
@@ -205,20 +205,21 @@ const ComponentName = (props) => {
                         Amenities
                       </h3>
                       <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll">
-                        <ul className=" pl-5 text-gray-900 ">
-                          {totalDetails.amenities.map((item, index) => (
-                            <li key={index} className="capitalize">
-                              {item.attribute_name.replace('no_of_','')}-{item.attribute_value}
+                        <ul className=' pl-5 pt-4 text-gray-900 '>
+                          {totalDetails?.amenities.map((item, index) => (
+                            <li key={index} className='capitalize'>
+                              {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('no_of_', '').replace('_', ' ')} ` : ''}
                             </li>
                           ))}
                         </ul>
-                        <ul className="pl-5 text-gray-700 p-1">
-                          <p className="font-bold py-1">Games</p>
+                        <ul className='pl-5 text-gray-700 p-1'>
+                          <p className='font-bold py-1'>Games</p>
                           {totalDetails.games.map((item, index) => (
-                            <li key={index} className="capitalize">
-                              {item.attribute_name}-{item.attribute_value}
+                            <li key={index} className='capitalize'>
+                              {item.attribute_value > 0 ? `${item.attribute_value} - ${ item?.attribute_name.replace('Game', '').replace('_', ' ')} ` : ''}
                             </li>
                           ))}
+                          {totalDetails?.games.length < 1 && <p className='text-red-400'>NA</p>}
                         </ul>
                       </div>
 
@@ -231,7 +232,7 @@ const ComponentName = (props) => {
                         <span>View Proofs</span><span><MdKeyboardArrowRight size={30} /></span>
                       </button>
                       <button className="bg-white w-full px-3 py-2 text-black rounded-md">
-                        Farmhouse Sq. Yards{" "}
+                        Farmhouse Sq. Yards{" : "}
                         {totalDetails.property_data.property_square_yards}
                       </button>
                       {/* <button ></button> */}
@@ -296,17 +297,17 @@ const ComponentName = (props) => {
                               Bank Details
                             </h2>
                             {bankDetails?.data?.results && bankDetails?.data?.results.map((item, index) => (
-                              <ul className="capitalize">
+                              <ul className="capitalize flex flex-col gap-2">
                                 <li>bank account name : {item.bank_account_name}</li>
                                 <li>bank name : {item.bank_name}</li>
                                 <li>bank account number : {item.bank_account_number}</li>
                                 <li>bank ifsc code : {item.bank_ifsc_code}</li>
-                                <li>
+                                <li className="pt-3">
                                   <Image
-                                  height={1000}
-                                  width={1000}
-                                  src={item.passbook_image_url}
-                                  className="w-full h-[150px] rounded-lg object-contain"
+                                    height={1000}
+                                    width={1000}
+                                    src={item.passbook_image_url}
+                                    className="w-full h-[150px] rounded-lg object-contain"
                                   />
                                 </li>
                               </ul>
@@ -454,6 +455,10 @@ const ComponentName = (props) => {
                   </div>
                 </div>
               </div>
+               {totalDetails.property_data.property_rejected_reason && <div>
+                  <p className="font-bold pt-4 pb-1">Rejected Reason </p>
+                  <p className="w-full bg-white p-1 rounded-xl">{totalDetails.property_data.property_rejected_reason}</p>
+                </div>}
             </div>
           ) : (
             <p>Loading property details...</p>
