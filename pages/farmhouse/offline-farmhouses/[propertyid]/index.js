@@ -18,7 +18,6 @@ const ComponentName = (props) => {
   const [showBank, setShowBank] = useState(null);
   const [bankDetails, setBankDetails] = useState(null);
   const { propertyid } = router.query;
-  console.log(propertyid, "[pp");
   const BackBtn = () => {
     router.back()
   }
@@ -48,7 +47,6 @@ const ComponentName = (props) => {
           // setPropertyDetails(data.results.property_data);
           // setTotalDetails(data.results);
           // setAmmDetails(data.results.amenities);
-          console.log(data.results, "data.results");
           setTotalDetails(data?.results);
         }
       } catch (error) {
@@ -98,7 +96,6 @@ const ComponentName = (props) => {
       fetchBank()
     }
   }, [showBank])
-  console.log(bankDetails, "bdd");
   const converDate = (data) => {
     const date = new Date(data);
     // Format the date as '14th Sep 2024'

@@ -82,10 +82,8 @@ const LoginButNotUploaded = () => {
   };
 
   const copyToClipboard = async (mobileNumber) => {
-    console.log("Copying mobile number:", mobileNumber); // Debugging line
     try {
       await navigator.clipboard.writeText(mobileNumber);
-      console.log("Copied to clipboard!"); // Success message
     } catch (err) {
       console.error("Failed to copy text: ", err);
     }

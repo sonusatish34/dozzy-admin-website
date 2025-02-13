@@ -289,9 +289,9 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
                   ))}
                   {totalDetails?.games.length<1 && <p>No games available</p>}
                 </ul> */}
-                <ul className='custom-scrollbar flex flex-col  gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
+                <ul className=' flex flex-col  gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
                   <p className='font-bold text-2xl'>Games</p>
-                  {totalDetails.games.map((item, index) => {
+                  { totalDetails.games.map((item, index) => {
                     const itemValue = gamesValues[index] !== undefined ? gamesValues[index] : (totalDetails.games[index]?.attribute_value || 0);
 
                     return (
@@ -448,7 +448,6 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
       }
     }
     fetchPropertyDetails()
-    console.log("in our page")
   }, [propertyId, rpAm])
   // console.log(totalDetails?.amenities,"yyyytttt");
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -488,8 +487,6 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     owner_morning_prices: '0',
     owner_night_prices: '0'
   })
-  // console.log(JSON.stringify(formData), "---JSON.stringify(formData)---");
-  console.log(formData, "-----formData------");
 
   const handleChange = e => {
 
@@ -707,7 +704,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 </div>
               </div>
             )}
-            <div className='pt-16 lg:pt-2'>
+            <div className='pt-16 lg:pt-0'>
               <div>
                 <div className='flex flex-col text-black gap-2 items-start'>
                   <p className='text-lg text-black font flex justify-between w-full pt-'>
@@ -1094,7 +1091,6 @@ const FarmHouseAccordion = () => {
 
   const handleUpdateFarmhouseList = () => {
     // fetchFarmhouses();
-    console.log("into updating rp +1 ");
 
     setRp(rp + 1);
   };

@@ -100,7 +100,7 @@ const OnlineFarmHouses = () => {
                 if (data.status === "success") {
                     // setCities(data.cities);
                     setBookingData(data);
-                    console.log(data, "data.results");
+                    // console.log(data, "data.results");
                 } else {
                     setError("Error: Unable to fetch data");
                 }
@@ -117,7 +117,6 @@ const OnlineFarmHouses = () => {
         const date = new Date(data);
         // Format the date as '14th Sep 2024'
         const formattedDate = format(date, " h:mm a, MMM yyyy");
-        console.log(formattedDate);
         return formattedDate
     }
     return (

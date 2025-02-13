@@ -41,7 +41,6 @@ const ComponentName = (props) => {
         new8();
 
     }, [refDoc])
-    console.log(refDoc, "refDoc");
 
     useEffect(() => {
         const StopApprovals = async () => {
@@ -60,7 +59,6 @@ const ComponentName = (props) => {
 
             const response = await fetch(`https://staging.dozzy.com/admin/remove-assign-doc?app_user_id=111`, requestOptions);
             const data = await response.json();
-            console.log(data, " resp in stop appr");
             if (data?.status == 'success') {
                 setStopAppr(true);
             }
@@ -93,7 +91,6 @@ const ComponentName = (props) => {
 
             const response = await fetch(`https://staging.dozzy.com/admin/update-assign-status?approval_app_user_id=${appUserId}`, requestOptions);
             const data = await response.json();
-            console.log(data, " resp in stop appr");
             if (data?.status == 'success') {
                 // setStopAppr(true);
             }
@@ -258,43 +255,10 @@ const ComponentName = (props) => {
                                     </ul>
                                 </div>
                             </div>
-                            {console.log(dataRes?.booking_details?.guest_adhaar_details && JSON.parse(dataRes?.booking_details.guest_adhaar_details), " dataRes?.customer_profile.adhaar_json_response")}
+                           
                             <p className='pt-7 text-xl font-bold'>Guest Aadhar Details</p>
                             <div className='pt-6 grid grid-cols-2 gap-10 font-bold py-8 pr-7'>
-                                {/* {dataRes?.booking_details?.guest_adhaar_details && JSON.parse(dataRes?.booking_details.guest_adhaar_details).map((item, index) => (
-                                <div className=''>
-                                    <div>
-                                        <div className='flex flex- items-center gap-2 border-[2px] border-gray-400 p-2 rounded-md capitalize h-full'>
-                                            <div className='flex flex-col gap-2'>
-                                                <p>Aadhar Front image</p>
-                                                <p>Profile Name : <span className='font-normal'>{item?.aadhar_api_returned_name}</span></p>
-                                                <p>Status : {item?.guest_adhaar_status}</p>
-                                                <p>Number : {item?.aadhar_number}</p>
-                                                <p>DOB : {item?.aadhar_api_returned_dob}</p>
-                                                <p>Address : {item?.address}</p>
-                                            </div>
-
-                                            <div className='w-52 h-full'>
-                                            </div>
-                                            <Image
-                                                src={item?.aadhar_image_url}
-                                                width={500}
-                                                height={500}
-                                                alt='image'
-                                                className='rounded-md'
-                                            />
-                                        </div>
-                                        <ul className='flex gap-5 items-center pt-3 text-white'>
-                                            <li className='px-3 bg-green-500 rounded'><button onClick={() => {
-                                                setUpdatedBKAData({ attribute_id: item?.id, status: "approved" })
-                                            }}>Approve</button></li>
-                                            <li className='px-3 bg-red-500 rounded'><button onClick={() => {
-                                                setUpdatedBKAData({ attribute_id: item?.id, status: "rejected" })
-                                            }}>Reject</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            ))} */}
+                                
                             </div>
                             <div className='pt-6 grid grid-cols-2 gap-10 font-bold py-8 pr-7'>
                                 {dataRes?.booking_aadhars?.map((item, index) => (

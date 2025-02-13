@@ -61,7 +61,6 @@ const ComponentName = (props) => {
     }, [submited])
 
     useEffect(() => {
-        console.log("success");
         
         const myHeaders = new Headers();
         myHeaders.append("accept", "application/json");
@@ -85,7 +84,6 @@ const ComponentName = (props) => {
         getEmployeesList()
     }, [empType])
     // console.log(emplList,"emplist");
-    console.log(empType,"emoyuyeyuw");
     
     return (
         <div>

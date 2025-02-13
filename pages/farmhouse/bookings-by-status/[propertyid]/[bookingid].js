@@ -29,8 +29,7 @@ const ComponentName = (props) => {
     const { slug } = router.query; // dynamic part
     const propertyId = router.query.property_id; // query part
     const bookingId = router.query.booking_id; // query par
-    console.log(propertyid, "[pp");
-    console.log(bookingid, "[bid");
+    
     const BackBtn = () => {
         router.back()
     }
@@ -61,7 +60,6 @@ const ComponentName = (props) => {
                     // setPropertyDetails(data.results.property_data);
                     // setTotalDetails(data.results);
                     // setAmmDetails(data.results.amenities);
-                    console.log(data.results, "data.results");
                     setTotalDetails(data?.results);
                 }
             } catch (error) {
@@ -97,7 +95,6 @@ const ComponentName = (props) => {
                     // setPropertyDetails(data.results.property_data);
                     // setTotalDetails(data.results);
                     // setAmmDetails(data.results.amenities);
-                    console.log(data, "data.results for bookings");
                     setBookingDetails(data)
                     //   setTotalDetails(data?.results);
                 }
@@ -108,7 +105,6 @@ const ComponentName = (props) => {
 
         fetchBookingDetails();
     }, [bookingid]);
-    console.log(bookingDetails, "bookingDetailss");
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const images = totalDetails?.property_images;
@@ -150,20 +146,16 @@ const ComponentName = (props) => {
             fetchBank()
         }
     }, [showBank])
-    console.log(bankDetails, "bdd");
     const convertDate = (data) => {
         const date = new Date(data);  // Create a Date object from the input string
         // Format the date as '13th Jan 2025, 3:00 PM'
         const formattedDate = format(date, "do MMM yyyy, h:mm a");
-        console.log(formattedDate);  // Log the formatted date and time
         return formattedDate;
     }
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
     const openModal = (image) => {
-        console.log("insode");
-
         setSelectedImage(image);
         setIsModalOpen(true);
     };

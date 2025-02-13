@@ -12,7 +12,6 @@ export default function Login() {
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState('');
   const router = useRouter();
-  console.log(roleId, "roleeId");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +32,6 @@ export default function Login() {
       return
     }
   },[])
-  console.log(process.env.NEXT_PUBLIC_URL2,"process.env.NEXT_PUBLIC_URL2");
   
   const sendOtp = async () => {
     const url = `https://staging.dozzy.com/admin/login`;
@@ -119,7 +117,7 @@ export default function Login() {
         />
         <p className="text-white font-bold text-2xl py-3">Welcome To Our Website</p>
       </div>
-      <div className="shadow w-full max-w-md p-8 bg-white opacity-65 -md rounded-lg">
+      <div className="shadow w-full max-w-md p-8 bg-white opacity-75 -md rounded-lg">
         {!otpSuccess ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <p className="text-2xl font-bold mb-6 text-left">Please Login</p>
@@ -141,7 +139,8 @@ export default function Login() {
                     setPhoneNumber(formattedValue);
                   }
                 }}
-                className="rounded-md p-3 bg-gray-200 opacity-100 text-black placeholder-black"
+                className="rounded-md p-3 bg-gray-200 opacity-100 text-black placeholder-black
+                tracking-wide text-xl"
                 placeholder="Enter your WhatsApp number"
                 maxLength={10}
               />
@@ -177,7 +176,7 @@ export default function Login() {
         ) : (
           <div className="flex flex-col gap-3">
             <p className="font-bold text-xl">Please check WhatsApp</p>
-            <p className="font-bold">{String(phoneNumber).replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}</p>
+            <p className="font-bold text-xl tracking-wider">{String(phoneNumber).replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}</p>
             <div>
               <input
                 type="text"

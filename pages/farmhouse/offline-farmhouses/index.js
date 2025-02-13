@@ -58,7 +58,6 @@ const OnlineFarmHouses = () => {
 
     fetchCities();
   }, []); // Dependency on userAuthorization to ensure API call happens after loading user info
-  console.log(process.env.NEXT_PUBLIC_URL2,"00000000");
   
   useEffect(() => {
     // Make API call

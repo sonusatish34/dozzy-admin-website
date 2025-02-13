@@ -29,7 +29,6 @@ const ComponentName = (props) => {
       const response = await fetch(`https://staging.dozzy.com/admin/dashboard`, requestOptions)
       const data = await response.json();
       setFarmHDetails(data?.results?.farmhouse_details)
-      console.log(data, "1234567890");
 
 
       // .then((response) => response.text())
@@ -39,7 +38,6 @@ const ComponentName = (props) => {
     getDashboard()
 
   }, [])
-  console.log(userType,"userType");
   
   return (
     <CommonLayout>

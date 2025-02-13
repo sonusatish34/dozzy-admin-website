@@ -18,7 +18,6 @@ const ComponentName = (props) => {
   const [showBank, setShowBank] = useState(null);
   const [bankDetails, setBankDetails] = useState(null);
   const { propertyid } = router.query;
-  console.log(propertyid, "[pp");
   const BackBtn = () => {
     router.back()
   }
@@ -98,7 +97,6 @@ const ComponentName = (props) => {
       fetchBank()
     }
   }, [showBank])
-  console.log(bankDetails, "bdd");
   const converDate = (data) => {
     const date = new Date(data);
     // Format the date as '14th Sep 2024'
@@ -126,24 +124,17 @@ const ComponentName = (props) => {
   return (
     <div>
       <CommonLayout>
-        <div className="bg-white p-6 rounded-lg shadow-md text-xs xl:text-base">
+        <div className="bg-white p-2 lg:p-6 rounded-lg shadow-md text-xs xl:text-base">
           {totalDetails ? (
             <div className="bg-[#f5f5f5] p-2">
-              <div className="flex items-center text-black gap-2 capitalize">
-                <button className="text-black py-2" onClick={BackBtn}><IoMdArrowBack size={20} /></button>
-                <p>{totalDetails?.property_data?.property_name.replaceAll('_', ' ')}</p>
+              <div className="flex items-center text-black gap-2 capitalize py-2">
+                <button className="text- py-2 " onClick={BackBtn}><IoMdArrowBack size={30} /></button>
+                <p className="font-bold text-xl">{totalDetails?.property_data?.property_name.replaceAll('_', ' ')}</p>
 
               </div>
-              <div className="flex lg:flex-row flex-col gap-4">
-                {/* Left Section: Image */}
-                {/* <div className="col-span-12 md:col-span-4">
-                      <img
-                        src={`${totalDetails?.property_images[0].attribute_value}`} // Replace with actual image source
-                        alt="Farmhouse"
-                        className="rounded-lg w-72 object-cover"
-                      />
-                    </div> */}
-                <div className="">
+              <div className="flex lg:flex-row flex-col gap-4 xl:gap-10">
+             
+                <div className="bg-white rounded-b-[3rem]">
                   <div className=" xl:w-[400px] xl:h-[300px] lg:w-[250px] lg:h-[300px]">
                     <Image
                       src={
@@ -152,7 +143,7 @@ const ComponentName = (props) => {
                           : "/"
                       }
                       alt="Farmhouse"
-                      className="rounded-lg object-cover xl:w-[400px] xl:h-[300px] lg:w-[250px] lg:h-[300px]"
+                      className="rounded-t-lg object-cover xl:w-[400px] xl:h-[300px] lg:w-[250px] W-[300PX] h-[300px]"
                       onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
                       height={1000}
                       width={1000}
@@ -161,7 +152,7 @@ const ComponentName = (props) => {
 
                   <button
                     onClick={goToPrevious}
-                    className='relative z-20 left-2 xl:left-2 bottom-36 *: text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                    className='relative z-20 left-2 lg:left-3 xl:left-2 bottom-36 *: text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                   >
                     <IoIosArrowBack size={20} />
                   </button>
@@ -169,17 +160,17 @@ const ComponentName = (props) => {
                   {/* Right arrow */}
                   <button
                     onClick={goToNext}
-                    className='relative z-20 left-32 xl:left-80 bottom-36 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                    className='relative z-20 left-48 xl:left-80 lg:left-40 bottom-36 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                   >
                     <IoIosArrowForward size={20} />
                   </button>
-                  <p className="text-black pl-2 xl:text-xl capitalize">
+                  <p className="text-black pl-4 xl:text-xl lg:text-lg capitalize relative bottom-5">
                     {images[currentIndex]?.attribute_name.replaceAll('_', ' ')}
                   </p>
                   {/* <p className="bg-red-500 text-blue-300 p-3">{images[currentIndex].attribute_status}</p> */}
                 </div>
                 {isModalOpen && (
-                  <div className="absolute inset-0 z-50 flex items-center bg-black bg-opacity-50">
+                  <div className="absolute hidden inset-0 z-50 lg:flex items-center bg-black bg-opacity-50">
                     <div className="bg-white py-8 rounded-xl w-fit relative bottom-1 left-[27rem]">
                       <button
                         onClick={closeModal}
@@ -201,18 +192,18 @@ const ComponentName = (props) => {
                 <div className="">
                   <div>
                     <div className="flex flex-col text-black gap-2 items-start">
-                      <h3 className="text-lg text-black font-bold font-">
+                      <h3 className="text-lg text-black font-bold ">
                         Amenities
                       </h3>
-                      <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll">
-                        <ul className=' pl-2 pt-4 text-gray-900 '>
+                      <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll custom-scrollbar">
+                        <ul className='lg:w-32 xl:w-44 pl-2 pt-4 text-gray-900 '>
                           {totalDetails?.amenities.map((item, index) => (
                             <li key={index} className='capitalize'>
                               {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('no_of_', '').replace('_', ' ')} ` : ''}
                             </li>
                           ))}
                         </ul>
-                        <ul className='pl-5 text-gray-700 p-1'>
+                        <ul className='pl- text-gray-700 p-'>
                           <p className='font-bold py-1'>Games</p>
                           {totalDetails.games.map((item, index) => (
                             <li key={index} className='capitalize'>
@@ -227,11 +218,11 @@ const ComponentName = (props) => {
                         onClick={() => {
                           setShowProof(true);
                         }}
-                        className="bg-white w-full px-3 py-2 text-black rounded-md flex items-center justify-between "
+                        className="bg-white w-full px-3 py-2 text-black font-semibold rounded-md flex items-center justify-between "
                       >
-                        <span>View Proofs</span><span><MdKeyboardArrowRight size={30} /></span>
+                        <span>View Proofs</span><span><MdKeyboardArrowRight size={20} /></span>
                       </button>
-                      <button className="bg-white w-full px-3 py-2 text-black rounded-md">
+                      <button className="bg-white w-full py-2 text-black font-semibold text-left pl-4 rounded-md">
                         Farmhouse Sq. Yards{" : "}
                         {totalDetails.property_data.property_square_yards}
                       </button>
@@ -241,7 +232,7 @@ const ComponentName = (props) => {
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-">
                           <div className="flex justify-center items-center ">
-                            <div className="bg-white absolute top-9 xl:h-[680px] lg:h-[400px] w-[300px] transition-all duration-300 ease-in-out p-8 pb-3 rounded-lg">
+                            <div className="bg-white absolute xl:top-9 md:top-6 xl:h-[680px] lg:h-[550px] w-[300px] transition-all duration-300 ease-in-out p-8 pb-3 rounded-lg">
                               <h2 className="text-2xl font-bold mb-4">
                                 Current Bill
                               </h2>
@@ -253,7 +244,7 @@ const ComponentName = (props) => {
                                 height={1000}
                                 width={1000}
                                 alt="current bill"
-                                className="h-[300px] w-full object-contain rounded-lg"
+                                className="xl:h-[300px] lg:h-[200px] w-full object-contain rounded-lg"
                               />
                               <h2 className="text-2xl font-bold mb-4 pt-4">
                                 Aadhar Card
@@ -284,7 +275,7 @@ const ComponentName = (props) => {
                     {showBank && (
                       <div>
                         <div className="text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h- flex justify-center">
-                          <div className="bg-white relative top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
+                          <div className="bg-white relative top-10 xl:h-[600px] lg:h-[400px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full ">
                             <button
                               onClick={() => {
                                 setShowBank(false);
@@ -320,11 +311,11 @@ const ComponentName = (props) => {
                   </div>
                 </div>
                 <div className=" h-fit">
-                  <p className="text-black font-bold pb-3">Farm House Location</p>
+                  <p className="text-black text-base font-bold pb-3">Farm House Location</p>
                   <div className="flex flex-col items-center space-x-4 bg-white p-4 rounded-md">
 
                     <div>
-                      <p className="text-black font-medium w-48 pt-">
+                      <p className="text-black font-medium xl:w-48 lg:w-36 pt-">
                         {totalDetails.property_data.geo_location}
                       </p>
                     </div>
@@ -356,23 +347,23 @@ const ComponentName = (props) => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center space-x-4 bg-white p-4 rounded-md h-fit">
+                  <div className="flex flex-col items-center space-x-4 bg-white p-2 rounded-md h-fit">
                     <button
                       onClick={() => {
                         setShowBank(true);
                       }}
-                      className="bg-white w-full px-3 py-2 text-black rounded-md flex items-center justify-between "
+                      className="bg-white w-full px-2 py-1 text-black font-semibold rounded-md flex items-center justify-between "
                     >
-                      <span>Bank Details</span><span><MdKeyboardArrowRight size={30} /></span>
+                      <span>Bank Details</span><span><MdKeyboardArrowRight size={20} /></span>
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="flex lg:flex-row flex-col gap-14 pt-5">
+              <div className="flex lg:flex-row flex-col xl:gap-14 lg:gap-5 pt-8">
                 <div className=" ">
                   <div className="flex flex-col pl-2">
                     <p className="font-bold text-black pb-2">Approved By</p>
-                    <div className="flex bg-white items-center">
+                    <div className="flex bg-white rounded-md items-center">
                       <img
                         src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" // Replace with avatar
                         alt="Owner"
@@ -391,27 +382,27 @@ const ComponentName = (props) => {
                 </div>
                 <div className=" ">
                   <div className="flex flex-col gap-2 text-black ">
-                    <p className="font-bold lg:text-xl">Bookings </p>
-                    <div className="flex justify-center items-center bg-gray-100">
+                    <p className="font-bold ">Bookings </p>
+                    <div className="flex lg:justify-center items-center bg-gray-100">
                       <table className="table-auto bg-white rounded-md">
                         <thead>
                           <tr>
-                            <th className="p-2 border-b  border-gray-300 text-left">
+                            <th className=" p-2 border-b  border-gray-300 text-left">
                               Booking Details
                             </th>
                             <th className="p-2 border-b border-l border-gray-300 text-left">
                               Customer Details
                             </th>
-                            <th className="p-2 border-b border-l border-gray-300 text-left">
+                            <th className="lg:table-cell hidden  p-2 border-b border-l border-gray-300 text-left">
                               Customer Paid
                             </th>
-                            <th className="p-2 border-b border-l border-gray-300 text-left">
+                            <th className="lg:table-cell hidden p-2 border-b border-l border-gray-300 text-left">
                               Owner Earnings
                             </th>
-                            <th className="p-2 border-b border-l border-gray-300 text-left">
+                            <th className="lg:table-cell hidden p-2 border-b border-l border-gray-300 text-left">
                               Dozzy Earnings
                             </th>
-                            <th className="p-2 border-b border-l border-gray-300 text-left">
+                            <th className="lg:table-cell hidden  p-2 border-b border-l border-gray-300 text-left">
                               Reviews
                             </th>
 
@@ -420,8 +411,8 @@ const ComponentName = (props) => {
                         <tbody>
                           {totalDetails.all_bookings.map((item, index) => (
                             <tr key={index}>
-                              <td className="p-2 border-b  border-gray-300">
-                                <p>Booking Id: {item?.booking_id}</p>
+                              <td className="p-2 border-b lg:text-xs xl:text-base  border-gray-300">
+                                <p className="font-semibold">Booking Id: {item?.booking_id}</p>
                                 <p>
                                   Check In:
                                   {converDate(item.booking_start_date)}
@@ -435,16 +426,16 @@ const ComponentName = (props) => {
                               <td className="p-2 border-b border-l border-gray-300">
                                 {item?.customer_phone}
                               </td>
-                              <td className="p-2 border-b border-l border-gray-300">
-                                Number: {item?.booking_price}
-                              </td>
-                              <td className="p-2 border-b border-l border-gray-300">
+                              <td className="lg:table-cell hidden  p-2 border-b border-l border-gray-300">
                                 {item?.booking_price}
                               </td>
-                              <td className="p-2 border-b border-l border-gray-300">
+                              <td className="lg:table-cell hidden  p-2 border-b border-l border-gray-300">
+                                {item?.owner_booking_price}
+                              </td>
+                              <td className="lg:table-cell hidden  p-2 border-b border-l border-gray-300">
                                 {item?.booking_price}
                               </td>
-                              <td className="p-2 border-b border-l border-gray-300 underline">
+                              <td className="lg:table-cell hidden p-2 border-b border-l border-gray-300 underline">
                                 View Reviews
                               </td>
 
