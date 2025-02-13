@@ -3,6 +3,8 @@ import CommonLayout from "../components/layout/CommonLayout";
 import { FiCopy } from "react-icons/fi"; // You can use react-icons for the copy symbol
 import { IoIosArrowDown } from "react-icons/io";
 import { useRouter } from "next/router";
+import { GetUrl } from '@/utils/config';
+
 const LoginButNotUploaded = () => {
   const [loginData, setLoginData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +43,7 @@ const LoginButNotUploaded = () => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/login-not-uploaded`,
+          `${GetUrl()}/admin/login-not-uploaded`,
           {
             method: "GET",
             headers: {

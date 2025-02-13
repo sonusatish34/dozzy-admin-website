@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CommonLayout from '../components/layout/CommonLayout';
 import Image from 'next/image';
+import { GetUrl } from '@/utils/config';
+
 const ComponentName = (props) => {
     const [showAddEmployee, setShowAddEmployee] = useState(false);
     const [submited, setSubmited] = useState(false);
@@ -51,7 +53,7 @@ const ComponentName = (props) => {
             redirect: "follow"
         };
         if (submited == true) {
-            fetch("https://staging.dozzy.com/admin/create-employee", requestOptions)
+            fetch("${GetUrl()}/admin/create-employee", requestOptions)
                 .then((response) => response.text())
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));
@@ -73,7 +75,7 @@ const ComponentName = (props) => {
         };
 
         const getEmployeesList = async () => {
-            const response = await fetch(`https://staging.dozzy.com/admin/employees?role_id=${empType}&user_managed_location=hyderabad`, requestOptions2)
+            const response = await fetch(`${GetUrl()}/admin/employees?role_id=${empType}&user_managed_location=hyderabad`, requestOptions2)
             const data = await response.json();
             // console.log(data,"dataaaa----");
             setEmplList(data?.results)

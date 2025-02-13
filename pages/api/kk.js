@@ -8,7 +8,7 @@ export default (req, res) => {
 
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/property-cities`,
+                    `${GetUrl()}/admin/property-cities`,
 
                     {
                         method: "GET",

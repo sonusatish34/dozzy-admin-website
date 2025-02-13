@@ -4,6 +4,8 @@ import CommonLayout from "@/pages/components/layout/CommonLayout";
 import { FiCopy } from "react-icons/fi"; // You can use react-icons for the copy symbol
 import Image from "next/image";
 import Link from "next/link";
+import { GetUrl } from '@/utils/config';
+
 const OnlineFarmHouses = () => {
   const [cities, setCities] = useState("");
   const [loc, setLoc] = useState("Hyderabad");
@@ -25,7 +27,7 @@ const OnlineFarmHouses = () => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/property-cities`,
+          `${GetUrl()}/admin/property-cities`,
 
           {
             method: "GET",
@@ -74,7 +76,7 @@ const OnlineFarmHouses = () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/online-properties?location=${loc}`,
+          `${GetUrl()}/admin/online-properties?location=${loc}`,
 
           {
             method: "GET",
@@ -150,7 +152,7 @@ const OnlineFarmHouses = () => {
                     width={200}
                   />
                   <ul className="flex flex-col gap-2">
-                    <li className="font-bold ">{item?.property_name}</li>
+                    <li className="font-bold ">{item?.property_name.replaceAll('_', ' ')}</li>
                     <li>{item?.area_name || ''}</li>
                     <li>Partner number : {item?.property_alternate_number}</li>
                     <li>Watchman number : {item?.property_watch_man_number}</li>

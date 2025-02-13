@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { IoMdArrowBack } from "react-icons/io";
 import { format } from "date-fns";
+import { GetUrl } from '@/utils/config';
+
 const ComponentName = (props) => {
   const router = useRouter()
   const [propertyDetails, setPropertyDetails] = useState(null);
@@ -31,9 +33,9 @@ const ComponentName = (props) => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/property-details?property_id=${propertyid}`,
+          `${GetUrl()}/admin/property-details?property_id=${propertyid}`,
           {
-            // const response = await fetch(`https://staging.dozzy.com/admin/property-details?property_id=&approval_user_id=0`, {
+            // const response = await fetch(`${GetUrl()}/admin/property-details?property_id=&approval_user_id=0`, {
 
             method: "GET",
             headers: {
@@ -82,7 +84,7 @@ const ComponentName = (props) => {
         redirect: "follow"
       };
 
-      fetch(`https://staging.dozzy.com/admin/bank-details?app_user_id=${totalDetails?.property_data?.app_user_id}`, requestOptions)
+      fetch(`${GetUrl()}/admin/bank-details?app_user_id=${totalDetails?.property_data?.app_user_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => setBankDetails(result))
         .catch((error) => console.error(error));

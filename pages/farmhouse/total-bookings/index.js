@@ -4,6 +4,7 @@ import CommonLayout from "@/pages/components/layout/CommonLayout";
 import LoadingComp from "@/pages/components/Loading";
 import { FiCopy } from "react-icons/fi"; // You can use react-icons for the copy symbol
 import { format } from 'date-fns';
+import { GetUrl } from '@/utils/config';
 
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +31,7 @@ const OnlineFarmHouses = () => {
 
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/property-cities`,
+                    `${GetUrl()}/admin/property-cities`,
 
                     {
                         method: "GET",
@@ -80,7 +81,7 @@ const OnlineFarmHouses = () => {
             const storedUserPhone = localStorage.getItem("tboo_user_phone");
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/property-bookings?status=all&location=${loc}`,
+                    `${GetUrl()}/admin/property-bookings?status=all&location=${loc}`,
                     {
                         method: "GET",
                         headers: {
@@ -152,7 +153,7 @@ const OnlineFarmHouses = () => {
                                             alt="alt"
                                         />
                                         <ul>
-                                            <li>{item?.property_name}</li>
+                                            <li>{item?.property_name.replaceAll('_', ' ')}</li>
                                             {/* <li>{item?.area_name}</li> */}
                                             <li>Partner number {item?.property_alternate_number}</li>
                                             <li>Watchman number {item?.property_watch_man_number}</li>

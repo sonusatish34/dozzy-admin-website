@@ -4,7 +4,7 @@ import CommonLayout from "@/pages/components/layout/CommonLayout";
 import LoadingComp from "@/pages/components/Loading";
 import { FiCopy } from "react-icons/fi"; // You can use react-icons for the copy symbol
 import { format } from 'date-fns';
-
+import { GetUrl } from '@/utils/config';
 import Image from "next/image";
 import Link from "next/link";
 import { MdKayaking } from "react-icons/md";
@@ -40,7 +40,7 @@ const OnlineFarmHouses = () => {
 
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/property-cities`,
+                    `${GetUrl()}/admin/property-cities`,
 
                     {
                         method: "GET",
@@ -88,7 +88,7 @@ const OnlineFarmHouses = () => {
 
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/search-data?${options == 'booking_id' ? 'booking_id' : 'user_phone'}=${search}`,
+                    `${GetUrl()}/admin/search-data?${options == 'booking_id' ? 'booking_id' : 'user_phone'}=${search}`,
 
                     {
                         method: "GET",
@@ -138,7 +138,7 @@ const OnlineFarmHouses = () => {
             const storedUserPhone = localStorage.getItem("tboo_user_phone");
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/property-bookings?status=${bkStatus}&location=${loc}`,
+                    `${GetUrl()}/admin/property-bookings?status=${bkStatus}&location=${loc}`,
                     {
                         method: "GET",
                         headers: {
@@ -213,7 +213,7 @@ const OnlineFarmHouses = () => {
     //         redirect: "follow"
     //     };
 
-    //     fetch("https://staging.dozzy.com/admin/search-data?booking_id=8", requestOptions)
+    //     fetch("${GetUrl()}/admin/search-data?booking_id=8", requestOptions)
     //         .then((response) => response.text())
     //         .then((result) => console.log(result))
     //         .catch((error) => console.error(error));
@@ -224,149 +224,151 @@ const OnlineFarmHouses = () => {
 
     return (
         <div>
-            {<CommonLayout onSearch={setSearchQuery} placeholderText='search by farmhouse name / Booking id'>
+            {<CommonLayout placeholderText='Dummy search'>
+                <div className="lg:px-10">
+                    <div className="flex items-center gap-x-6 pt-10">
+                        <p className=" pl-5 xl:text-3xl lg:text-xl font-bold  text-black capitalize">{bkStatus.replace('_', ' ')}  Bookings   - {bookingData?.count}</p>
+                        <form onSubmit={handleSubmit} className="flex gap-3 items-center">
+                            <select
+                                id="role2"
+                                value={options}
+                                onChange={(e) => setOptions(e.target.value)}
+                                className="p-3 bg-gray-200 opacity-100 text-black rounded-md"
+                            >
+                                <option value=" select">Seachy By</option>
+                                <option value="user_phone">Customer Number</option>
+                                <option value="booking_id">Booking ID</option>
+                            </select>
 
-                <div className="flex items-center gap-x-6 pt-10">
-                    <p className=" pl-5 text-3xl font-bold  text-black capitalize">{bkStatus.replace('_', ' ')}  Bookings   - {bookingData?.count}</p>
-                    <form onSubmit={handleSubmit} className="flex gap-3 items-center">
-                        <select
-                            id="role2"
-                            value={options}
-                            onChange={(e) => setOptions(e.target.value)}
-                            className="p-3 bg-gray-200 opacity-100 text-black rounded-md"
-                        >
-                            <option value=" select">Seachy By</option>
-                            <option value="user_phone">Customer Number</option>
-                            <option value="booking_id">Booking ID</option>
-                        </select>
-
-                        <input
-                            value={search}
-                            type="text"
-                            onChange={handleSearch}
-                            maxLength={10}
-                            className={`overflow-hidden border-2 lg:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-md lg:pl-12 placeholder:text-gray-700 `}
-                            placeholder={"Type here"}
-                        />
-                        <button className="bg-[#556EE666] hover:bg-[#556EE699] p-2 rounded-md" type="submit">Search</button>
-                        <button className="bg-[#556EE666] hover:bg-[#556EE699] p-2 rounded-md" onClick={()=>{}}>Clear All</button>
-                    </form>
-                </div>
-                <div className="px-4">
-
-                    <div className="flex lg:gap-8 gap-1 py-7 xl:text-xl">
-                        <select
-                            className="p-2 bg-[#f7f7f7] rounded-md"
-                            onChange={(e) => setLoc(e.target.value)}
-                            value={loc}
-                        >
-                            <option value="" disabled>Select a city</option>
-                            {cities?.length ? (
-                                cities.map((item, index) => (
-                                    <option key={index} value={item} className="capitalize">
-                                        {item}
-                                    </option>
-                                ))
-                            ) : (
-                                "loading" ? <option>Loading...</option> : <option>{error}</option>
-                            )}
-                        </select>
-                        <select
-                            className="p-2 bg-[#f7f7f7] rounded-md"
-                            onChange={(e) => setBkStatus(e.target.value)}
-                            value={bkStatus}
-                        >
-                            <option value="all" >All</option>
-                            <option value="rejected" >rejected</option>
-                            <option value="in_progress" >In progress</option>
-                            <option value="canceled" >cancelled</option>
-                            <option value="replaced" >replaced</option>
-                        </select>
+                            <input
+                                value={search}
+                                type="text"
+                                onChange={handleSearch}
+                                maxLength={10}
+                                className={`overflow-hidden border-2 xl:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-md lg:pl-12 placeholder:text-gray-700 `}
+                                placeholder={"Type here"}
+                            />
+                            <button className="bg-[#556EE666] hover:bg-[#445bc8] hover:text-white p-2 rounded-md" type="submit">Search</button>
+                            {/* <button className="bg-[#556EE666] hover:bg-[#556EE699] p-2 rounded-md" onClick={() => { }}>Clear All</button> */}
+                        </form>
                     </div>
-                    <div className="text-black pt-3 flex flex-col gap-3">
-                        {Loading ? <LoadingComp /> : (bookingData?.count) && !showSData &&
-                            filteredPosts?.map((item, index) => (
-                                <Link
-                                    href={`/farmhouse/bookings-by-status/${item.property_id}/${item.booking_id}`}
-                                    key={index}
-                                    className="bg-gray-200 p-3 flex flex-col text-xs lg:text-base lg:flex-row justify-between pr-8"
-                                >
-                                    <div className="flex gap-3">
-                                        <Image
-                                            src={`${item?.farmhouse_front_view?.length ? item?.farmhouse_front_view : ''}`}
-                                            className="rounded-md w-40 h-40"
-                                            height={100}
-                                            width={100}
-                                            alt="alt"
-                                        />
-                                        <ul className="flex flex-col gap-1">
-                                            <li className="text-x font-bold">Booking id {item?.booking_id}</li>
-                                            <li>{item?.property_name}</li>
-                                            <li>{item?.property_region}</li>
-                                            <li>Partner number : {item?.property_alternate_number}</li>
-                                            <li>Watchman number : {item?.property_watch_man_number}</li>
-                                            <li>Customer number : {item?.customer_number}</li>
+                    <div className="px-4">
 
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <ul className="flex gap-4 pt-5">
-                                            <li> {converDate(item?.booking_start_date)}</li>
-                                            {/* <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center"><span className=" ">{Math.ceil(Number((item?.booking_hours) / 22))} {Math.ceil(Number((item?.booking_hours) / 22)) == 1 ? 'day' : 'days'} </span></li> */}
-                                            <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center">{Number(item?.booking_hours)} hours</li>
-                                            <li>{converDate(item?.booking_end_date)}</li>
-                                            {/* <li>Partner Price -{item?.booking_end_date}</li> */}
-                                            <li>
-                                            </li>
-                                        </ul>
-                                        <p className="pt-2">Assigned to :  {item?.customer_number}</p>
-                                    </div>
-                                </Link>
-                            ))}
-                        {searchData?.length && showSData &&
-                            <div className="flex flex-col gap-3">
-                                {
-                                    searchData?.map((item, index) => (
-                                        <Link
-                                            href={`/farmhouse/bookings-by-status/${item.property_id}/${item.booking_id}`}
-                                            key={index}
-                                            className="bg-gray-200 p-3 flex flex-col text-xs lg:text-base lg:flex-row justify-between pr-8"
-                                        >
-                                            <div className="flex gap-3">
-                                                <Image
-                                                    src={`${item?.farmhouse_front_view?.length ? item?.farmhouse_front_view : ''}`}
-                                                    className="rounded-md w-40 h-40"
-                                                    height={100}
-                                                    width={100}
-                                                    alt="alt"
-                                                />
-                                                <ul className="flex flex-col gap-1">
-                                                    <li className="text-x font-bold">Booking id {item?.booking_id}</li>
-                                                    <li>{item?.property_name}</li>
-                                                    <li>{item?.property_region}</li>
-                                                    <li>Partner number : {item?.property_alternate_number}</li>
-                                                    <li>Watchman number : {item?.property_watch_man_number}</li>
-                                                    <li>Customer number : {item?.customer_number}</li>
+                        <div className="flex lg:gap-8 gap-1 py-7 xl:text-xl">
+                            <select
+                                className="p-2 bg-[#f7f7f7] rounded-md"
+                                onChange={(e) => setLoc(e.target.value)}
+                                value={loc}
+                            >
+                                <option value="" disabled>Select a city</option>
+                                {cities?.length ? (
+                                    cities.map((item, index) => (
+                                        <option key={index} value={item} className="capitalize">
+                                            {item}
+                                        </option>
+                                    ))
+                                ) : (
+                                    "loading" ? <option>Loading...</option> : <option>{error}</option>
+                                )}
+                            </select>
+                            <select
+                                className="p-2 bg-[#f7f7f7] rounded-md"
+                                onChange={(e) => setBkStatus(e.target.value)}
+                                value={bkStatus}
+                            >
+                                <option value="all" >All</option>
+                                <option value="rejected" >rejected</option>
+                                <option value="in_progress" >In progress</option>
+                                <option value="canceled" >cancelled</option>
+                                <option value="replaced" >replaced</option>
+                            </select>
+                        </div>
+                        <div className="text-black pt-3 flex flex-col gap-3 lg:gap-6">
+                            {Loading ? <LoadingComp /> : (bookingData?.count) && !showSData &&
+                                filteredPosts?.map((item, index) => (
+                                    <Link
+                                        href={`/farmhouse/bookings-by-status/${item.property_id}/${item.booking_id}`}
+                                        key={index}
+                                        className="bg-gray-200 p-3 flex flex-col text-xs xl:text-base lg:flex-row justify-between pr-8 hover:scale-[1.02] "
+                                    >
+                                        <div className="flex gap-3">
+                                            <Image
+                                                src={`${item?.farmhouse_front_view?.length ? item?.farmhouse_front_view : ''}`}
+                                                className="rounded-md w-40 h-40"
+                                                height={100}
+                                                width={100}
+                                                alt="alt"
+                                            />
+                                            <ul className="flex flex-col gap-1">
+                                                <li className="text-x font-bold">Booking id : {item?.booking_id}</li>
+                                                <li>{item?.property_name.replaceAll('_', ' ')}</li>
+                                                <li>{item?.property_region}</li>
+                                                <li>Partner number : {item?.property_alternate_number}</li>
+                                                <li>Watchman number : {item?.property_watch_man_number}</li>
+                                                <li>Customer number : {item?.customer_number}</li>
 
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <ul className="flex gap-4 pt-5">
-                                                    <li> {converDate(item?.booking_start_date)}</li>
-                                                    <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center">{Number(item?.booking_hours)} hours</li>
-                                                    <li>{converDate(item?.booking_end_date)}</li>
-                                                    {/* <li>Partner Price -{item?.booking_end_date}</li> */}
-                                                    <li>
-                                                    </li>
-                                                </ul>
-                                                <p className="pt-2">Assigned to :  {item?.customer_number}</p>
-                                            </div>
-                                        </Link>
-                                    ))}
-                            </div>}
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <ul className="flex gap-4 pt-5">
+                                                <li> {converDate(item?.booking_start_date)}</li>
+                                                {/* <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center"><span className=" ">{Math.ceil(Number((item?.booking_hours) / 22))} {Math.ceil(Number((item?.booking_hours) / 22)) == 1 ? 'day' : 'days'} </span></li> */}
+                                                <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center">{Number(item?.booking_hours)} hours</li>
+                                                <li>{converDate(item?.booking_end_date)}</li>
+                                                {/* <li>Partner Price -{item?.booking_end_date}</li> */}
+                                                <li>
+                                                </li>
+                                            </ul>
+                                            <p className="pt-2">Assigned to :  {item?.customer_number}</p>
+                                        </div>
+                                    </Link>
+                                ))}
+                            {searchData?.length && showSData &&
+                                <div className="flex flex-col gap-3">
+                                    {
+                                        searchData?.map((item, index) => (
+                                            <Link
+                                                href={`/farmhouse/bookings-by-status/${item.property_id}/${item.booking_id}`}
+                                                key={index}
+                                                className="bg-gray-200 p-3 flex flex-col text-xs lg:text-base lg:flex-row justify-between pr-8"
+                                            >
+                                                <div className="flex gap-3">
+                                                    <Image
+                                                        src={`${item?.farmhouse_front_view?.length ? item?.farmhouse_front_view : ''}`}
+                                                        className="rounded-md w-40 h-40"
+                                                        height={100}
+                                                        width={100}
+                                                        alt="alt"
+                                                    />
+                                                    <ul className="flex flex-col gap-1">
+                                                        <li className="text-x font-bold">Booking id {item?.booking_id}</li>
+                                                        <li>{item?.property_name.replaceAll('_', ' ')}</li>
+                                                        <li>{item?.property_region}</li>
+                                                        <li>Partner number : {item?.property_alternate_number}</li>
+                                                        <li>Watchman number : {item?.property_watch_man_number}</li>
+                                                        <li>Customer number : {item?.customer_user_phone}</li>
 
+                                                    </ul>
+                                                </div>
+                                                <div>
+                                                    <ul className="flex gap-4 pt-5">
+                                                        <li> {converDate(item?.booking_start_date)}</li>
+                                                        <li className="relative lg:bottom-4 bottom-1 border-b-2 border-black w-40 text-center">{Number(item?.booking_hours)} hours</li>
+                                                        <li>{converDate(item?.booking_end_date)}</li>
+                                                        {/* <li>Partner Price -{item?.booking_end_date}</li> */}
+                                                        <li>
+                                                        </li>
+                                                    </ul>
+                                                    <p className="pt-2">Assigned to :  {item?.customer_number}</p>
+                                                </div>
+                                            </Link>
+                                        ))}
+                                </div>}
+
+                        </div>
                     </div>
                 </div>
+
             </CommonLayout>}
         </div>
     );

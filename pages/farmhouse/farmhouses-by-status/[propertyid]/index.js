@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { IoMdArrowBack } from "react-icons/io";
 import { format } from "date-fns";
+import { GetUrl } from '@/utils/config';
+
 const ComponentName = (props) => {
   const router = useRouter()
   const [propertyDetails, setPropertyDetails] = useState(null);
@@ -31,9 +33,9 @@ const ComponentName = (props) => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/property-details?property_id=${propertyid}`,
+          `${GetUrl()}/admin/property-details?property_id=${propertyid}`,
           {
-            // const response = await fetch(`https://staging.dozzy.com/admin/property-details?property_id=&approval_user_id=0`, {
+            // const response = await fetch(`${GetUrl()}/admin/property-details?property_id=&approval_user_id=0`, {
 
             method: "GET",
             headers: {
@@ -83,7 +85,7 @@ const ComponentName = (props) => {
         redirect: "follow"
       };
 
-      fetch(`https://staging.dozzy.com/admin/bank-details?app_user_id=${totalDetails?.property_data?.app_user_id}`, requestOptions)
+      fetch(`${GetUrl()}/admin/bank-details?app_user_id=${totalDetails?.property_data?.app_user_id}`, requestOptions)
         .then((response) => response.json())
         .then((result) => setBankDetails(result))
         .catch((error) => console.error(error));
@@ -133,7 +135,7 @@ const ComponentName = (props) => {
 
               </div>
               <div className="flex lg:flex-row flex-col gap-4 xl:gap-10">
-             
+
                 <div className="bg-white rounded-b-[3rem]">
                   <div className=" xl:w-[400px] xl:h-[300px] lg:w-[250px] lg:h-[300px]">
                     <Image
@@ -195,8 +197,8 @@ const ComponentName = (props) => {
                       <h3 className="text-lg text-black font-bold ">
                         Amenities
                       </h3>
-                      <div className="flex flex-col lg:flex-row bg-white rounded-md p-1 h-40 overflow-y-scroll custom-scrollbar">
-                        <ul className='lg:w-32 xl:w-44 pl-2 pt-4 text-gray-900 '>
+                      <div className="flex flex-col lg:flex-row bg-white rounded-md p-4 h-40 overflow-y-scroll custom-scrollbar">
+                        <ul className='lg:w-32 xl:w-44 pl-2 py-4 text-gray-900 '>
                           {totalDetails?.amenities.map((item, index) => (
                             <li key={index} className='capitalize'>
                               {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('no_of_', '').replace('_', ' ')} ` : ''}
@@ -207,7 +209,7 @@ const ComponentName = (props) => {
                           <p className='font-bold py-1'>Games</p>
                           {totalDetails.games.map((item, index) => (
                             <li key={index} className='capitalize'>
-                              {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('Game', '').replace('_', ' ')} ` : ''}
+                              {item.attribute_value > 0 ? ` ${item?.attribute_name.replace('Game', '').replace('_', ' ')} ` : ''}
                             </li>
                           ))}
                           {totalDetails?.games.length < 1 && <p className='text-red-400'>NA</p>}
@@ -313,9 +315,8 @@ const ComponentName = (props) => {
                 <div className=" h-fit">
                   <p className="text-black text-base font-bold pb-3">Farm House Location</p>
                   <div className="flex flex-col items-center space-x-4 bg-white p-4 rounded-md">
-
                     <div>
-                      <p className="text-black font-medium xl:w-48 lg:w-36 pt-">
+                      <p className="text-black tracking-wide font-medium xl:w-56 lg:w-40 pt-">
                         {totalDetails.property_data.geo_location}
                       </p>
                     </div>

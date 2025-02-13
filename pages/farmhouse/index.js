@@ -4,6 +4,7 @@ import CommonLayout from "../components/layout/CommonLayout";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import { useRouter } from "next/router";
+import { GetUrl } from '@/utils/config';
 
 const ComponentName = (props) => {
 
@@ -26,7 +27,7 @@ const ComponentName = (props) => {
         redirect: "follow"
       };
 
-      const response = await fetch(`https://staging.dozzy.com/admin/dashboard`, requestOptions)
+      const response = await fetch(`${GetUrl()}/admin/dashboard`, requestOptions)
       const data = await response.json();
       setFarmHDetails(data?.results?.farmhouse_details)
 

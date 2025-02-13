@@ -7,6 +7,7 @@ import { IoIosArrowForward } from 'react-icons/io'
 import { useRouter } from 'next/router'
 import LoadingComp from '../components/Loading'
 import swal from 'sweetalert';
+import { GetUrl } from '@/utils/config';
 
 
 const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDetails, onUpdateAmm }) => {
@@ -142,7 +143,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
         redirect: "follow",
       };
 
-      const response = await fetch(`https://staging.dozzy.com/admin/update-amenity`, requestOptions);
+      const response = await fetch(`${GetUrl()}/admin/update-amenity`, requestOptions);
       const data = await response.json();
       // Handle API respons
       // console.log(data, "uodpate success");
@@ -178,7 +179,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
         redirect: "follow",
       };
 
-      const response = await fetch(`https://staging.dozzy.com/admin/add-attribute`, requestOptions);
+      const response = await fetch(`${GetUrl()}/admin/add-attribute`, requestOptions);
       const data = await response.json();
 
       // Handle API response
@@ -426,9 +427,9 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/property-details?property_id=${propertyId}`,
+          `${GetUrl()}/admin/property-details?property_id=${propertyId}`,
           {
-            // const response = await fetch(`https://staging.dozzy.com/admin/property-details?property_id=&approval_user_id=0`, {
+            // const response = await fetch(`${GetUrl()}/admin/property-details?property_id=&approval_user_id=0`, {
 
             method: 'GET',
             headers: {
@@ -521,7 +522,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
 
         try {
           const response = await fetch(
-            'https://staging.dozzy.com/admin/update-property-status',
+            '${GetUrl()}/admin/update-property-status',
             requestOptions
           )
           const data = await response.json()
@@ -581,7 +582,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
       };
 
       try {
-        const response = await fetch(`https://staging.dozzy.com/admin/update-attribute-image`, requestOptions);
+        const response = await fetch(`${GetUrl()}/admin/update-attribute-image`, requestOptions);
 
         if (response.ok) {
           const data = await response.json();
@@ -731,7 +732,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                       <p className='font-bold py-1'>Games</p>
                       {totalDetails.games.map((item, index) => (
                         <li key={index} className='capitalize'>
-                          {item.attribute_value > 0 ? `${item.attribute_value} - ${item?.attribute_name.replace('Game', '').replace('_', ' ')} ` : ''}
+                          {item.attribute_value > 0 ? ` ${item?.attribute_name.replace('Game', '').replace('_', ' ')} ` : ''}
                         </li>
                       ))}
                       {totalDetails?.games.length < 1 && <p className='text-red-400'>NA</p>}
@@ -1058,7 +1059,7 @@ const FarmHouseAccordion = () => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/pending-approvals?status=in_progress&program_id=1&approval_user_id=${userType == '3' ? '0' : appUserId}`,
+          `${GetUrl()}/admin/pending-approvals?status=in_progress&program_id=1&approval_user_id=${userType == '3' ? '0' : appUserId}`,
           {
             method: 'GET',
             headers: {

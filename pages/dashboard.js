@@ -44,9 +44,9 @@ const ComponentName = (props) => {
                 <th className='pl-3 py-2'>Farmhouses</th>
               </tr>
             </thead>
-            <tbody className='flex flex-col gap-3 p-2 p-2'>
+            <tbody className='flex flex-col gap-3 p-2'>
               <tr className='bg-white rounded-lg'>
-                <td className=''><Link href={'/farmhouse/farmhouses-by-status '} className='flex gap-x- items-center py-2 pl-2'><span className='xl:w-[300px] lg:w-[250px] w-[230px]'>Total Farmhouse - {farmHDetails?.total_farmhouses ? farmHDetails.total_farmhouses : '0'}</span> <span><IoIosArrowForward size={20} /></span></Link></td>
+                <td><Link href={'/farmhouse/farmhouses-by-status'} className='flex xl:gap-x-24 items-center py-2 pl-2'><span className='xl:w-[300px] lg:w-[250px] w-[230px]'>Total Farmhouse - {farmHDetails?.total_farmhouses ? farmHDetails.total_farmhouses : '0'}</span> <span><IoIosArrowForward size={20} /></span></Link></td>
               </tr>
               <tr className='bg-white rounded-lg'>
                 <td><Link href={'/farmhouse/farmhouses-by-status'} className='flex xl:gap-x-24 items-center py-2 pl-2'><span className='xl:w-[300px] lg:w-[250px] w-[230px]'>Online Farmhouse -{farmHDetails?.online_farmhouses ? farmHDetails.online_farmhouses : '0'}</span> <span><IoIosArrowForward size={20} /></span></Link></td>

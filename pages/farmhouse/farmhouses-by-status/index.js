@@ -5,6 +5,8 @@ import { FiCopy } from "react-icons/fi"; // You can use react-icons for the copy
 import Image from "next/image";
 import Link from "next/link";
 import LoadingComp from "@/pages/components/Loading";
+import { GetUrl } from '@/utils/config';
+
 const OnlineFarmHouses = () => {
   const [cities, setCities] = useState("");
   const [loc, setLoc] = useState("Hyderabad");
@@ -30,7 +32,7 @@ const OnlineFarmHouses = () => {
 
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/property-cities`,
+          `${GetUrl()}/admin/property-cities`,
 
           {
             method: "GET",
@@ -81,7 +83,7 @@ const OnlineFarmHouses = () => {
       const storedUserPhone = localStorage.getItem("tboo_user_phone");
       try {
         const response = await fetch(
-          `https://staging.dozzy.com/admin/property-by-status?status=${fhstatus}&program_id=1&location=${loc}`,
+          `${GetUrl()}/admin/property-by-status?status=${fhstatus}&program_id=1&location=${loc}`,
 
           {
             method: "GET",
@@ -182,10 +184,11 @@ const OnlineFarmHouses = () => {
                     width={200}
                   />
                   <ul className="flex flex-col gap-2">
-                    <li className="font-bold capitalize">{item?.property_name.replaceAll('_', ' ')}</li>
+                    <li className="font-bold capitalize">{item?.property_name.replaceAll('_', ' ').replaceAll('_', ' ')}</li>
                     <li>{item?.area_name || ''}</li>
                     <li>Partner number : {item?.property_alternate_number}</li>
                     <li>Watchman number : {item?.property_watch_man_number}</li>
+                    <li>Customer number : {item?.customer_number}</li>
                   </ul>
                 </div>
                 <div className="bg-red-20 w-[177px]">

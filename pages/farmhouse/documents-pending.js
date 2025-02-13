@@ -3,6 +3,8 @@ import CommonLayout from '../components/layout/CommonLayout';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
+import { GetUrl } from '@/utils/config';
+
 const ComponentName = (props) => {
 
     const [stopAppr, setStopAppr] = useState(false)
@@ -31,7 +33,7 @@ const ComponentName = (props) => {
                 redirect: "follow"
             };
 
-            const respo = await fetch("https://staging.dozzy.com/admin/assign-aadhars", requestOptions);
+            const respo = await fetch("${GetUrl()}/admin/assign-aadhars", requestOptions);
             const data = await respo.json();
             setDataRes(data);
             // .then((response) => response.json())
@@ -57,7 +59,7 @@ const ComponentName = (props) => {
                 redirect: "follow",
             };
 
-            const response = await fetch(`https://staging.dozzy.com/admin/remove-assign-doc?app_user_id=111`, requestOptions);
+            const response = await fetch(`${GetUrl()}/admin/remove-assign-doc?app_user_id=111`, requestOptions);
             const data = await response.json();
             if (data?.status == 'success') {
                 setStopAppr(true);
@@ -89,7 +91,7 @@ const ComponentName = (props) => {
                 redirect: "follow",
             };
 
-            const response = await fetch(`https://staging.dozzy.com/admin/update-assign-status?approval_app_user_id=${appUserId}`, requestOptions);
+            const response = await fetch(`${GetUrl()}/admin/update-assign-status?approval_app_user_id=${appUserId}`, requestOptions);
             const data = await response.json();
             if (data?.status == 'success') {
                 // setStopAppr(true);
@@ -130,7 +132,7 @@ const ComponentName = (props) => {
                 redirect: "follow"
             };
 
-            fetch("https://staging.dozzy.com/admin/update-user-documents", requestOptions)
+            fetch("${GetUrl()}/admin/update-user-documents", requestOptions)
                 .then((response) => response.text())
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));
@@ -155,7 +157,7 @@ const ComponentName = (props) => {
                 body: raw,
                 redirect: "follow"
             };
-            fetch("https://staging.dozzy.com/admin/update-booking-aadhar-status", requestOptions)
+            fetch("${GetUrl()}/admin/update-booking-aadhar-status", requestOptions)
                 .then((response) => response.text())
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));

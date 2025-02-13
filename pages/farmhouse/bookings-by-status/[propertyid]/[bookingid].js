@@ -11,6 +11,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { format } from "date-fns";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { GetUrl } from '@/utils/config';
 
 const ComponentName = (props) => {
 
@@ -44,9 +45,9 @@ const ComponentName = (props) => {
 
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/property-details?property_id=${propertyid}`,
+                    `${GetUrl()}/admin/property-details?property_id=${propertyid}`,
                     {
-                        // const response = await fetch(`https://staging.dozzy.com/admin/property-details?property_id=&approval_user_id=0`, {
+                        // const response = await fetch(`${GetUrl()}/admin/property-details?property_id=&approval_user_id=0`, {
 
                         method: "GET",
                         headers: {
@@ -79,9 +80,9 @@ const ComponentName = (props) => {
 
             try {
                 const response = await fetch(
-                    `https://staging.dozzy.com/admin/booking-data?booking_id=${bookingid}`,
+                    `${GetUrl()}/admin/booking-data?booking_id=${bookingid}`,
                     {
-                        // const response = await fetch(`https://staging.dozzy.com/admin/property-details?property_id=&approval_user_id=0`, {
+                        // const response = await fetch(`${GetUrl()}/admin/property-details?property_id=&approval_user_id=0`, {
 
                         method: "GET",
                         headers: {
@@ -132,7 +133,7 @@ const ComponentName = (props) => {
                 redirect: "follow"
             };
 
-            fetch(`https://staging.dozzy.com/admin/bank-details?app_user_id=${totalDetails?.property_data?.app_user_id}`, requestOptions)
+            fetch(`${GetUrl()}/admin/bank-details?app_user_id=${totalDetails?.property_data?.app_user_id}`, requestOptions)
                 .then((response) => response.json())
                 .then((result) => setBankDetails(result))
                 .catch((error) => console.error(error));

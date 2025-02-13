@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import dzlogo from '../../images/dozzylogo.png';
-
+import Head from 'next/head';
+import { GetUrl } from '@/utils/config';
 export default function Login() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [roleId, setRoleId] = useState('');
@@ -12,6 +13,7 @@ export default function Login() {
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState('');
   const router = useRouter();
+  const apiUrl = GetUrl();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,20 +23,19 @@ export default function Login() {
       setError('Please enter a valid phone number and select a role.');
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     const usermobile = window.localStorage.getItem('tboo_user_phone');
     const usertoken = window.localStorage.getItem('tboo_' + usermobile + '_token');
-    if(usermobile && usertoken)
-    {
+    if (usermobile && usertoken) {
       router.push('/dashboard')
     }
-    else{
+    else {
       return
     }
-  },[])
-  
+  }, [])
+
   const sendOtp = async () => {
-    const url = `https://staging.dozzy.com/admin/login`;
+    const url = `${apiUrl}/admin/login`;
     const options = {
       method: 'POST',
       headers: {
@@ -62,7 +63,7 @@ export default function Login() {
   };
 
   const validateOtp = async () => {
-    const url = `https://staging.dozzy.com/admin/otp-validate`;
+    const url = `${GetUrl()}/admin/otp-validate`;
     const options = {
       method: 'POST',
       headers: {
@@ -103,26 +104,30 @@ export default function Login() {
   };
 
   return (
-    <div
-      style={{ backgroundImage: "url('/pix.jpg')", backgroundSize: 'cover' }}
-      className="bg-no-repeat flex flex-col items-center bg-cover px-2 py-4 justify-center min-h-screen bg-gray-100 text-black"
-    >
-      <div className="flex flex-col justify-center items-center">
-        <Image
-          src={dzlogo}
-          height={1000}
-          width={1000}
-          alt="dozzy farmhouse logo"
-          className="w-72"
-        />
-        <p className="text-white font-bold text-2xl py-3">Welcome To Our Website</p>
-      </div>
-      <div className="shadow w-full max-w-md p-8 bg-white opacity-75 -md rounded-lg">
-        {!otpSuccess ? (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <p className="text-2xl font-bold mb-6 text-left">Please Login</p>
-            <div className="flex flex-col gap-3">
-              {/* <input
+    <>
+      <Head>
+        <link rel="preload" href="/pix.jpg" as="image" />
+      </Head>
+      <div
+        style={{ backgroundImage: "url('/pix.jpg')", backgroundSize: 'cover' }}
+        className="bg-no-repeat flex flex-col items-center bg-cover px-2 py-4 justify-center min-h-screen bg-gray-100 text-black"
+      >
+        <div className="flex flex-col justify-center items-center">
+          <Image
+            src={dzlogo}
+            height={1000}
+            width={1000}
+            alt="dozzy farmhouse logo"
+            className="w-72"
+          />
+          <p className="text-white font-bold text-2xl py-3">Welcome To Our Website</p>
+        </div>
+        <div className="shadow w-full max-w-md p-8 bg-white opacity-75 -md rounded-lg">
+          {!otpSuccess ? (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <p className="text-2xl font-bold mb-6 text-left">Please Login</p>
+              <div className="flex flex-col gap-3">
+                {/* <input
                 type="text"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value.trim())}
@@ -130,22 +135,22 @@ export default function Login() {
                 placeholder="Enter your WhatsApp number"
                 maxLength={10}
               /> */}
-              <input
-                type="text"
-                value={phoneNumber}
-                onChange={(e) => {
-                  const formattedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove all non-numeric characters
-                  if (formattedValue.length <= 10) { // Ensure max length is 10 digits
-                    setPhoneNumber(formattedValue);
-                  }
-                }}
-                className="rounded-md p-3 bg-gray-200 opacity-100 text-black placeholder-black
+                <input
+                  type="text"
+                  value={phoneNumber}
+                  onChange={(e) => {
+                    const formattedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove all non-numeric characters
+                    if (formattedValue.length <= 10) { // Ensure max length is 10 digits
+                      setPhoneNumber(formattedValue);
+                    }
+                  }}
+                  className="rounded-md p-3 bg-gray-200 opacity-100 text-black placeholder-black
                 tracking-wide text-xl"
-                placeholder="Enter your WhatsApp number"
-                maxLength={10}
-              />
+                  placeholder="Enter your WhatsApp number"
+                  maxLength={10}
+                />
 
-              {/* <select
+                {/* <select
                 value={roleId}
                 onChange={(e) => setRoleId(e.target.value)}
                 className="border-none bg-gray-300 p-3"
@@ -155,48 +160,49 @@ export default function Login() {
                 <option value="2">2</option>
                 <option value="3">3</option>
               </select> */}
-              <select
-                value={roleId}
-                onChange={(e) => setRoleId(e.target.value)}
-                className="rounded-md p-3 bg-gray-200 opacity-100 text-black pr-9"
+                <select
+                  value={roleId}
+                  onChange={(e) => setRoleId(e.target.value)}
+                  className="rounded-md p-3 bg-gray-200 opacity-100 text-black pr-9"
+                >
+                  <option value="">Select your role</option>
+                  <option value="3">Admin</option>
+                  <option value="4">Approval Team</option>
+                </select>
+              </div>
+              <button
+                type="submit"
+                className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               >
-                <option value="">Select your role</option>
-                <option value="3">Admin</option>
-                <option value="4">Approval Team</option>
-              </select>
+                Submit
+              </button>
+              {error && <p className="text-red-500">{error}</p>}
+            </form>
+          ) : (
+            <div className="flex flex-col gap-3">
+              <p className="font-bold text-xl">Please check WhatsApp</p>
+              <p className="font-bold text-xl tracking-wider">{String(phoneNumber).replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}</p>
+              <div>
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="mt-1 block w-full p-2 rounded-md shadow-md bg-gray-200 placeholder-black text-black"
+                  placeholder="Enter OTP"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={validateOtp}
+                className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              >
+                Verify OTP
+              </button>
+              {otpError && <p className="text-red-500">{otpError}</p>}
             </div>
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            >
-              Submit
-            </button>
-            {error && <p className="text-red-500">{error}</p>}
-          </form>
-        ) : (
-          <div className="flex flex-col gap-3">
-            <p className="font-bold text-xl">Please check WhatsApp</p>
-            <p className="font-bold text-xl tracking-wider">{String(phoneNumber).replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3')}</p>
-            <div>
-              <input
-                type="text"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                className="mt-1 block w-full p-2 rounded-md shadow-md bg-gray-200 placeholder-black text-black"
-                placeholder="Enter OTP"
-              />
-            </div>
-            <button
-              type="button"
-              onClick={validateOtp}
-              className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            >
-              Verify OTP
-            </button>
-            {otpError && <p className="text-red-500">{otpError}</p>}
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
