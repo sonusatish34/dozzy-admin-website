@@ -550,7 +550,8 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
   const [uploadImage, setUploadImage] = useState(false)
 
   const reuploadFile = async (event, attributeId) => {
-
+    console.log("into reupload");
+    
     // Ensure a file is selected
     const file = event.target.files[0]; // Get the first file from the input
     if (!file) {
@@ -644,7 +645,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
         <div className='bg-[#f5f5f5] p-4'>
           <div className='flex lg:flex-row flex-col gap-4 xl:gap-8'>
             <div className=''>
-              <div className='z-10 xl:w-[420px] xl:h-[250px] lg:w-[300px] lg:h-[250px] w-full h-[220px] mxs:h-[260px]'>
+              <div className='z-10 xl:w-[420px] xl:h-[250px] lg:w-[300px] lg:h-[250px] w-full h-[220px] mxs:h-[300px]'>
                 {/* Image */}
                 <div>
                   <Image
@@ -664,7 +665,9 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                       {uploadImage && <input
                         id={`file_input_${images[currentIndex]?.attribute_id}`}
                         type="file"
-                        onChange={(event) => reuploadFile(event, images[currentIndex]?.attribute_id)} // Pass event and dynamic attributeId
+                        onChange={(event) => reuploadFile(event, images[currentIndex]?.attribute_id ,console.log("000000000000")
+                        )
+                        } // Pass event and dynamic attributeId
                       />}
                     </div>
                   </div>
@@ -679,7 +682,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 {/* Right arrow */}
                 <button
                   onClick={goToNext}
-                  className='relative z-20 left-44 mxs:left-72 lg:left-48  xl:left-80 xl:bottom-52 bottom-36 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                  className='relative z-20 left-44 mxs:left-52 lg:left-48  xl:left-80 xl:bottom-52 bottom-36 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                 >
                   <IoIosArrowForward size={20} />
                 </button>
@@ -692,7 +695,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
             </div>
             {/* Modal (Dialog Box) */}
             {isModalOpen && (
-              <div className="absolute inset-0 z-50 lg:flex hidden items-center bg-black bg-opacity-50">
+              <div className="absolute inset-0 z-50 lg:flex  items-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded-xl w-fit relative bottom-1 left-[27rem]">
                   <button
                     onClick={closeModal}
