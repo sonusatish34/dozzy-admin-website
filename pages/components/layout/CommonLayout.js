@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { IoIosArrowForward, IoLogoUsd, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowForward, IoLogoUsd, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useRouter } from "next/router";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { IoMdLogOut } from "react-icons/io";
 import { TbWindowMinimize } from "react-icons/tb";
 import { TbWindowMaximize } from "react-icons/tb";
 import { RiSearchLine } from "react-icons/ri";
+import { MdOutlineVilla } from "react-icons/md";
+import { MdFlight } from "react-icons/md";
+import { FaBusAlt } from "react-icons/fa";
+import { FaHotel } from "react-icons/fa6";
 
 function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSearch = () => { } }) {
   const router = useRouter();
@@ -58,6 +62,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
     <div className="flex h-screen mont-font">
       {/* Sidebar for large screens */}
       <nav className={`bg-[#556EE6] h-full text-2xl hidden lg:flex flex-col gap-2 items-start transition-all duration-300 ease-in-out ${isMinimized ? "w-16" : "w-64"}`}>
+
         <Link href={"/dashboard"}>
           <Image
             src={"/logo-light.png"}
@@ -69,20 +74,44 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
         </Link>
 
         <Link href={"/dashboard"} className={`${router.pathname === "/dashboard" ? "bg-white text-[#556EE6]" : ""} w-full`}>
-          <div className={`flex items-center text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2 `}>
+          <div className={`flex items-center text-black-300 hover:text-white hover:scale-105 cursor-pointer pl-3 py-1 mb-2 `}>
             <TbLayoutDashboardFilled />
             {!isMinimized && <span>Dashboard</span>}
           </div>
         </Link>
 
         <Link href={"/farmhouse"} className={`${router.pathname.includes("farmhouse") ? "bg-white text-[#556EE6]" : ""} w-full`}>
-          <div className={`flex items-center text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2`}>
+          <div className={`flex items-center text-black-300 hover:text-white hover:scale-105 cursor-pointer pl-3 py-1 mb-2`}>
             <Image src={"/Frame 4 (1).png"} height={500} width={500} className="w-8" alt="farmhouse" />
             {!isMinimized && <span>Farmhouse</span>}
           </div>
         </Link>
+        <Link href={"/farmhouse2"} className={`${router.pathname.includes("farmhouse2") ? "bg-white text-[#556EE6]" : ""} w-full`}>
+          <div className={`flex items-center gap-2 text-black-300 hover:text-white hover:scale-110 transition-all duration-600 delay-100 cursor-pointer pl-3 py-1 mb-2`}>
+            <MdOutlineVilla />
+            {!isMinimized && <span>Villa </span>}
+          </div>
+        </Link>
+        <Link href={"/farmhouse2"} className={`${router.pathname.includes("farmhouse2") ? "bg-white text-[#556EE6]" : ""} w-full`}>
+          <div className={`flex items-center gap-2 text-black-300 hover:text-white hover:scale-105 cursor-pointer pl-3 py-1 mb-2`}>
+            <MdFlight />
+            {!isMinimized && <span>Flight</span>}
+          </div>
+        </Link>
+        <Link href={"/farmhouse2"} className={`${router.pathname.includes("farmhouse2") ? "bg-white text-[#556EE6]" : ""} w-full`}>
+          <div className={`flex items-center gap-2 text-black-300 hover:text-white hover:scale-105 cursor-pointer pl-3 py-1 mb-2`}>
+            <FaBusAlt />
+            {!isMinimized && <span>Bus</span>}
+          </div>
+        </Link>
+        <Link href={"/farmhouse2"} className={`${router.pathname.includes("farmhouse2") ? "bg-white text-[#556EE6]" : ""} w-full`}>
+          <div className={`flex items-center gap-2 text-black-300 hover:text-white hover:scale-105 cursor-pointer pl-3 py-1 mb-2`}>
+            <FaHotel />
+            {!isMinimized && <span>Hotel</span>}
+          </div>
+        </Link>
 
-        <button onClick={handleLogout} className="flex gap-3 items-center text-black-300 hover:text-blue-500 cursor-pointer rounded-md p-2 mb-2">
+        <button onClick={handleLogout} className="flex gap-3 items-center text-black-300 hover:text-white hover:scale-105 cursor-pointer rounded-md p-2 mb-2">
           <IoMdLogOut />
           {!isMinimized && <span>Logout</span>}
         </button>
@@ -107,10 +136,11 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
             type="text"
             onChange={handleSearch}
             maxLength={10}
-            className={`overflow-hidden border-2 lg:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-full lg:pl-12 placeholder:text-gray-700 ${router.pathname == '/dashboard' ? 'invisible' : ''}`}
+            className={`overflow-hidden border-2 lg:w-[600px] w-[250px] bg-[#556EE666] py-2 px-2 rounded-full lg:pl-12 placeholder:text-gray-700
+              placeholder:text-xs lg:placeholder:text-base ${router.pathname == '/dashboard' ? 'invisible' : ''}`}
             placeholder={placeholderText || "Search here"}
           />
-          
+
         </div>
 
         {/* Hamburger button for mobile */}
@@ -129,7 +159,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
           </Link>
 
           <Link href={"/dashboard"}>
-            <div className={`flex items-center gap-1 text-black-300 hover:text-blue-500 cursor-pointer pl-3 py-1 mb-2`}>
+            <div className={`flex items-center gap-1 text-black-300 hover:text-white hover:scale-105 cursor-pointer pl-3 py-1 mb-2`}>
               <TbLayoutDashboardFilled />
               <span>Dashboard</span>
             </div>
@@ -141,16 +171,18 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
               <div className={`flex items-center gap-1 text-black-300 cursor-pointer pl-3 py-1 mb-2`}>
                 <Image src={"/Frame 4 (1).png"} height={500} width={500} className="w-6" alt="farmhouse" />
                 <span>Farmhouse</span>
+                {isFarmhouseOpen && <span><IoIosArrowUp /></span>}
+                {!isFarmhouseOpen && <span><IoIosArrowDown /></span>}
               </div>
             </div>
 
             {/* Accordion-style submenu */}
             {isFarmhouseOpen && (
               <div className="pl-1">
-                <ul className="w-fit pr-5 flex flex-col gap-3">
+                <ul className="w-fit pr-5 flex flex-col gap-3 text-black pl-2">
                   <li>
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/login-but-not-uploaded"}
                     >
                       <span className="">Login but not uploaded</span>
@@ -159,10 +191,10 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
                       </span>
                     </Link>
                   </li>
-                  <li className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full">
+                  <li className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full">
                     {/* <span className="">Pending approvals</span><span><IoIosArrowForward /></span> */}
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/pending-approvals"}
                     >
                       <span className="">Pending approvals</span>
@@ -171,9 +203,9 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
                       </span>
                     </Link>
                   </li>
-                  {/* <li className="text-white bg-[#556EE6] text-sm flex items-center justify-between pr- gap-2 w-full">
+                  {/* <li className=" bg-[#556EE6] text-sm flex items-center justify-between pr- gap-2 w-full">
                 <Link
-                  className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                  className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                   href={"/farmhouse/rejected-farmhouses"}
                 >
                   <span className="">Rejected farmhouses</span>
@@ -186,7 +218,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
 
                   <li>
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/farmhouses-by-status"}
                     >
                       <span className=" capitalize">Farmhouses By Status
@@ -199,7 +231,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
                   </li>
                   <li>
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/online-farmhouses"}
                     >
                       <span className=" capitalize">online farmhouses </span>
@@ -210,7 +242,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
                   </li>
                   <li>
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/offline-farmhouses"}
                     >
                       <span className=" capitalize">Offline farmhouses </span>
@@ -219,10 +251,10 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
                       </span>
                     </Link>
                   </li>
-                 
+
                   <li>
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/bookings-by-status"}
                     >
                       <span className=" capitalize">Bookings By Status</span>
@@ -233,7 +265,7 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
                   </li>
                   <li>
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/employees-login"}
                     >
                       <span className=" capitalize">Employee Logins</span>
@@ -242,10 +274,10 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
                       </span>
                     </Link>
                   </li>
-                
-                  { <li>
+
+                  {<li>
                     <Link
-                      className="text-white bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
+                      className=" bg-[#556EE6] text-sm flex items-center justify-between  gap-2 w-full"
                       href={"/farmhouse/documents-pending"}
                     >
                       <span className=" capitalize">Documents pending</span>
@@ -260,8 +292,8 @@ function CommonLayout({ Content, children, canonicalUrl, placeholderText, onSear
           </div>
 
 
-          <button onClick={handleLogout} className="flex gap-3 items-center text-black-300 hover:text-blue-500 cursor-pointer rounded-md p-2 mb-2">
-            <IoMdLogOut />
+          <button onClick={handleLogout} className="pl-3 flex gap-2 items-center text-black-300 hover:text-white hover:scale-105 cursor-pointer rounded-md p-2 mb-2">
+            <IoMdLogOut size={20} />
             <span>Logout</span>
           </button>
 

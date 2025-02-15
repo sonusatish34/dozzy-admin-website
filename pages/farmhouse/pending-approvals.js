@@ -292,7 +292,7 @@ const AmenitiesEditModal = ({ showAmenitiesEdit, setShowAmenitiesEdit, totalDeta
                 </ul> */}
                 <ul className=' flex flex-col  gap-2 pr-3 pt-4 text-gray-900 h-60 overflow-y-scroll'>
                   <p className='font-bold text-2xl'>Games</p>
-                  { totalDetails.games.map((item, index) => {
+                  {totalDetails.games.map((item, index) => {
                     const itemValue = gamesValues[index] !== undefined ? gamesValues[index] : (totalDetails.games[index]?.attribute_value || 0);
 
                     return (
@@ -642,21 +642,36 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
     <div className='text-xs xl:text-base text-black'>
       {propertyDetails ? (
         <div className='bg-[#f5f5f5] p-4'>
-          <div className='flex lg:flex-row flex-col gap-4 xl:gap-6'>
+          <div className='flex lg:flex-row flex-col gap-4 xl:gap-8'>
             <div className=''>
-              <div className='z-10 xl:w-[320px] xl:h-[310px] w-full h-[200px]'>
+              <div className='z-10 xl:w-[420px] xl:h-[250px] lg:w-[300px] lg:h-[250px] w-full h-[220px] mxs:h-[260px]'>
                 {/* Image */}
-                <Image
-                  src={images[currentIndex]?.attribute_value}
-                  alt='Farmhouse'
-                  className='z-10 rounded-t-2xl object-cover xl:w-[320px] xl:h-[230px] w-full h-[200px]'
-                  width={300}
-                  height={200}
-                  onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
-                />
+                <div>
+                  <Image
+                    src={images[currentIndex]?.attribute_value}
+                    alt='Farmhouse'
+                    className='z-10 rounded-t-2xl object-cover xl:w-[400px] xl:h-[230px] lg:w-[280px] lg:h-[230px] w-full h-[200px] mxs:h-[240px]'
+                    width={300}
+                    height={200}
+                    onClick={() => openModal(images[currentIndex]?.attribute_value)} // Open modal on click
+                  />
+                  <div className='flex gap-2 justify-between pt-4 text-xs lg:text-sm lg:pt-5'>
+                    <p className='text-black  capitalize bg-red- h-10 w-44 break-words'>
+                      {images[currentIndex]?.attribute_name.replaceAll('_', ' ')}
+                    </p>
+                    <div className='w-44 h-1 lg:h-16'>
+                      <button onClick={() => { setUploadImage(true) }} className='underline mb-2'>Reupload Image</button>
+                      {uploadImage && <input
+                        id={`file_input_${images[currentIndex]?.attribute_id}`}
+                        type="file"
+                        onChange={(event) => reuploadFile(event, images[currentIndex]?.attribute_id)} // Pass event and dynamic attributeId
+                      />}
+                    </div>
+                  </div>
+                </div>
                 <button
                   onClick={goToPrevious}
-                  className='relative z-20 left-2 xl:left-2 bottom-28 *: text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                  className='relative z-20 left-2 xl:left-4 xl:bottom-52 bottom-36 *: text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                 >
                   <IoIosArrowBack size={20} />
                 </button>
@@ -664,24 +679,12 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 {/* Right arrow */}
                 <button
                   onClick={goToNext}
-                  className='relative z-20 left-32 lg:left-48  xl:left-60 bottom-28 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
+                  className='relative z-20 left-44 mxs:left-72 lg:left-48  xl:left-80 xl:bottom-52 bottom-36 text-white bg-black bg-opacity-40 p-2 rounded-full shadow-lg'
                 >
                   <IoIosArrowForward size={20} />
                 </button>
                 {/* Left arrow */}
-                <div className='flex gap-2 justify-between pt-1 lg:text-sm'>
-                  <p className='text-black  capitalize bg-red- h-16 w-44 break-words'>
-                    {images[currentIndex]?.attribute_name.replaceAll('_', ' ')}
-                  </p>
-                  <div>
-                    <button onClick={() => { setUploadImage(true) }} className='underline mb-2'>Reupload Image</button>
-                    {uploadImage && <input
-                      id={`file_input_${images[currentIndex]?.attribute_id}`}
-                      type="file"
-                      onChange={(event) => reuploadFile(event, images[currentIndex]?.attribute_id)} // Pass event and dynamic attributeId
-                    />}
-                  </div>
-                </div>
+
               </div>
 
 
@@ -689,7 +692,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
             </div>
             {/* Modal (Dialog Box) */}
             {isModalOpen && (
-              <div className="absolute inset-0 z-50 flex items-center bg-black bg-opacity-50">
+              <div className="absolute inset-0 z-50 lg:flex hidden items-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded-xl w-fit relative bottom-1 left-[27rem]">
                   <button
                     onClick={closeModal}
@@ -705,10 +708,10 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                 </div>
               </div>
             )}
-            <div className='pt-16 lg:pt-0'>
+            <div className='pt-10 lg:pt-0'>
               <div>
                 <div className='flex flex-col text-black gap-2 items-start'>
-                  <p className='text-lg text-black font flex justify-between w-full pt-'>
+                  <p className='text-lg text-black font flex justify-between w-full pt- font-bold'>
 
                     <span>Amenities</span><span><button
                       onClick={() => {
@@ -761,7 +764,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                   <div>
                     <div className='text-black fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm h-'>
                       <div className='flex justify-center items-center '>
-                        <div className='bg-white absolute top-10 h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm w-full'>
+                        <div className='bg-white absolute top-10 h-[500px] lg:h-[600px] transition-all duration-300 ease-in-out p-8 rounded-lg shadow-xl max-w-sm lg:w-full w-[200px]'>
                           <button
                             onClick={() => {
                               setShowProof(false)
@@ -781,7 +784,7 @@ const PropertyDetails = ({ propertyId, onUpdate }) => {
                             height={1000}
                             width={1000}
                             alt='dozzy farmhouse logo'
-                            className='w-full h-72 object-contain'
+                            className='w-full lg:h-72 h-52 object-contain'
                           />
                           <h2 className='text-2xl font-bold mb-4 pt-4'>
                             Aadhar
@@ -1041,9 +1044,12 @@ const FarmHouseAccordion = () => {
   const [farmHouses, setFarmHouses] = useState([])
   const [activePropertyId, setActivePropertyId] = useState(null)
   const [rp, setRp] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+
     const fetchFarmHouses = async () => {
+      setLoading(true);
       const userPhone = localStorage.getItem(
         'tboo_user_phone')
       const userAuthorization = localStorage.getItem(
@@ -1072,6 +1078,9 @@ const FarmHouseAccordion = () => {
         if (data.status === 'success') setFarmHouses(data.results)
       } catch (error) {
         console.error('Error:', error)
+      }
+      finally {
+        setLoading(false);
       }
     }
     fetchFarmHouses()
@@ -1104,7 +1113,7 @@ const FarmHouseAccordion = () => {
           Pending Approvals
         </h1>
         <div className='space-y-4'>
-          {filteredPosts.map(farmHouse => (
+          {loading ? <LoadingComp /> : filteredPosts.map(farmHouse => (
             <div key={farmHouse.property_id} className='bg-white rounded-md'>
               <button
                 className='w-full text-left text-gray-700 capitalize p-4 border-b-2 border-b-gray-200  rounded-t-md focus:outline-none flex justify-between'

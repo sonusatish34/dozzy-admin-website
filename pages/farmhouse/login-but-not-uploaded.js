@@ -107,16 +107,16 @@ const LoginButNotUploaded = () => {
 
   return (
     <CommonLayout onSearch={setSearchQuery} placeholderText='search by mobile number/ booking id'>
-      <div className="container lg:px-4 lg:py-8">
-        <div className="row">
-          <div className="col-xl-12">
-            <div className="rounded-lg p-4">
-              <h4 className="text-xl font-semibold text-black">
+      <div className=" lg:px-4 lg:py-8">
+        <div className="">
+          <div className="">
+            <div className="rounded-lg">
+              <h4 className="lg:text-2xl lg:py-3 text-base font-semibold text-black pl-4">
                 Login But Not Uploaded - <span>{loginData.length}</span>
               </h4>
 
               <div className="mt-4">
-                <div className="space-y-4">
+                <div className="flex flex-col gap-y-2 lg:gap-y-4 px-2">
                   {loading && <p>Loading...</p>}
                   {error && <p className="text-red-500">{error}</p>}
                   {!loading && !error && loginData.length > 0 ? (

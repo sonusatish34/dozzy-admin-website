@@ -36,7 +36,7 @@ const ComponentName = (props) => {
   return (
     <CommonLayout>
       <div className='lg:pl-8 px-3 lg:py-8'>
-        <p className='font-bold text-2xl py-4'>Dashboard</p>
+        <p className='font-bold text-2xl pb-4'>Dashboard</p>
         <div className='bg-white text-black grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 '>
           <table className="table-auto text-left bg-gray-100 rounded-md  pl-2">
             <thead className='pl-3'>
